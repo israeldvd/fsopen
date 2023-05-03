@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "ts-node": "ts-node",
-    "calculateBmi": "npm run ts-node -- bmiCalculator.ts",
+    "calculateBmi": "npm run ts-node -- src/e9.1/bmiCalculator.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
