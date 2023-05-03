@@ -8,6 +8,24 @@ interface Result {
     average: number;
 }
 
+function countTrainingDays(dailyHours: number[]): number{
+    return dailyHours.reduce((prev, curr) => {
+        console.log(prev, curr);
+        if (curr > 0) return (prev += 1);
+        else return prev;
+    }, 0);
+}
+
+function sumDailyHours(dailyHours: number[]): number{
+    return dailyHours.reduce((prev, curr) => {
+        return prev + curr;
+    }, 0);
+}
+
+function getAverageTime(sum: number, period: number): number{
+    return sum / period || 0;
+}
+
 function calculateFinalRating(averageTime: number, targetTime: number) {
     if (averageTime >= targetTime) return 3;
     else if (averageTime > targetTime * 0.8) return 2;
@@ -16,18 +34,9 @@ function calculateFinalRating(averageTime: number, targetTime: number) {
 
 function exerciseCalculator(array: number[], target: number): Result {
     const periodLength = array.length;
-
-    const trainingDays = array.reduce((prev, curr) => {
-        console.log(prev, curr);
-        if (curr > 0) return (prev += 1);
-        else return prev;
-    }, 0);
-
-    const sum = array.reduce((prev, curr) => {
-        return prev + curr;
-    }, 0);
-
-    const averageTime = sum / periodLength || 0;
+    const trainingDays = countTrainingDays(array);
+    const sum = sumDailyHours(array);
+    const averageTime = getAverageTime(sum, periodLength);
 
     const ratingOptions: Record<number, string> = {
         1: "your daily hours are bad",
