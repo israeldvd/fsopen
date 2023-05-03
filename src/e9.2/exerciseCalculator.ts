@@ -8,6 +8,12 @@ interface Result {
     average: number
 }
 
+function calculateFinalRating(averageTime: number, targetTime: number) {
+    if (averageTime >= targetTime) return 3;
+    else if (averageTime > targetTime * 0.8) return 2;
+    else return 1;
+}
+
 function exerciseCalculator(array: number[], target: number): Result {
     const periodLength = array.length;
 
@@ -30,7 +36,7 @@ function exerciseCalculator(array: number[], target: number): Result {
         3: 'your daily hours are good'
     }
 
-    const finalRating = Math.floor(averageTime / target) * 3;
+    const finalRating = calculateFinalRating(averageTime, target);
 
     return {
         periodLength: periodLength,
