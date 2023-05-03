@@ -1,11 +1,11 @@
 interface Result {
-    periodLength: number,
-    trainingDays: number,
-    success: boolean,
-    rating: number,
-    ratingDescription: string,
-    target: number,
-    average: number
+    periodLength: number;
+    trainingDays: number;
+    success: boolean;
+    rating: number;
+    ratingDescription: string;
+    target: number;
+    average: number;
 }
 
 function calculateFinalRating(averageTime: number, targetTime: number) {
@@ -19,8 +19,7 @@ function exerciseCalculator(array: number[], target: number): Result {
 
     const trainingDays = array.reduce((prev, curr) => {
         console.log(prev, curr);
-        if (curr > 0)
-            return prev += 1;
+        if (curr > 0) return (prev += 1);
         else return prev;
     }, 0);
 
@@ -28,13 +27,13 @@ function exerciseCalculator(array: number[], target: number): Result {
         return prev + curr;
     }, 0);
 
-    const averageTime = (sum / periodLength) || 0;
+    const averageTime = sum / periodLength || 0;
 
     const ratingOptions: Record<number, string> = {
-        1: 'your daily hours are bad',
-        2: 'not too bad but could be better',
-        3: 'your daily hours are good'
-    }
+        1: "your daily hours are bad",
+        2: "not too bad but could be better",
+        3: "your daily hours are good",
+    };
 
     const finalRating = calculateFinalRating(averageTime, target);
 
@@ -45,7 +44,7 @@ function exerciseCalculator(array: number[], target: number): Result {
         rating: finalRating,
         ratingDescription: ratingOptions[finalRating],
         target: target,
-        average: averageTime
+        average: averageTime,
     };
 }
 
