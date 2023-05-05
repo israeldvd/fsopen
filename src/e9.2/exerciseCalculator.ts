@@ -26,7 +26,7 @@ function getAverageTime(sum: number, period: number): number{
     return sum / period || 0;
 }
 
-function calculateFinalRating(averageTime: number, targetTime: number) {
+function calculateFinalRating(averageTime: number, targetTime: number): number {
     if (averageTime >= targetTime) return 3;
     else if (averageTime > targetTime * 0.8) return 2;
     else return 1;
