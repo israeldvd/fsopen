@@ -1,3 +1,5 @@
+import { isNotNumber } from "../utils/isNotNumber";
+
 interface PersonInfoValues {
     weight: number;
     height: number;
@@ -7,14 +9,17 @@ function parseBMIInput(args: string[]): PersonInfoValues {
     if (args.length < 4) throw new Error("Too few arguments!");
     if (args.length > 4) throw new Error("Too many arguments!");
 
-    const heightArgInput: number = Number(args[2]);
-    const weightArgInput: number = Number(args[3]);
+    const heightArgInput = args[2];
+    const weightArgInput = args[3];
 
-    if (isNaN(weightArgInput) || isNaN(heightArgInput)) {
+    if (isNotNumber(heightArgInput) || isNotNumber(weightArgInput)) {
         throw new Error("Input values are not numbers.");
     }
 
-    return { weight: weightArgInput, height: heightArgInput };
+    return {
+        height: Number(heightArgInput),
+        weight: Number(weightArgInput),
+    };
 }
 
 function calculateBmi(height: number, weight: number) {
