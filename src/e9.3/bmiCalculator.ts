@@ -12,7 +12,7 @@ function parseBMIInput(args: string[]): PersonInfoValues {
     const heightArgInput = args[2];
     const weightArgInput = args[3];
 
-    if (checkIfNumbers(heightArgInput, weightArgInput)) {
+    if (!checkIfNumbers(heightArgInput, weightArgInput)) {
         throw new Error("Input values are not numbers.");
     }
 
