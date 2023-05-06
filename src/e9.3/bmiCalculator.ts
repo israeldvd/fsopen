@@ -7,8 +7,8 @@ function parseBMIInput(args: string[]): PersonInfoValues {
     if (args.length < 4) throw new Error("Too few arguments!");
     if (args.length > 4) throw new Error("Too many arguments!");
 
-    const weightArgInput: number = Number(args[2]);
-    const heightArgInput: number = Number(args[3]);
+    const heightArgInput: number = Number(args[2]);
+    const weightArgInput: number = Number(args[3]);
 
     if (isNaN(weightArgInput) || isNaN(heightArgInput)) {
         throw new Error("Input values are not numbers.");
