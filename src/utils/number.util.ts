@@ -3,7 +3,7 @@ export const isNotNumber = (arg: any) => {
 };
 
 export const areNumbers = (args: any[]) => {
-    return !args.reduce((prevValue, currValue) => {
+    return args.length>0 && !args.reduce((prevValue, currValue) => {
         return isNotNumber(currValue) || prevValue;
     }, false);
 };
