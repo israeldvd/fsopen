@@ -8,7 +8,7 @@ interface Result {
     average: number;
 }
 
-function countTrainingDays(dailyHours: number[]): number{
+function countTrainingDays(dailyHours: number[]): number {
     return dailyHours.reduce((prev, curr) => {
         console.log(prev, curr);
         if (curr > 0) return (prev += 1);
@@ -16,13 +16,13 @@ function countTrainingDays(dailyHours: number[]): number{
     }, 0);
 }
 
-function sumDailyHours(dailyHours: number[]): number{
+function sumDailyHours(dailyHours: number[]): number {
     return dailyHours.reduce((prev, curr) => {
         return prev + curr;
     }, 0);
 }
 
-function getAverageTime(sum: number, period: number): number{
+function getAverageTime(sum: number, period: number): number {
     return sum / period || 0;
 }
 

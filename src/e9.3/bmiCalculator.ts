@@ -11,7 +11,7 @@ function parseBMIInput(args: string[]): PersonInfoValues {
     const heightArgInput: number = Number(args[3]);
 
     if (isNaN(weightArgInput) || isNaN(heightArgInput)) {
-        throw new Error ("Input values are not numbers.");
+        throw new Error("Input values are not numbers.");
     }
 
     return { weight: weightArgInput, height: heightArgInput };
@@ -30,10 +30,10 @@ function calculateBmi(height: number, weight: number) {
 try {
     const { height, weight } = parseBMIInput(process.argv);
     console.log(calculateBmi(height, weight));
-  } catch (error: unknown) {
-    let errorMessage = 'Something went wrong.'
+} catch (error: unknown) {
+    let errorMessage = "Something went wrong.";
     if (error instanceof Error) {
-      errorMessage += ' Error: ' + error.message;
+        errorMessage += " Error: " + error.message;
     }
     console.log(errorMessage);
-  }
+}
