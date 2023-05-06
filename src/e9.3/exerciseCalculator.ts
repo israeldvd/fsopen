@@ -10,7 +10,6 @@ interface Result {
 
 function countTrainingDays(dailyHours: number[]): number {
     return dailyHours.reduce((prev, curr) => {
-        console.log(prev, curr);
         if (curr > 0) return (prev += 1);
         else return prev;
     }, 0);
