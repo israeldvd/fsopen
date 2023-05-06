@@ -1,3 +1,5 @@
+import { checkIfNumbers } from "../utils/number.util";
+
 interface Result {
     periodLength: number;
     trainingDays: number;
@@ -6,6 +8,29 @@ interface Result {
     ratingDescription: string;
     target: number;
     average: number;
+}
+
+type ExercisesValues = number[];
+
+function parseExercisesInput(args: any[]): ExercisesValues {
+    // offset of 2: arguments for command and file path
+    // then the minimum of 2: target and at least one day (up until +7 args = 10)
+    const targetPos = 2;
+
+    if (args.length <= targetPos + 1) throw new Error("Too few arguments!");
+
+    const receivedDailyValuesArgsInput = args.slice(targetPos, undefined);
+
+    if (!checkIfNumbers(...receivedDailyValuesArgsInput)) {
+        throw new Error("Input values are not all numbers.");
+    }
+
+    const dailyMetricsValues: ExercisesValues =
+        receivedDailyValuesArgsInput.map((val) => {
+            return Number(val);
+        });
+
+    return dailyMetricsValues;
 }
 
 function countTrainingDays(dailyHours: number[]): number {
@@ -56,4 +81,13 @@ function exerciseCalculator(array: number[], target: number): Result {
     };
 }
 
-console.log(exerciseCalculator([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+    const [target, ...dailyValues] = parseExercisesInput(process.argv);
+    console.log(exerciseCalculator(dailyValues, target));
+} catch (error: unknown) {
+    let errorMessage = "Something went wrong.";
+    if (error instanceof Error) {
+        errorMessage += " Error: " + error.message;
+    }
+    console.log(errorMessage);
+}
