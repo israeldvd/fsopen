@@ -1,4 +1,4 @@
-import { checkIfNumbers } from "../utils/number.util";
+import { checkIfNumbers as areAllNumbers } from "../utils/number.util";
 
 interface PersonInfoValues {
     weight: number;
@@ -12,7 +12,7 @@ function parseBMIInput(args: string[]): PersonInfoValues {
     const heightArgInput = args[2];
     const weightArgInput = args[3];
 
-    if (!checkIfNumbers(heightArgInput, weightArgInput)) {
+    if (!areAllNumbers(heightArgInput, weightArgInput)) {
         throw new Error("Input values are not numbers.");
     }
 
