@@ -1,4 +1,4 @@
-import { checkIfNumbers as areAllNumbers } from "../utils/number.util";
+import { areAllNumbers } from "../utils/number.util";
 
 export interface PersonInfoValues {
   weight: number;

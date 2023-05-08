@@ -1,4 +1,4 @@
-import { checkIfNumbers } from "../utils/number.util";
+import { areAllNumbers } from "../utils/number.util";
 
 interface Result {
     periodLength: number;
@@ -21,9 +21,9 @@ function parseExercisesInput(args: any[]): ExercisesValues {
 
     const receivedDailyValuesArgsInput = args.slice(targetPos, undefined);
 
-    if (!checkIfNumbers(...receivedDailyValuesArgsInput)) {
-        throw new Error("Input values are not all numbers.");
-    }
+  if (!areAllNumbers(...receivedDailyValuesArgsInput)) {
+    throw new Error("Input values are not all numbers.");
+  }
 
     const dailyMetricsValues: ExercisesValues =
         receivedDailyValuesArgsInput.map((val) => {
