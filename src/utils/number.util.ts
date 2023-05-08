@@ -1,8 +1,8 @@
-export const isNotNumber = (arg: any) => {
-    return isNaN(Number(arg));
+export const isNotNumber = (arg: number | string) => {
+  return isNaN(Number(arg));
 };
 
-export const areAllNumbers = (...args: any[]) => {
+export const areAllNumbers = (...args: (string | number)[]) => {
   return (
     args.length > 0 &&
     !args.reduce((prevValue, currValue) => {
