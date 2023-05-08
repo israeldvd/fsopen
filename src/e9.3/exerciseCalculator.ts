@@ -12,7 +12,7 @@ interface Result {
 
 type ExercisesValues = number[];
 
-function parseExercisesInput(args: any[]): ExercisesValues {
+function parseExercisesInput(args: string[]): ExercisesValues {
   // offset of 2: arguments for command and file path
   // then the minimum of 2: target and at least one day (up until +7 args = 10)
   const targetPos = 2;
