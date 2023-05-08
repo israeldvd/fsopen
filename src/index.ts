@@ -1,7 +1,7 @@
 import express from "express";
-import { areAllNumbers } from "./utils/number.util";
-import { BmiResponse } from "./types/responses.type";
 import calculateBmi from "./e9.3/bmiCalculator";
+import { BmiResponse } from "./types/responses.type";
+import { areAllNumbers } from "./utils/number.util";
 const app = express();
 
 app.get("/hello", (_req, res) => {
