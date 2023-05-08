@@ -1,6 +1,6 @@
 import { areAllNumbers } from "../utils/number.util";
 
-interface Result {
+export interface Result {
   periodLength: number;
   trainingDays: number;
   success: boolean;
