@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "ts-node": "ts-node",
-    "dev": "ts-node-dev index.ts",
-    "start:ts": "ts-node index.ts",
-    "start": "node build/index.js"
+    "dev": "ts-node-dev src/index.ts",
+    "start:ts": "ts-node src/index.ts",
+    "start": "node build/index.js",
+    "lint": "eslint --ext .ts ."
   },
   "repository": {
     "type": "git",
