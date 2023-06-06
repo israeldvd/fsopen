@@ -14,13 +14,40 @@ const Feedback = ({ description, count }) => {
   );
 };
 
+const StatisticInfos = ({ feedbackCounts }) => {
+  const { good, neutral, bad } = feedbackCounts;
+  const sum = good + neutral + bad;
+
+  const averageFeedback = (good - bad) / sum;
+
+  if (sum === 0) {
+    return (
+      <>
+        <p>all {sum}</p>
+        <p>Try giving a feedback for seeing more!</p>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <p>all {sum}</p>
+      <p>average value {averageFeedback}</p>
+      <p>positive {good / sum}</p>
+    </>
+  );
+};
+
 const Statistics = ({ feedbackCounts }) => {
+  const { good, neutral, bad } = feedbackCounts;
+
   return (
     <>
       <h2>Statistics</h2>
-      <Feedback description={"good"} count={feedbackCounts.good} />
-      <Feedback description={"neutral"} count={feedbackCounts.neutral} />
-      <Feedback description={"bad"} count={feedbackCounts.bad} />
+      <Feedback description={"good"} count={good} />
+      <Feedback description={"neutral"} count={neutral} />
+      <Feedback description={"bad"} count={bad} />
+      <StatisticInfos feedbackCounts={feedbackCounts} />
     </>
   );
 };
