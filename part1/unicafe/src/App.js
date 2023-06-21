@@ -6,30 +6,17 @@ const Button = ({ text, handleClick }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const StatisticLine = ({ description, count }) => {
-  return (
-    <p>
-      {description} {count}
-    </p>
-  );
-};
-
-const StatisticInfos = ({ feedbackCounts }) => {
-  const { good, bad, feedback_sum: sum } = feedbackCounts;
-
-  const averageFeedback = (good - bad) / sum;
-
+const StatisticLine = ({ description, value }) => {
   return (
     <>
-      <p>all {sum}</p>
-      <p>average value {averageFeedback}</p>
-      <p>positive {good / sum} %</p>
+      <td>{description}</td><td>{value}</td>
     </>
   );
 };
 
 const Statistics = ({ feedbackCounts }) => {
   const { good, neutral, bad, feedback_sum: sum } = feedbackCounts;
+  const averageFeedback = (good - bad) / sum;
 
   if (sum === 0) {
     return (
@@ -43,10 +30,38 @@ const Statistics = ({ feedbackCounts }) => {
   return (
     <>
       <h2>Statistics</h2>
-      <StatisticLine description={"good"} count={good} />
-      <StatisticLine description={"neutral"} count={neutral} />
-      <StatisticLine description={"bad"} count={bad} />
-      <StatisticInfos feedbackCounts={feedbackCounts} />
+      <table>
+        <thead>
+          <tr>
+            <td>
+              description
+            </td>
+            <td>
+              value
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <StatisticLine description={"good"} value={good} />
+          </tr>
+          <tr>
+            <StatisticLine description={"neutral"} value={neutral} />
+          </tr>
+          <tr>
+            <StatisticLine description={"bad"} value={bad} />
+          </tr>
+          <tr>
+            <StatisticLine description="all" value={sum} />
+          </tr>
+          <tr>
+            <StatisticLine description="average value" value={averageFeedback} />
+          </tr>
+          <tr>
+            <StatisticLine description="positive" value={`${good / sum} %`} />
+          </tr>
+        </tbody>
+      </table >
     </>
   );
 };
@@ -55,7 +70,7 @@ const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-  const feedback_sum = good + neutral+bad;
+  const feedback_sum = good + neutral + bad;
 
   const handleGoodFeedback = () => {
     setGood(good + 1);
