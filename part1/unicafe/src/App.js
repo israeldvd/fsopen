@@ -33,7 +33,7 @@ const StatisticInfos = ({ feedbackCounts }) => {
     <>
       <p>all {sum}</p>
       <p>average value {averageFeedback}</p>
-      <p>positive {good / sum}</p>
+      <p>positive {good / sum} %</p>
     </>
   );
 };
