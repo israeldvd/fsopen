@@ -6,7 +6,7 @@ const Button = ({ text, handleClick }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Feedback = ({ description, count }) => {
+const StatisticLine = ({ description, count }) => {
   return (
     <p>
       {description} {count}
@@ -43,9 +43,9 @@ const Statistics = ({ feedbackCounts }) => {
   return (
     <>
       <h2>Statistics</h2>
-      <Feedback description={"good"} count={good} />
-      <Feedback description={"neutral"} count={neutral} />
-      <Feedback description={"bad"} count={bad} />
+      <StatisticLine description={"good"} count={good} />
+      <StatisticLine description={"neutral"} count={neutral} />
+      <StatisticLine description={"bad"} count={bad} />
       <StatisticInfos feedbackCounts={feedbackCounts} />
     </>
   );
