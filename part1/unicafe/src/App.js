@@ -15,19 +15,9 @@ const Feedback = ({ description, count }) => {
 };
 
 const StatisticInfos = ({ feedbackCounts }) => {
-  const { good, neutral, bad } = feedbackCounts;
-  const sum = good + neutral + bad;
+  const { good, bad, feedback_sum: sum } = feedbackCounts;
 
   const averageFeedback = (good - bad) / sum;
-
-  if (sum === 0) {
-    return (
-      <>
-        <p>all {sum}</p>
-        <p>Try giving a feedback for seeing more!</p>
-      </>
-    );
-  }
 
   return (
     <>
@@ -39,7 +29,16 @@ const StatisticInfos = ({ feedbackCounts }) => {
 };
 
 const Statistics = ({ feedbackCounts }) => {
-  const { good, neutral, bad } = feedbackCounts;
+  const { good, neutral, bad, feedback_sum: sum } = feedbackCounts;
+
+  if (sum === 0) {
+    return (
+      <>
+        <h2>Statistics</h2>
+        <p>No feedback given. Try adding a new one!</p>
+      </>
+    );
+  }
 
   return (
     <>
@@ -56,6 +55,7 @@ const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const feedback_sum = good + neutral+bad;
 
   const handleGoodFeedback = () => {
     setGood(good + 1);
@@ -73,7 +73,7 @@ const App = () => {
       <Button text="good" handleClick={handleGoodFeedback} />
       <Button text="neutral" handleClick={handleNeutralFeedback} />
       <Button text="bad" handleClick={handleBadFeedback} />
-      <Statistics feedbackCounts={{ good, neutral, bad }} />
+      <Statistics feedbackCounts={{ good, neutral, bad, feedback_sum }} />
     </div>
   );
 };
