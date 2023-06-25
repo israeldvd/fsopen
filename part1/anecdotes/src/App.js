@@ -30,10 +30,9 @@ const App = () => {
   return (
     <>
       <div>
+        <h2>Anecdote of the moment</h2>
         <p>{anecdotes[selected]}</p>
         <p>this has {votes[selected]} votes</p>
-      </div>
-      <div>
         <button
           onClick={() => {
             const newVotesState = {
