@@ -27,8 +27,6 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(initialVotesState);
 
-  console.log(initialVotesState);
-
   return (
     <>
       <div>
