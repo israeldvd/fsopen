@@ -19,13 +19,34 @@ const App = () => {
   ];
 
   const anecdotesLastPosition = anecdotes.length - 1;
+  let mostVotedPosition = 0;
   const initialVotesState = { 0: 0 };
+
   anecdotes.forEach((_value, i) => {
     initialVotesState[i] = 0;
   });
 
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(initialVotesState);
+  const [mostVoted, setMostVoted] = useState(0);
+
+  const updateVoteCount = (currentPosition) => {
+    const currentVoteCount = votes[currentPosition];
+    const newVoteCount = currentVoteCount + 1;
+
+    const newVotesState = {
+      ...votes,
+      [currentPosition]: newVoteCount,
+    };
+
+    if (currentVoteCount > votes[mostVoted]) {
+      mostVotedPosition = currentPosition;
+      setMostVoted(mostVotedPosition);
+      console.log(`new most voted quote position: ${mostVotedPosition}`);
+    }
+
+    setVotes(newVotesState);
+  };
 
   return (
     <>
@@ -33,22 +54,18 @@ const App = () => {
         <h2>Anecdote of the moment</h2>
         <p>{anecdotes[selected]}</p>
         <p>this has {votes[selected]} votes</p>
-        <button
-          onClick={() => {
-            const newVotesState = {
-              ...votes,
-              [selected]: votes[selected] + 1,
-            };
-            setVotes(newVotesState);
-          }}>
-          vote
-        </button>
+        <button onClick={() => updateVoteCount(selected)}>vote</button>
         <button
           onClick={() =>
             setSelected(getRandomIntInclusive(0, anecdotesLastPosition))
           }>
           next anecdote
         </button>
+      </div>
+      <div>
+        <h2>Quote with the most votes</h2>
+        <p>{anecdotes[mostVoted]}</p>
+        <p>this has {votes[mostVoted]} votes</p>
       </div>
     </>
   );
