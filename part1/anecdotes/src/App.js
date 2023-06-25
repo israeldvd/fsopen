@@ -1,5 +1,11 @@
 import { useState } from "react";
 
+const getRandomIntInclusive = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -12,9 +18,23 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  const anecdotesLastPosition = anecdotes.length - 1;
+
   const [selected, setSelected] = useState(0);
 
-  return <div>{anecdotes[selected]}</div>;
+  return (
+    <>
+      <div>{anecdotes[selected]}</div>
+      <div>
+        <button
+          onClick={() =>
+            setSelected(getRandomIntInclusive(0, anecdotesLastPosition))
+          }>
+          next anecdote
+        </button>
+      </div>
+    </>
+  );
 };
 
 export default App;
