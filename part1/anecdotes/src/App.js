@@ -19,13 +19,33 @@ const App = () => {
   ];
 
   const anecdotesLastPosition = anecdotes.length - 1;
+  const initialVotesState = { 0: 0 };
+  anecdotes.forEach((_value, i) => {
+    initialVotesState[i] = 0;
+  });
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(initialVotesState);
+
+  console.log(initialVotesState);
 
   return (
     <>
-      <div>{anecdotes[selected]}</div>
       <div>
+        <p>{anecdotes[selected]}</p>
+        <p>this has {votes[selected]} votes</p>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            const newVotesState = {
+              ...votes,
+              [selected]: votes[selected] + 1,
+            };
+            setVotes(newVotesState);
+          }}>
+          vote
+        </button>
         <button
           onClick={() =>
             setSelected(getRandomIntInclusive(0, anecdotesLastPosition))
