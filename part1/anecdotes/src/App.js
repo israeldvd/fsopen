@@ -39,7 +39,7 @@ const App = () => {
       [currentPosition]: newVoteCount,
     };
 
-    if (currentVoteCount > votes[mostVoted]) {
+    if (currentVoteCount >= votes[mostVoted]) {
       mostVotedPosition = currentPosition;
       setMostVoted(mostVotedPosition);
       console.log(`new most voted quote position: ${mostVotedPosition}`);
