@@ -8,9 +8,11 @@ const Part = ({ name, exercisesCount }) => (
 
 const Content = ({ parts }) => (
   <>
-    <Part name={parts[0].name} exercisesCount={parts[0].exercises} />
-    <Part name={parts[1].name} exercisesCount={parts[1].exercises} />
-    <Part name={parts[2].name} exercisesCount={parts[2].exercises} />
+    {parts.map((part) => {
+      return (
+        <Part key={part.id} name={part.name} exercisesCount={parts.exercises} />
+      );
+    })}
   </>
 );
 
