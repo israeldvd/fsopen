@@ -1,14 +1,18 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", phone: "040-1234567" },
+  ]);
   const [newName, setNewName] = useState("");
+  const [newPhone, setNewPhone] = useState("");
 
   const addPerson = (event) => {
     event.preventDefault();
 
     const person = {
       name: newName,
+      phone: newPhone,
     };
 
     const personAlreadyExists = persons.some((person) => {
@@ -20,6 +24,7 @@ const App = () => {
 
     setPersons(persons.concat(person));
     setNewName("");
+    setNewPhone("");
   };
 
   return (
@@ -36,6 +41,15 @@ const App = () => {
           />
         </div>
         <div>
+          number:{" "}
+          <input
+            value={newPhone}
+            onChange={(event) => {
+              setNewPhone(event.target.value);
+            }}
+          />
+        </div>
+        <div>
           <button type="submit">add</button>
         </div>
       </form>
@@ -43,7 +57,9 @@ const App = () => {
       <ul>
         {persons.map((person) => (
           <li key={person.name}>
-            <p>{person.name}</p>
+            <p>
+              {person.name} {person.phone}
+            </p>
           </li>
         ))}
       </ul>
