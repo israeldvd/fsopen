@@ -1,7 +1,6 @@
 const Persons = ({ personsList }) => {
   return (
     <>
-      <h2>Numbers</h2>
       <ul>
         {personsList.map((person) => (
           <li key={person.name}>

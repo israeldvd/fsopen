@@ -7,7 +7,6 @@ const PersonForm = ({
 }) => {
   return (
     <>
-      <h2>Add a new</h2>
       <form onSubmit={addPerson}>
         <div>
           name:{" "}
