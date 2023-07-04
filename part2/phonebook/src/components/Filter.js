@@ -1,12 +1,8 @@
-const Filter = ({ filterEntry, setFilterEntry }) => {
+const Filter = ({ filterEntry, onWriteFilter }) => {
   return (
     <>
       filter shown with{" "}
-      <input
-        value={filterEntry}
-        onChange={(e) => {
-          setFilterEntry(e.target.value);
-        }}></input>
+      <input value={filterEntry} onChange={onWriteFilter}></input>
     </>
   );
 };

@@ -47,15 +47,24 @@ const App = () => {
       <h1>Phonebook</h1>
 
       <h2>Filter</h2>
-      <Filter filterEntry={filterEntry} setFilterEntry={setFilterEntry} />
+      <Filter
+        filterEntry={filterEntry}
+        onWriteFilter={(e) => {
+          setFilterEntry(e.target.value);
+        }}
+      />
 
       <h2>Add a new</h2>
       <PersonForm
-        addPerson={addPerson}
         newName={newName}
-        setNewName={setNewName}
         newPhone={newPhone}
-        setNewPhone={setNewPhone}
+        onAddPerson={addPerson}
+        onTypeName={(e) => {
+          setNewName(e.target.value);
+        }}
+        onTypePhone={(e) => {
+          setNewPhone(e.target.value);
+        }}
       />
 
       <h2>Numbers</h2>
