@@ -39,6 +39,31 @@ const App = () => {
     });
   };
 
+  const removePerson = (personId) => {
+    const personName = persons.find((p) => p.id === personId).name;
+
+    const confirmDelete = window.confirm(`Delete ${personName}?`);
+    if (!confirmDelete) return;
+
+    personService
+      .remove(personId)
+      .then((_data) => {
+        // _data comes empty at delete request
+        setPersons(
+          persons.filter((p) => {
+            return p.id !== personId;
+          })
+        );
+      })
+      .catch((reason) => {
+        const errorMessagePreffix =
+          "Could not remove person. Something went wrong.";
+
+        console.log(errorMessagePreffix, "Error:", reason);
+        alert(errorMessagePreffix);
+      });
+  };
+
   const personsToShow = persons.filter((val) => {
     const upperCaseName = val.name.toUpperCase();
     const upperCaseFilterEntry = filterEntry.toUpperCase();
@@ -72,7 +97,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons personsList={personsToShow} />
+      <Persons personsList={personsToShow} remove={removePerson} />
     </div>
   );
 };

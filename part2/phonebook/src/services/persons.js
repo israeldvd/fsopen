@@ -14,9 +14,17 @@ const create = (person) => {
   return request.then((response) => response.data);
 };
 
+const remove = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => {
+    return response.data;
+  });
+};
+
 const exportedMethods = {
   getAll,
   create,
+  remove,
 };
 
 export default exportedMethods;
