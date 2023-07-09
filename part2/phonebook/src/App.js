@@ -10,8 +10,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterEntry, setFilterEntry] = useState("");
 
+  const baseUrl = "http://localhost:3001/persons";
+
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    axios.get(baseUrl).then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -31,10 +33,12 @@ const App = () => {
     if (personAlreadyExists)
       return alert(`${newName} is already added to phonebook`);
 
-    setPersons(persons.concat(person));
-    setNewName("");
-    setNewNumber("");
-    setFilterEntry("");
+    axios.post(baseUrl, person).then((response) => {
+      setPersons(persons.concat(response.data));
+      setNewName("");
+      setNewNumber("");
+      setFilterEntry("");
+    });
   };
 
   const personsToShow = persons.filter((val) => {
