@@ -16,7 +16,7 @@ const create = (person) => {
 
 const update = (updatedPersonObject) => {
   const id = updatedPersonObject.id;
-  const request = axios.patch(`${baseUrl}/${id}`, updatedPersonObject);
+  const request = axios.put(`${baseUrl}/${id}`, updatedPersonObject);
 
   return request.then((response) => {
     return response.data;
