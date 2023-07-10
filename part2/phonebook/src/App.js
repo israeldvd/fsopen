@@ -19,24 +19,45 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
 
-    const person = {
+    const personObject = {
       name: newName,
       number: newNumber,
     };
 
     const personAlreadyExists = persons.some((person) => {
-      return person.name === newName;
+      const nameMatches = person.name === newName;
+
+      if (nameMatches) personObject.id = person.id;
+
+      return nameMatches;
     });
 
-    if (personAlreadyExists)
-      return alert(`${newName} is already added to phonebook`);
+    if (personAlreadyExists) {
+      const confirmNumberReplacement = window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      );
+      if (!confirmNumberReplacement) return;
 
-    personService.create(person).then((newPerson) => {
-      setPersons(persons.concat(newPerson));
-      setNewName("");
-      setNewNumber("");
-      setFilterEntry("");
-    });
+      personService.update(personObject).then((updatedPerson) => {
+        const updatedPersonsList = [...persons];
+        const requiredIndex = persons.findIndex(
+          (p) => p.id === updatedPerson.id
+        );
+
+        if (requiredIndex !== -1) {
+          updatedPersonsList[requiredIndex] = updatedPerson;
+          setPersons(updatedPersonsList);
+        }
+      });
+    } else {
+      personService.create(personObject).then((newPerson) => {
+        setPersons(persons.concat(newPerson));
+      });
+    }
+
+    setNewName("");
+    setNewNumber("");
+    setFilterEntry("");
   };
 
   const removePerson = (personId) => {
