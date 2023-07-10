@@ -3,12 +3,20 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import personService from "./services/persons";
+import Notification, {
+  setTemporaryConfirmation,
+} from "./components/Notification";
+import "./style.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterEntry, setFilterEntry] = useState("");
+  const [confirmationInfo, setConfirmationInfo] = useState({
+    message: null,
+    class: undefined,
+  });
 
   useEffect(() => {
     personService.getAll().then((personsList) => {
@@ -47,11 +55,23 @@ const App = () => {
         if (requiredIndex !== -1) {
           updatedPersonsList[requiredIndex] = updatedPerson;
           setPersons(updatedPersonsList);
+
+          const confirmationData = {
+            message: `Updated ${updatedPerson.name}'s number.`,
+            className: "success",
+          };
+          setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
         }
       });
     } else {
       personService.create(personObject).then((newPerson) => {
         setPersons(persons.concat(newPerson));
+
+        const confirmationData = {
+          message: `Added ${newPerson.name}.`,
+          className: "success",
+        };
+        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
       });
     }
 
@@ -75,6 +95,12 @@ const App = () => {
             return p.id !== personId;
           })
         );
+
+        const confirmationData = {
+          message: `Removed ${personName} from phonebook.`,
+          className: "success",
+        };
+        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
       })
       .catch((reason) => {
         const errorMessagePreffix =
@@ -95,6 +121,10 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification
+        message={confirmationInfo.message}
+        className={confirmationInfo.class}
+      />
 
       <h2>Filter</h2>
       <Filter

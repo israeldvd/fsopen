@@ -1,3 +1,5 @@
+import "./Form.css";
+
 const PersonForm = ({
   newName,
   newNumber,
