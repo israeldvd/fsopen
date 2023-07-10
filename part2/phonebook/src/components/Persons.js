@@ -5,7 +5,7 @@ const Persons = ({ personsList, remove }) => {
         {personsList.map((person) => (
           <li key={person.name}>
             <p>
-              {person.name} {person.number}
+              {person.name} {person.number}{" "}
               <button
                 onClick={() => {
                   remove(person.id);
