@@ -40,6 +40,7 @@ const App = () => {
       return nameMatches;
     });
 
+    debugger;
     if (personAlreadyExists) {
       const confirmNumberReplacement = window.confirm(
         `${newName} is already added to phonebook, replace the old number with a new one?`
@@ -57,11 +58,21 @@ const App = () => {
           setPersons(updatedPersonsList);
 
           const confirmationData = {
-            message: `Updated ${updatedPerson.name}'s number.`,
+            message: `Updated ${updatedPerson.name}'s number`,
             className: "success",
           };
           setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
         }
+      }).catch((error) => {
+        const errorMessagePrefix =
+          "Could not update the phone. Something went wrong.";
+        console.log(errorMessagePrefix, "Error:", error);
+
+        const confirmationData = {
+          message: `Information of ${personObject.name} has already been removed from server`,
+          className: 'error'
+        }
+        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo)
       });
     } else {
       personService.create(personObject).then((newPerson) => {
