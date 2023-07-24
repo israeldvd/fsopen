@@ -20,12 +20,19 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (isTrimmedTextEmpty(countryFilter)) {
-      return;
+    if (!allCountries || isTrimmedTextEmpty(countryFilter)) {
+      if (countryFilter !== "") {
+        console.warn(
+          "The input filter is being used when no data is yet fetched correctly."
+        );
+      }
+      return null;
     }
 
-    const newMatchingCountries = allCountries.filter((count) =>
-      count.name.common.toUpperCase().includes(countryFilter.toUpperCase())
+    const newMatchingCountries = allCountries.filter(
+      (count) =>
+        count.name.common.toUpperCase().includes(countryFilter.toUpperCase()) ||
+        count.name.official.toUpperCase().includes(countryFilter.toUpperCase())
     );
 
     setMatchingCountries(newMatchingCountries);

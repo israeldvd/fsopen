@@ -37,11 +37,17 @@ const FeedbackSection = ({ isDataReady, matches }) => {
   } else if (matches.length <= 10) {
     feedbackPart = (
       <ul>
-        {matches.map((country) => (
-          <li key={country.cca3}>
-            <b>{country.name.common}</b> ({country.name.official})
-          </li>
-        ))}
+        {matches.map((country) => {
+          const commonName = country.name.common;
+          const officialName = country.name.official;
+          const isCommonEqualToOfficial = commonName === officialName;
+          return (
+            <li key={country.cca3}>
+              <b>{`${commonName}`}</b>
+              {isCommonEqualToOfficial ? "" : ` (${officialName})`}
+            </li>
+          );
+        })}
       </ul>
     );
   }
