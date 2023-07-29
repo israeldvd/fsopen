@@ -15,15 +15,18 @@ const FeedbackSection = ({ isDataReady, matches, onShowClick }) => {
     feedbackPart = <p>No country matches that input.</p>;
   } else if (matches.length === 1) {
     const country = matches[0];
+    const officialName = country.name.official;
+    const capital = country.capital[0];
+    const area = country.area;
     const flagSvgSrc = country.flags["svg"];
     const flagAlt = country.flags["alt"];
     const languagesList = Object.entries(country.languages);
     feedbackPart = (
       <>
-        <h2>{country.name.official}</h2>
+        <h2>{officialName}</h2>
         <ul>
-          <li>capital: {country.capital[0]}</li>
-          <li>area: {country.area}</li>
+          <li>capital: {capital}</li>
+          <li>area: {area}</li>
           <li>
             <b>languages</b>:
             <ul>

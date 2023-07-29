@@ -21,12 +21,11 @@ const Weather = ({ capitalName }) => {
     weatherCondition.weather[0].icon
   );
   const weatherDescription = weatherCondition.weather[0].description;
+  const celsiusTemperature = (+weatherCondition.main.temp - 273.15).toFixed(2);
 
   return (
     <>
-      <p>
-        temperature: {(+weatherCondition.main.temp - 273.15).toFixed(2)} Celsius
-      </p>
+      <p>temperature: {celsiusTemperature} Celsius</p>
       <p>
         <img src={iconSrc} alt={weatherDescription}></img>
       </p>
