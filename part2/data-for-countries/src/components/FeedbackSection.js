@@ -1,3 +1,5 @@
+import Weather from "./Weather";
+
 const flagStyle = {
   maxWidth: 250,
 };
@@ -32,6 +34,8 @@ const FeedbackSection = ({ isDataReady, matches, onShowClick }) => {
           </li>
         </ul>
         <img style={flagStyle} src={flagSvgSrc} alt={flagAlt}></img>
+        <h2>Weather in {country.capital[0]}</h2>
+        <Weather capitalName={country.capital[0]} />
       </>
     );
   } else if (matches.length <= 10) {
