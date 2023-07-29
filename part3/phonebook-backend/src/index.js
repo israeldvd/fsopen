@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json());
+
 let persons = [
   {
     id: 1,
@@ -35,6 +37,17 @@ app.get("/info", (request, response) => {
   response.send(
     `<p>Phonebook has info for ${n} ${personOrPeople}</p><p>${new Date()}</p>`
   );
+});
+
+app.get("/api/persons/:id", ({ params }, response) => {
+  const id = params.id;
+  const person = persons.find((p) => {
+    return p.id === Number(id);
+  });
+
+  if (!person) return response.status(404).end();
+
+  response.json(person);
 });
 
 app.get("/api/persons", (request, response) => {
