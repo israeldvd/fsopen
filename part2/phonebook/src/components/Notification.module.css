@@ -1,0 +1,19 @@
+.notification {
+    background-color: var(--clor-blue-400);
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 3px;
+  padding: 1rem;
+  width: 100rem;
+  max-width: 50%;
+}
+
+.error {
+  color: var(--color-red);
+  border-color: var(--color-red);
+}
+
+.success {
+  color: var(--color-green-500);
+  border-color: var(--color-green-500);
+}

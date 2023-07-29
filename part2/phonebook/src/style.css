@@ -1,0 +1,32 @@
+@import url(./assets/fonts/fonts.css);
+
+:root {
+  --color-blue: #1d3557;
+  --color-grey: #88a2aa;
+  --color-green: #00cc66;
+  --color-green-500: #007a3d;
+  --color-red: #e63946;
+  --color-yellow: #f2d398;
+}
+
+body {
+  color: var(--color-blue);
+  margin: 0 auto;
+  max-width: 95%;
+  background-color: whitesmoke;
+  font-family: "Crimson Text", Georgia, "Times New Roman", Times, serif;
+}
+
+h1,
+h2 {
+  font-family: Rubik, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+  font: inherit;
+  padding: 2px 6px;
+  color: var(--color-yellow);
+  background-color: var(--color-blue);
+  border: 1px var(--color-grey) solid;
+  border-radius: 0.4rem;
+}
