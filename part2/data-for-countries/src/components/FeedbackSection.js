@@ -1,8 +1,5 @@
+import Country from "./Country";
 import Weather from "./Weather";
-
-const flagStyle = {
-  maxWidth: 250,
-};
 
 const FeedbackSection = ({ isDataReady, matches, onShowClick }) => {
   let feedbackPart = <p>Too many matches, specify another filter phrasing</p>;
@@ -16,31 +13,13 @@ const FeedbackSection = ({ isDataReady, matches, onShowClick }) => {
   } else if (matches.length === 1) {
     const country = matches[0];
     const officialName = country.name.official;
-    const capital = country.capital[0];
-    const area = country.area;
-    const flagSvgSrc = country.flags["svg"];
-    const flagAlt = country.flags["alt"];
-    const languagesList = Object.entries(country.languages);
+    const capitalName = country.capital[0];
     feedbackPart = (
       <>
         <h2>{officialName}</h2>
-        <section>
-          <ul>
-            <li>capital: {capital}</li>
-            <li>area: {area}</li>
-            <li>
-              <b>languages</b>:
-              <ul>
-                {languagesList.map(([id, description]) => {
-                  return <li key={id}>{description}</li>;
-                })}
-              </ul>
-            </li>
-          </ul>
-          <img style={flagStyle} src={flagSvgSrc} alt={flagAlt}></img>
-        </section>
-        <h2>Weather in {country.capital[0]}</h2>
-        <Weather capitalName={country.capital[0]} />
+        <Country info={country}></Country>
+        <h2>Weather in {capitalName}</h2>
+        <Weather capitalName={capitalName} />
       </>
     );
   } else if (matches.length <= 10) {
