@@ -24,13 +24,13 @@ const Weather = ({ capitalName }) => {
   const celsiusTemperature = (+weatherCondition.main.temp - 273.15).toFixed(2);
 
   return (
-    <>
+    <section>
       <p>temperature: {celsiusTemperature} Celsius</p>
       <p>
         <img src={iconSrc} alt={weatherDescription}></img>
       </p>
       <p>wind: {windSpeed} m/s</p>
-    </>
+    </section>
   );
 };
 
