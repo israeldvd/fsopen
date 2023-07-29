@@ -2,7 +2,7 @@ const flagStyle = {
   maxWidth: 250,
 };
 
-const FeedbackSection = ({ isDataReady, matches }) => {
+const FeedbackSection = ({ isDataReady, matches, onShowClick }) => {
   let feedbackPart = <p>Too many matches, specify another filter phrasing</p>;
 
   if (!isDataReady) {
@@ -44,7 +44,13 @@ const FeedbackSection = ({ isDataReady, matches }) => {
           return (
             <li key={country.cca3}>
               <b>{`${commonName}`}</b>
-              {isCommonEqualToOfficial ? "" : ` (${officialName})`}
+              {isCommonEqualToOfficial ? "" : ` (${officialName})`}{" "}
+              <button
+                onClick={() => {
+                  onShowClick(officialName);
+                }}>
+                show
+              </button>
             </li>
           );
         })}

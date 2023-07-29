@@ -38,6 +38,10 @@ const App = () => {
     setMatchingCountries(newMatchingCountries);
   }, [allCountries, countryFilter]);
 
+  const handleShow = (countryOfficialName) => {
+    setCountryFilter(countryOfficialName);
+  };
+
   return (
     <main>
       <section>
@@ -54,6 +58,7 @@ const App = () => {
       <FeedbackSection
         matches={matchingCountries}
         isDataReady={!!allCountries}
+        onShowClick={handleShow}
       />
     </main>
   );
