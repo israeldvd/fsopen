@@ -1,0 +1,27 @@
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "John Silvester",
+    "number": "020-019283"
+}
+
+###
+## Person without a number
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Peter Williams"
+}
+
+###
+## Person withou a name
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "number": 1
+}

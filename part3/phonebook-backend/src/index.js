@@ -26,6 +26,10 @@ let persons = [
   },
 ];
 
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * max);
+};
+
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
@@ -54,6 +58,22 @@ app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
+app.post("/api/persons", ({ body }, response) => {
+  if (!body || !body.name || body.name.trim() === "") {
+    return response.status(400).json({
+      error: "Name is missing.",
+    });
+  }
+
+  const newPerson = {
+    id: getRandomInt(60000),
+    name: body.name,
+    number: body.number || 0,
+  };
+
+  persons.push(newPerson);
+  response.json(newPerson);
+});
 
 app.delete("/api/persons/:id", ({ params }, response) => {
   const id = Number(params.id);
