@@ -59,9 +59,36 @@ app.get("/api/persons", (request, response) => {
 });
 
 app.post("/api/persons", ({ body }, response) => {
-  if (!body || !body.name || body.name.trim() === "") {
+  const name = body?.name;
+  let errorMessage = "";
+  let dataIsMissing = false;
+  let nameIsAlreadyPresent = false;
+
+  if (!body) {
+    errorMessage = "Content is missing.";
+  } else {
+    const nameIsMissing = !name || name.trim() === "";
+    const numberIsMissing = !body.number;
+
+    if (nameIsMissing) {
+      errorMessage = "Name is missing.";
+      dataIsMissing = true;
+    } else if (numberIsMissing) {
+      errorMessage = "Number is missing";
+      dataIsMissing = true;
+    }
+  }
+
+  nameIsAlreadyPresent = persons.some((person) => {
+    return person.name === name;
+  });
+  if (nameIsAlreadyPresent === true) {
+    errorMessage = " name must be unique";
+  }
+
+  if (dataIsMissing || nameIsAlreadyPresent) {
     return response.status(400).json({
-      error: "Name is missing.",
+      error: errorMessage,
     });
   }
 
