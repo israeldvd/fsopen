@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const app = express();
 
 morgan.token("data", function getData(req) {
-  return JSON.stringify(req.body);
+  if (req.method === "POST") return JSON.stringify(req.body);
 });
 
 app.use(express.json());
