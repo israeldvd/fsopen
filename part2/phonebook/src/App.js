@@ -40,7 +40,6 @@ const App = () => {
       return nameMatches;
     });
 
-    debugger;
     if (personAlreadyExists) {
       const confirmNumberReplacement = window.confirm(
         `${newName} is already added to phonebook, replace the old number with a new one?`
