@@ -7,6 +7,10 @@ morgan.token("data", function getData(req) {
   if (req.method === "POST") return JSON.stringify(req.body);
 });
 
+const unknownEndpoint = (_request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -122,6 +126,8 @@ app.delete("/api/persons/:id", ({ params }, response) => {
 
   response.status(204).end();
 });
+
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
