@@ -1,7 +1,9 @@
+require("dotenv-expand").expand(require("dotenv").config());
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
+const Person = require("./models/person");
 
 morgan.token("data", function getData(req) {
   if (req.method === "POST") return JSON.stringify(req.body);
@@ -18,59 +20,40 @@ app.use(
 );
 app.use(express.static("build"));
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
-
-const getRandomInt = (max) => {
-  return Math.floor(Math.random() * max);
-};
-
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
 app.get("/info", (request, response) => {
-  const n = persons ? persons.length : 0;
-  const isThereJustAPerson = n === 1;
-  const personOrPeople = isThereJustAPerson ? "person" : "people";
-  response.send(
-    `<p>Phonebook has info for ${n} ${personOrPeople}</p><p>${new Date()}</p>`
-  );
+  Person.find({}).then((persons) => {
+    const n = persons ? persons.length : 0;
+    const isThereJustAPerson = n === 1;
+    const personOrPeople = isThereJustAPerson ? "person" : "people";
+    response.send(
+      `<p>Phonebook has info for ${n} ${personOrPeople}</p><p>${new Date()}</p>`
+    );
+  });
 });
 
 app.get("/api/persons/:id", ({ params }, response) => {
   const id = params.id;
-  const person = persons.find((p) => {
-    return p.id === Number(id);
+  Person.findById(id).then((person) => {
+    if (!person) return response.status(404).end();
+
+    response.json(person);
   });
-
-  if (!person) return response.status(404).end();
-
-  response.json(person);
 });
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Person.find({})
+    .then((persons) => {
+      const transformedPersons = persons.map((person) => person.toJSON());
+      response.json(transformedPersons);
+    })
+    .catch((reason) => {
+      console.error("Could not connect:", reason);
+      response.json({ error: reason.message });
+    });
 });
 
 app.post("/api/persons", ({ body }, response) => {
