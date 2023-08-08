@@ -34,8 +34,10 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model("Person", personSchema);
 
 if (nameIsMissing) {
-  Person.find({}).then((value) => {
-    console.log(value);
+  Person.find({}).then((persons) => {
+    persons.forEach((person) => {
+      console.log(person.name, person.number);
+    });
     mongoose.connection.close();
   });
 } else {
