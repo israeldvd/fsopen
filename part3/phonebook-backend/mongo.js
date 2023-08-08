@@ -17,11 +17,7 @@ if (!nameIsMissing && numberIsMissing) {
   process.exit(1);
 }
 
-const username = process.env.PHONE_DB_USERNAME || "admin";
-const hostname =
-  process.env.PHONE_DB_HOSTNAME || "cluster0.ogeza62.mongodb.net";
-
-const url = `mongodb+srv://${username}:${password}@${hostname}/personApp?retryWrites=true&w=majority`;
+const url = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
