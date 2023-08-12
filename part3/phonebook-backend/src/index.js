@@ -58,6 +58,23 @@ app.get("/api/persons/:id", ({ params }, response, next) => {
     .catch((error) => next(error));
 });
 
+app.put("/api/persons/:id", ({ body, params }, response, next) => {
+  const number = body.number;
+
+  Person.findByIdAndUpdate(params.id, { number }, { new: true })
+    .then((updatedPerson) => {
+      if (updatedPerson) {
+        if (updatedPerson.isNew) {
+          console.log("updated", updatedPerson.name);
+        }
+        response.json(updatedPerson);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
+
 app.get("/api/persons", (request, response, next) => {
   Person.find({})
     .then((persons) => {
