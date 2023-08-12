@@ -7,6 +7,7 @@ const Person = require("./models/person");
 
 morgan.token("data", function getData(req) {
   if (req.method === "POST") return JSON.stringify(req.body);
+  if (req.method === "PUT") return JSON.stringify({ id: req.params.id });
 });
 
 const unknownEndpoint = (_request, response) => {
@@ -63,14 +64,9 @@ app.put("/api/persons/:id", ({ body, params }, response, next) => {
 
   Person.findByIdAndUpdate(params.id, { number }, { new: true })
     .then((updatedPerson) => {
-      if (updatedPerson) {
-        if (updatedPerson.isNew) {
-          console.log("updated", updatedPerson.name);
-        }
-        response.json(updatedPerson);
-      } else {
-        response.status(404).end();
-      }
+      return updatedPerson
+        ? response.json(updatedPerson)
+        : response.status(404).end();
     })
     .catch((error) => next(error));
 });
