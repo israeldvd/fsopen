@@ -13,6 +13,16 @@ const unknownEndpoint = (_request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
+const errorHandler = (error, _req, res, next) => {
+  console.error(error);
+
+  if (error.name === "CastError") {
+    return res.status(400).send({ error: "Malformatted ID" });
+  }
+
+  next(error);
+};
+
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -34,13 +44,10 @@ app.get("/info", (request, response) => {
         `<p>Phonebook has info for ${n} ${personOrPeople}</p><p>${new Date()}</p>`
       );
     })
-    .catch((error) => {
-      console.log(error.message);
-      response.status(500).send({ error: error.message });
-    });
+    .catch((error) => next(error));
 });
 
-app.get("/api/persons/:id", ({ params }, response) => {
+app.get("/api/persons/:id", ({ params }, response, next) => {
   const id = params.id;
   Person.findById(id)
     .then((person) => {
@@ -48,25 +55,19 @@ app.get("/api/persons/:id", ({ params }, response) => {
 
       response.json(person);
     })
-    .catch((error) => {
-      console.log(error.message);
-      response.status(400).send({ error: "Malformed ID" });
-    });
+    .catch((error) => next(error));
 });
 
-app.get("/api/persons", (request, response) => {
+app.get("/api/persons", (request, response, next) => {
   Person.find({})
     .then((persons) => {
       const transformedPersons = persons.map((person) => person.toJSON());
       response.json(transformedPersons);
     })
-    .catch((reason) => {
-      console.error("Could not connect:", reason.message);
-      response.status(500).json({ error: reason.message });
-    });
+    .catch((error) => next(error));
 });
 
-app.post("/api/persons", ({ body }, response) => {
+app.post("/api/persons", ({ body }, response, next) => {
   const name = body?.name;
   let errorMessage = "";
   let dataIsMissing = false;
@@ -119,25 +120,21 @@ app.post("/api/persons", ({ body }, response) => {
           response.status(500).send({ error: error.message });
         });
     })
-    .catch((error) => {
-      console.log(error.message);
-      response.status(500).send({ error: error.message });
-    });
+    .catch((error) => next(error));
 });
 
-app.delete("/api/persons/:id", ({ params }, response) => {
+app.delete("/api/persons/:id", ({ params }, response, next) => {
   Person.findByIdAndDelete(params.id)
     .then((result) => {
       if (result) console.log("Deleted:", result.toJSON());
       response.json(204).end();
     })
-    .catch((error) => {
-      console.log(error.message);
-      response.status(400).send({ error: "Malformed ID" });
-    });
+    .catch((error) => next(error));
 });
 
 app.use(unknownEndpoint);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
