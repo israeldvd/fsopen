@@ -25,23 +25,33 @@ app.get("/", (request, response) => {
 });
 
 app.get("/info", (request, response) => {
-  Person.find({}).then((persons) => {
-    const n = persons ? persons.length : 0;
-    const isThereJustAPerson = n === 1;
-    const personOrPeople = isThereJustAPerson ? "person" : "people";
-    response.send(
-      `<p>Phonebook has info for ${n} ${personOrPeople}</p><p>${new Date()}</p>`
-    );
-  });
+  Person.find({})
+    .then((persons) => {
+      const n = persons ? persons.length : 0;
+      const isThereJustAPerson = n === 1;
+      const personOrPeople = isThereJustAPerson ? "person" : "people";
+      response.send(
+        `<p>Phonebook has info for ${n} ${personOrPeople}</p><p>${new Date()}</p>`
+      );
+    })
+    .catch((error) => {
+      console.log(error.message);
+      response.status(500).send({ error: error.message });
+    });
 });
 
 app.get("/api/persons/:id", ({ params }, response) => {
   const id = params.id;
-  Person.findById(id).then((person) => {
-    if (!person) return response.status(404).end();
+  Person.findById(id)
+    .then((person) => {
+      if (!person) return response.status(404).end();
 
-    response.json(person);
-  });
+      response.json(person);
+    })
+    .catch((error) => {
+      console.log(error.message);
+      response.status(400).send({ error: "Malformed ID" });
+    });
 });
 
 app.get("/api/persons", (request, response) => {
@@ -51,8 +61,8 @@ app.get("/api/persons", (request, response) => {
       response.json(transformedPersons);
     })
     .catch((reason) => {
-      console.error("Could not connect:", reason);
-      response.json({ error: reason.message });
+      console.error("Could not connect:", reason.message);
+      response.status(500).json({ error: reason.message });
     });
 });
 
@@ -100,17 +110,31 @@ app.post("/api/persons", ({ body }, response) => {
         number: body.number,
       };
 
-      Person.create(newPerson).then((personDoc) => {
-        response.json(personDoc.toJSON());
-      });
+      return Person.create(newPerson)
+        .then((personDoc) => {
+          response.json(personDoc.toJSON());
+        })
+        .catch((error) => {
+          console.log(error.message);
+          response.status(500).send({ error: error.message });
+        });
+    })
+    .catch((error) => {
+      console.log(error.message);
+      response.status(500).send({ error: error.message });
     });
 });
 
 app.delete("/api/persons/:id", ({ params }, response) => {
-  Person.findByIdAndDelete(params.id).then((result) => {
-    if (result) console.log("Deleted:", result.toJSON());
-    response.json(204).end();
-  });
+  Person.findByIdAndDelete(params.id)
+    .then((result) => {
+      if (result) console.log("Deleted:", result.toJSON());
+      response.json(204).end();
+    })
+    .catch((error) => {
+      console.log(error.message);
+      response.status(400).send({ error: "Malformed ID" });
+    });
 });
 
 app.use(unknownEndpoint);
