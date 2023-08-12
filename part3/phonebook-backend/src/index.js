@@ -77,27 +77,32 @@ app.post("/api/persons", ({ body }, response) => {
     }
   }
 
-  nameIsAlreadyPresent = persons.some((person) => {
-    return person.name === name;
-  });
-  if (nameIsAlreadyPresent === true) {
-    errorMessage = " name must be unique";
-  }
+  Person.exists({ name: name })
+    .then((personFound) => {
+      nameIsAlreadyPresent = !!personFound;
 
-  if (dataIsMissing || nameIsAlreadyPresent) {
-    return response.status(400).json({
-      error: errorMessage,
+      return nameIsAlreadyPresent;
+    })
+    .then((nameIsAlreadyPresent) => {
+      if (nameIsAlreadyPresent === true) {
+        errorMessage = "name must be unique";
+      }
+
+      if (dataIsMissing || nameIsAlreadyPresent) {
+        return response.status(400).json({
+          error: errorMessage,
+        });
+      }
+
+      const newPerson = {
+        name: body.name,
+        number: body.number,
+      };
+
+      Person.create(newPerson).then((personDoc) => {
+        response.json(personDoc.toJSON());
+      });
     });
-  }
-
-  const newPerson = {
-    id: getRandomInt(60000),
-    name: body.name,
-    number: body.number || 0,
-  };
-
-  persons.push(newPerson);
-  response.json(newPerson);
 });
 
 app.delete("/api/persons/:id", ({ params }, response) => {
