@@ -107,13 +107,10 @@ app.post("/api/persons", ({ body }, response) => {
 });
 
 app.delete("/api/persons/:id", ({ params }, response) => {
-  const id = Number(params.id);
-
-  persons = persons.filter((person) => {
-    return person.id !== id;
+  Person.findByIdAndDelete(params.id).then((result) => {
+    if (result) console.log("Deleted:", result.toJSON());
+    response.json(204).end();
   });
-
-  response.status(204).end();
 });
 
 app.use(unknownEndpoint);
