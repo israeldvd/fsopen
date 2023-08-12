@@ -88,7 +88,8 @@ app.post("/api/persons", ({ body }, response) => {
         errorMessage = "name must be unique";
       }
 
-      if (dataIsMissing || nameIsAlreadyPresent) {
+      const someErrorWasFound = errorMessage !== "";
+      if (someErrorWasFound) {
         return response.status(400).json({
           error: errorMessage,
         });
