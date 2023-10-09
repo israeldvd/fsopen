@@ -74,15 +74,27 @@ const App = () => {
         setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo)
       });
     } else {
-      personService.create(personObject).then((newPerson) => {
-        setPersons(persons.concat(newPerson));
+      personService
+        .create(personObject)
+        .then((newPerson) => {
+          setPersons(persons.concat(newPerson));
 
-        const confirmationData = {
-          message: `Added ${newPerson.name}.`,
-          className: "success",
-        };
-        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
-      });
+          const confirmationData = {
+            message: `Added ${newPerson.name}.`,
+            className: "success",
+          };
+          setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
+        })
+        .catch((reason) => {
+          setTemporaryConfirmation(
+            {
+              message: reason.response.data.error,
+              className: "error",
+            },
+            5000,
+            setConfirmationInfo
+          );
+        });
     }
 
     setNewName("");
