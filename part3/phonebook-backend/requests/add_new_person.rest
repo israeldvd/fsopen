@@ -25,3 +25,14 @@ Content-Type: application/json
 {
     "number": 1
 }
+
+###
+## Data whose "name" attribute has less than 3 characters (against limitation)
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Ab",
+    "number": "048-291006"
+}
