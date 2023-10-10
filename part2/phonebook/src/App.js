@@ -92,6 +92,11 @@ const App = () => {
           };
           setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
         })
+        .then(() => {
+          setNewName("");
+          setNewNumber("");
+          setFilterEntry("");
+        })
         .catch((reason) => {
           setTemporaryConfirmation(
             {
@@ -103,10 +108,6 @@ const App = () => {
           );
         });
     }
-
-    setNewName("");
-    setNewNumber("");
-    setFilterEntry("");
   };
 
   const removePerson = (personId) => {
