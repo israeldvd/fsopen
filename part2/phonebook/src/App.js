@@ -46,33 +46,40 @@ const App = () => {
       );
       if (!confirmNumberReplacement) return;
 
-      personService.update(personObject).then((updatedPerson) => {
-        const updatedPersonsList = [...persons];
-        const requiredIndex = persons.findIndex(
-          (p) => p.id === updatedPerson.id
-        );
+      personService
+        .update(personObject)
+        .then((updatedPerson) => {
+          const updatedPersonsList = [...persons];
+          const requiredIndex = persons.findIndex(
+            (p) => p.id === updatedPerson.id
+          );
 
-        if (requiredIndex !== -1) {
-          updatedPersonsList[requiredIndex] = updatedPerson;
-          setPersons(updatedPersonsList);
+          if (requiredIndex !== -1) {
+            updatedPersonsList[requiredIndex] = updatedPerson;
+            setPersons(updatedPersonsList);
+
+            const confirmationData = {
+              message: `Updated ${updatedPerson.name}'s number`,
+              className: "success",
+            };
+            setTemporaryConfirmation(
+              confirmationData,
+              5000,
+              setConfirmationInfo
+            );
+          }
+        })
+        .catch((error) => {
+          const errorMessagePrefix =
+            "Could not update the phone. Something went wrong.";
+          console.log(errorMessagePrefix, "Error:", error);
 
           const confirmationData = {
-            message: `Updated ${updatedPerson.name}'s number`,
-            className: "success",
+            message: `Information of ${personObject.name} has already been removed from server`,
+            className: "error",
           };
           setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
-        }
-      }).catch((error) => {
-        const errorMessagePrefix =
-          "Could not update the phone. Something went wrong.";
-        console.log(errorMessagePrefix, "Error:", error);
-
-        const confirmationData = {
-          message: `Information of ${personObject.name} has already been removed from server`,
-          className: 'error'
-        }
-        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo)
-      });
+        });
     } else {
       personService
         .create(personObject)
