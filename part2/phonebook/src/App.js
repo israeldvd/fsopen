@@ -78,7 +78,7 @@ const App = () => {
             message: `Information of ${personObject.name} has already been removed from server`,
             className: "error",
           };
-          setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
+          setTemporaryConfirmation(confirmationData, 8000, setConfirmationInfo);
         });
     } else {
       personService
