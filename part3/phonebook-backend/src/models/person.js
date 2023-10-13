@@ -24,11 +24,10 @@ const personSchema = new mongoose.Schema({
     type: String,
     min: 8,
     validate: {
-      validator: (val) => {
-        return /\d{2,3}-\d+/.test(val);
-      },
+      validator: (val) =>
+        /^\d{2,3}-\d+$/.test(typeof val === "string" ? val.trim() : val),
       message: (props) =>
-        `${props.value} is not a valid phone number! Numbers must be of the form 12-1234567 or 123-22334455 (one hyphen and 2 or 3 numbers before it).`,
+        `${props.value} is not a valid phone number! Numbers must be of the form 12-1234567 or 123-22334455 (one hyphen following 2 or 3 numbers, and only numbers thereafter).`,
     },
   },
 });
