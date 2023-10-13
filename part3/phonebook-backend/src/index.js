@@ -85,7 +85,6 @@ app.get("/api/persons", (request, response, next) => {
 app.post("/api/persons", ({ body }, response, next) => {
   const name = body?.name;
   let errorMessage = "";
-  let dataIsMissing = false;
   let nameIsAlreadyPresent = false;
 
   if (!body) {
@@ -96,10 +95,8 @@ app.post("/api/persons", ({ body }, response, next) => {
 
     if (nameIsMissing) {
       errorMessage = "Name is missing.";
-      dataIsMissing = true;
     } else if (numberIsMissing) {
       errorMessage = "Number is missing";
-      dataIsMissing = true;
     }
   }
 
