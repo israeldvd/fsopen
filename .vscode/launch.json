@@ -13,14 +13,14 @@
       "name": "Run Script: start",
       "request": "launch",
       "command": "npm run start",
-      "cwd": "${workspaceFolder}\\part2\\phonebook"
+      "cwd": "${workspaceFolder}/part2/phonebook"
     },
     {
       "command": "npm run start",
       "name": "Run phonebook backend",
       "request": "launch",
       "type": "node-terminal",
-      "cwd": "${workspaceFolder}\\part3\\phonebook-backend"
+      "cwd": "${workspaceFolder}/part3/phonebook-backend"
     },
     {
       "name": "Run phonebook in dev mode",
@@ -28,7 +28,7 @@
       "command": "npm run dev",
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
-      "cwd": "${workspaceFolder}\\part3\\phonebook-backend"
+      "cwd": "${workspaceFolder}/part3/phonebook-backend"
     }
   ]
 }
