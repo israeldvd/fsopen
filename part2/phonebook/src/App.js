@@ -75,9 +75,7 @@ const App = () => {
           setFilterEntry("");
         })
         .catch((error) => {
-          let errorMessage =
-            "Could not update the phone. Something went wrong.";
-          console.log(errorMessage, "Error:", error);
+          let errorMessage = "";
 
           if ("response" in error && "data" in error.response) {
             errorMessage += ` ${error.response.data.error}`;
@@ -87,6 +85,7 @@ const App = () => {
             message: errorMessage,
             className: "error",
           };
+          console.error(errorMessage);
           setTemporaryConfirmation(confirmationData, 8000, setConfirmationInfo);
         });
     } else {
