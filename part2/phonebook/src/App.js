@@ -79,6 +79,10 @@ const App = () => {
             "Could not update the phone. Something went wrong.";
           console.log(errorMessage, "Error:", error);
 
+          if ("response" in error && "data" in error.response) {
+            errorMessage += ` ${error.response.data.error}`;
+          }
+
           const confirmationData = {
             message: errorMessage,
             className: "error",
