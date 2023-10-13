@@ -7,6 +7,7 @@ import Notification, {
   setTemporaryConfirmation,
 } from "./components/Notification";
 import "./style.css";
+import { getErrorFeedback } from "./util/error";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -75,11 +76,7 @@ const App = () => {
           setFilterEntry("");
         })
         .catch((error) => {
-          let errorMessage = "";
-
-          if ("response" in error && "data" in error.response) {
-            errorMessage += ` ${error.response.data.error}`;
-          }
+          let errorMessage = getErrorFeedback(error);
 
           const confirmationData = {
             message: errorMessage,
@@ -106,9 +103,11 @@ const App = () => {
           setFilterEntry("");
         })
         .catch((reason) => {
+          let errorMessage = getErrorFeedback(reason);
+
           setTemporaryConfirmation(
             {
-              message: reason.response.data.error,
+              message: errorMessage,
               className: "error",
             },
             5000,
