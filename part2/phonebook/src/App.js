@@ -69,6 +69,11 @@ const App = () => {
             );
           }
         })
+        .then(() => {
+          setNewName("");
+          setNewNumber("");
+          setFilterEntry("");
+        })
         .catch((error) => {
           const errorMessagePrefix =
             "Could not update the phone. Something went wrong.";
