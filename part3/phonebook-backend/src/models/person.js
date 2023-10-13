@@ -5,7 +5,7 @@ const numberValidationRegex = /^\d{2,3}-\d+$/;
 
 mongoose.set("strictQuery", false);
 
-console.log("connecting to", url);
+console.log("connecting to database...");
 mongoose
   .connect(url)
   .then(() => {
