@@ -75,12 +75,12 @@ const App = () => {
           setFilterEntry("");
         })
         .catch((error) => {
-          const errorMessagePrefix =
+          let errorMessage =
             "Could not update the phone. Something went wrong.";
-          console.log(errorMessagePrefix, "Error:", error);
+          console.log(errorMessage, "Error:", error);
 
           const confirmationData = {
-            message: `Information of ${personObject.name} has already been removed from server`,
+            message: errorMessage,
             className: "error",
           };
           setTemporaryConfirmation(confirmationData, 8000, setConfirmationInfo);
