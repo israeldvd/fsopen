@@ -1,0 +1,39 @@
+PUT http://localhost:3001/api/persons/64d7dc75a2009e6f3e67adce
+Content-Type: application/json
+
+{
+    "id": "64d7dc75a2009e6f3e67adce",
+    "name": "Anyone here",
+    "number": 2023
+}
+
+###
+# Sent a non-existent person to be updated (response is 404)
+PUT http://localhost:3001/api/persons/01a2bc34d5678e9f0g12hijk
+Content-Type: application/json
+
+{
+    "id": "01a2bc34d5678e9f0g12hijk",
+    "name": "Non-existent Person",
+    "number": 2023
+}
+
+###
+# Sent a JSON lacking both due number and name (resource is unchanged)
+PUT http://localhost:3001/api/persons/64d7dc75a2009e6f3e67adce
+Content-Type: application/json
+
+{
+    "id": "64d7dc75a2009e6f3e67adce"
+}
+
+###
+# Sent data identified by the proper ID on URI, but without this field in body
+# Sucessful (2XX)
+PUT http://localhost:3001/api/persons/64d7dc75a2009e6f3e67adce
+Content-Type: application/json
+
+{
+    "name": "Person Without ID",
+    "number": "0001"
+}

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styles from "./Notification.module.css";
 
 export const setTemporaryConfirmation = (
@@ -27,6 +28,11 @@ const Notification = ({ message, className }) => {
   }`;
 
   return <div className={finalClassName}>{message}</div>;
+};
+
+Notification.propTypes = {
+  message: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default Notification;

@@ -7,6 +7,7 @@ import Notification, {
   setTemporaryConfirmation,
 } from "./components/Notification";
 import "./style.css";
+import { getErrorFeedback } from "./util/error";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -46,48 +47,74 @@ const App = () => {
       );
       if (!confirmNumberReplacement) return;
 
-      personService.update(personObject).then((updatedPerson) => {
-        const updatedPersonsList = [...persons];
-        const requiredIndex = persons.findIndex(
-          (p) => p.id === updatedPerson.id
-        );
+      personService
+        .update(personObject)
+        .then((updatedPerson) => {
+          const updatedPersonsList = [...persons];
+          const requiredIndex = persons.findIndex(
+            (p) => p.id === updatedPerson.id
+          );
 
-        if (requiredIndex !== -1) {
-          updatedPersonsList[requiredIndex] = updatedPerson;
-          setPersons(updatedPersonsList);
+          if (requiredIndex !== -1) {
+            updatedPersonsList[requiredIndex] = updatedPerson;
+            setPersons(updatedPersonsList);
+
+            const confirmationData = {
+              message: `Updated ${updatedPerson.name}'s number`,
+              className: "success",
+            };
+            setTemporaryConfirmation(
+              confirmationData,
+              5000,
+              setConfirmationInfo
+            );
+          }
+        })
+        .then(() => {
+          setNewName("");
+          setNewNumber("");
+          setFilterEntry("");
+        })
+        .catch((error) => {
+          let errorMessage = getErrorFeedback(error);
 
           const confirmationData = {
-            message: `Updated ${updatedPerson.name}'s number`,
+            message: errorMessage,
+            className: "error",
+          };
+          console.error(errorMessage);
+          setTemporaryConfirmation(confirmationData, 8000, setConfirmationInfo);
+        });
+    } else {
+      personService
+        .create(personObject)
+        .then((newPerson) => {
+          setPersons(persons.concat(newPerson));
+
+          const confirmationData = {
+            message: `Added ${newPerson.name}.`,
             className: "success",
           };
           setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
-        }
-      }).catch((error) => {
-        const errorMessagePrefix =
-          "Could not update the phone. Something went wrong.";
-        console.log(errorMessagePrefix, "Error:", error);
+        })
+        .then(() => {
+          setNewName("");
+          setNewNumber("");
+          setFilterEntry("");
+        })
+        .catch((reason) => {
+          let errorMessage = getErrorFeedback(reason);
 
-        const confirmationData = {
-          message: `Information of ${personObject.name} has already been removed from server`,
-          className: 'error'
-        }
-        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo)
-      });
-    } else {
-      personService.create(personObject).then((newPerson) => {
-        setPersons(persons.concat(newPerson));
-
-        const confirmationData = {
-          message: `Added ${newPerson.name}.`,
-          className: "success",
-        };
-        setTemporaryConfirmation(confirmationData, 5000, setConfirmationInfo);
-      });
+          setTemporaryConfirmation(
+            {
+              message: errorMessage,
+              className: "error",
+            },
+            5000,
+            setConfirmationInfo
+          );
+        });
     }
-
-    setNewName("");
-    setNewNumber("");
-    setFilterEntry("");
   };
 
   const removePerson = (personId) => {
@@ -98,8 +125,8 @@ const App = () => {
 
     personService
       .remove(personId)
-      .then((_data) => {
-        // _data comes empty at delete request
+      .then(() => {
+        // data (unused parameter) comes empty at delete request
         setPersons(
           persons.filter((p) => {
             return p.id !== personId;

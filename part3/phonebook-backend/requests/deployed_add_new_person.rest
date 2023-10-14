@@ -1,0 +1,27 @@
+POST https://dvd-phonebook.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "John Silvester",
+    "number": "020-019283"
+}
+
+###
+## Person without a number
+
+POST https://dvd-phonebook.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "Peter Williams"
+}
+
+###
+## Person without a name
+
+POST https://dvd-phonebook.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "number": 1
+}
