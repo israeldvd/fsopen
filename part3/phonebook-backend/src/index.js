@@ -1,8 +1,10 @@
-require("dotenv-expand").expand(require("dotenv").config());
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv-expand").expand(require("dotenv").config());
+}
 const Person = require("./models/person");
 
 morgan.token("data", function getData(req) {
