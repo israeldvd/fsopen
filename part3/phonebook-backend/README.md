@@ -26,6 +26,20 @@ MONGODB_URI=mongodb+srv://username:yourpassword@phonebook.replacehere.mongodb.ne
 
 After clonning this repository, the downloaded code contains everything that is needed to run it, either locally or remotely.
 
+## Run the app locally
+
+With the previous steps completed, run either options from below
+
+```shell
+# run the app in development mode
+npm run start:full
+
+# do the same, but watching for file changes
+npm run dev:full
+```
+
+to build the UI (found in [part2 of phonebook](../../part2/phonebook/)) and run the **app** in any mode. Note: this chances `NODE_ENV` according to [CRA customization](https://create-react-app.dev/docs/adding-custom-environment-variables/).
+
 ## Building the app to production
 
 Log-in to the fullstack solution provider you has, then deploy the application. In this current setup, you can do that [logging into fly.io](https://fly.io/docs/hands-on/sign-in/).
