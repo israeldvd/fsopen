@@ -41,7 +41,10 @@ if (nameIsMissing) {
   });
 
   person.save().then((result) => {
-    console.log("person saved!");
+    if (result.name) {
+      // TODO: remove validation after establishing validation
+      console.log("person saved:", result.toObject().name + "!");
+    }
     mongoose.connection.close();
   });
 }
