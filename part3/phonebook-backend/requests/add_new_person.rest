@@ -36,3 +36,14 @@ Content-Type: application/json
     "name": "Ab",
     "number": "048-291006"
 }
+
+###
+## Data whose number attribute triggers a validation error (it is malformatted)
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Samuel Bridal",
+    "number": "1t5-wr0ng"
+}
