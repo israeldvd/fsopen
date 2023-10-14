@@ -125,8 +125,8 @@ const App = () => {
 
     personService
       .remove(personId)
-      .then((_data) => {
-        // _data comes empty at delete request
+      .then(() => {
+        // data (unused parameter) comes empty at delete request
         setPersons(
           persons.filter((p) => {
             return p.id !== personId;
