@@ -1,0 +1,19 @@
+{
+  "name": "blog-list",
+  "version": "1.0.0",
+  "description": "The application allows users to save information about interesting blogs they have stumbled across on the internet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/israeldvd/fsopen"
+  },
+  "keywords": [
+    "blog",
+    "backend"
+  ],
+  "author": "Israel David",
+  "license": "ISC"
+}
