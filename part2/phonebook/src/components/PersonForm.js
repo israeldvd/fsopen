@@ -1,4 +1,5 @@
 import "./Form.css";
+import PropTypes from "prop-types";
 
 const PersonForm = ({
   newName,
@@ -22,6 +23,14 @@ const PersonForm = ({
       </form>
     </>
   );
+};
+
+PersonForm.propTypes = {
+  newName: PropTypes.string,
+  newNumber: PropTypes.string,
+  onAddPerson: PropTypes.func.isRequired,
+  onTypeName: PropTypes.func.isRequired,
+  onTypePhoneNumber: PropTypes.func.isRequired,
 };
 
 export default PersonForm;
