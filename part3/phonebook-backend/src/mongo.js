@@ -15,7 +15,10 @@ if (!nameIsMissing && numberIsMissing) {
   process.exit(1);
 }
 
-const url = process.env.MONGODB_URI;
+// the URI to make a database connection -- username, hostname and the database name should be defined in the enviroment (could be in an .env file)
+const url =
+  process.env.MONGODB_URI ||
+  `mongodb+srv://${process.PHONE_DB_USERNAME}:${password}@${process.PHONE_DB_HOSTNAME}/${process.PHONE_DB_DATABASE}?retryWrites=true&w=majority`;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
