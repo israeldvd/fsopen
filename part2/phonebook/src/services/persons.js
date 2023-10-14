@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = process.env.REACT_APP_API_ENDPOINT || "api/persons";
+const baseUrl = "api/persons";
 
 const getAll = () => {
   const request = axios.get(baseUrl);
