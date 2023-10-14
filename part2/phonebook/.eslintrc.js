@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: ["airbnb", "eslint:recommended", "plugin:react/recommended"],
   overrides: [
     {
       env: {
@@ -26,6 +26,7 @@ module.exports = {
     },
   },
   rules: {
+    quotes: ["error", "double"],
     // suppress errors for missing 'import React' in files
     "react/react-in-jsx-scope": "off",
   },

@@ -4,7 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true,
   },
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended", "airbnb-base"],
   overrides: [
     {
       env: {
@@ -20,6 +20,7 @@ module.exports = {
     ecmaVersion: "latest",
   },
   rules: {
+    quotes: ["error", "double"],
     eqeqeq: "error",
     "no-trailing-spaces": "error",
     "object-curly-spacing": ["error", "always"],
