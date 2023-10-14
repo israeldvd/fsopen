@@ -2,20 +2,27 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const app = express();
+
+// configure dotenv-related packages when not in production
 if (process.env.NODE_ENV !== "production") {
   require("dotenv-expand").expand(require("dotenv").config());
 }
+
+// Mongoose model Person
 const Person = require("./models/person");
 
+// morgan logger setup
 morgan.token("data", function getData(req) {
   if (req.method === "POST") return JSON.stringify(req.body);
   if (req.method === "PUT") return JSON.stringify({ id: req.params.id });
 });
 
+// unknown-endpoint middleware
 const unknownEndpoint = (_request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
 
+// error-handler middleware (when cathing exceptions)
 const errorHandler = (error, _req, res, next) => {
   console.error(error);
 
@@ -28,6 +35,7 @@ const errorHandler = (error, _req, res, next) => {
   next(error);
 };
 
+// appliation middleware setups
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -35,6 +43,7 @@ app.use(
 );
 app.use(express.static("build"));
 
+// endpoints (resources and actions)
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
@@ -147,10 +156,13 @@ app.delete("/api/persons/:id", ({ params }, response, next) => {
     .catch((error) => next(error));
 });
 
+// handle remaining endpoints' requests
 app.use(unknownEndpoint);
 
+// catch and handle errors
 app.use(errorHandler);
 
+// initiate app
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
