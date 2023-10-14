@@ -1,10 +1,10 @@
 # Phonebook backend
 
-This repository contains the backend of the **phonebook** app.
+This repository contains the backend of the **phonebook** app. It makes use of _fly.io_ machines, but you could alter to your favorite choice.
 
-## URI
+## On-line app's URI
 
-You can access it by and send requests to the URL <https://dvd-phonebook.fly.dev>.
+You can access it by and send requests to the URL <https://dvd-phonebook.fly.dev>. It is currently up and running.
 
 ## Using environment variables
 
@@ -22,4 +22,22 @@ Or, simply:
 
 ```shell
 MONGODB_URI=mongodb+srv://username:yourpassword@phonebook.replacehere.mongodb.net/phonebookApp?retryWrites=true&w=majority
+```
+
+After clonning this repository, the downloaded code contains everything that is needed to run it, either locally or remotely.
+
+## Building the app to production
+
+Log-in to the fullstack solution provider you has, then deploy the application. In this current setup, you can do that [logging into fly.io](https://fly.io/docs/hands-on/sign-in/).
+
+Yyou should add the database-URI variable to fly.io's secrets list. For example, once defined a file `.env.production.local` (having the contents of the full `MONGODB_URI` variable), type and enter:
+
+```shell
+fly secrets import < .env.production.local
+```
+
+Alternatively, you are able to configure it in the settings panels of the service provider. Once all is set up, run the complete **deployment script** with:
+
+```shell
+npm run deploy:full
 ```
