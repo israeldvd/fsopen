@@ -30,7 +30,7 @@ After clonning this repository, the downloaded code contains everything that is 
 
 Log-in to the fullstack solution provider you has, then deploy the application. In this current setup, you can do that [logging into fly.io](https://fly.io/docs/hands-on/sign-in/).
 
-Yyou should add the database-URI variable to fly.io's secrets list. For example, once defined a file `.env.production.local` (having the contents of the full `MONGODB_URI` variable), type and enter:
+You should add the database-URI variable to fly.io's secrets list. For example, once defined a file `.env.production.local` (having the contents of the full `MONGODB_URI` variable), type and enter:
 
 ```shell
 fly secrets import < .env.production.local
