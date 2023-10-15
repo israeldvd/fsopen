@@ -2,20 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const Blog = require("../models/blog");
 
 // configure dotenv-related packages when outside the production environment
 if (process.env.NODE_ENV !== "production") {
   require("dotenv-expand").expand(require("dotenv").config());
 }
-
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-});
-
-const Blog = mongoose.model("Blog", blogSchema);
 
 const mongoUrl = process.env.MONGODB_URI || "mongodb://localhost/bloglist";
 mongoose.connect(mongoUrl);
