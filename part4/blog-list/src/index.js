@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const blogsRouter = require("../controllers/blogs");
 const config = require("../utils/config");
+const logger = require("../utils/logger");
 
 const app = express();
 
@@ -16,5 +17,5 @@ app.use("/api/blogs", blogsRouter);
 
 const appPort = config.PORT;
 app.listen(appPort, () => {
-  console.log(`Server running on port ${appPort}`);
+  logger.info(`Server running on port ${appPort}`);
 });
