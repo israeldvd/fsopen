@@ -8,3 +8,387 @@ Content-Type: application/json
     "url": "change.blog.com",
     "likes": 20
 }
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "By the Light of the Silvery Moon",
+  "author": "Brock De Freyne",
+  "url": "http://go.com/velit/nec/nisi/vulputate.jpg",
+  "likes": 580
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Dance of the Dead",
+  "author": "Zebadiah Dunton",
+  "url": "http://youku.com/vel/lectus/in/quam/fringilla.aspx",
+  "likes": 306
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Among Giants",
+  "author": "Philip Deamer",
+  "url": "https://archive.org/phasellus/sit/amet/erat.jsp",
+  "likes": 468
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "The Slap",
+  "author": "Teresa Ambrosio",
+  "url": "https://google.it/quis.png",
+  "likes": 783
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Front Page Woman",
+  "author": "Dolores Reames",
+  "url": "https://facebook.com/nisi.jpg",
+  "likes": 814
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Just Visiting",
+  "author": "Luce Duxbarry",
+  "url": "http://nsw.gov.au/vitae/nisi/nam/ultrices/libero/non/mattis.jpg",
+  "likes": 7
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Benchwarmers, The",
+  "author": "Sapphira Sleath",
+  "url": "http://privacy.gov.au/cum/sociis/natoque/penatibus/et/magnis.html",
+  "likes": 960
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Harry + Max",
+  "author": "Marget Reilingen",
+  "url": "https://deviantart.com/justo/morbi/ut/odio/cras/mi.jsp",
+  "likes": 766
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Beyond All Boundaries",
+  "author": "Conrad Pittman",
+  "url": "https://tmall.com/mauris/viverra/diam/vitae/quam.json",
+  "likes": 226
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Great Santini, The",
+  "author": "Levey Dye",
+  "url": "http://spiegel.de/sit/amet/lobortis/sapien/sapien/non/mi.jpg",
+  "likes": 567
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "The Happy Road",
+  "author": "Bartel Beade",
+  "url": "https://linkedin.com/amet.jsp",
+  "likes": 862
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Heaven's Burning",
+  "author": "Angelina Brosh",
+  "url": "https://newyorker.com/vel/sem/sed/sagittis/nam.json",
+  "likes": 119
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Terrorizers, The (Kong bu fen zi)",
+  "author": "Randy Gibbeson",
+  "url": "https://unc.edu/dui.jsp",
+  "likes": 242
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Dragon Age: Redemption",
+  "author": "Eliot Devlin",
+  "url": "http://hud.gov/sit/amet/nunc/viverra/dapibus/nulla.jpg",
+  "likes": 800
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Touch the Sound: A Sound Journey with Evelyn Glennie",
+  "author": "Devonna Kobke",
+  "url": "https://comsenz.com/nunc/commodo/placerat.png",
+  "likes": 829
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Predator",
+  "author": "Evonne Drews",
+  "url": "https://youku.com/justo/etiam.xml",
+  "likes": 669
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Someone's Gaze",
+  "author": "Forrester Ladel",
+  "url": "http://foxnews.com/curae/nulla.xml",
+  "likes": 328
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "So Fine",
+  "author": "Tobin Rubinovitsch",
+  "url": "https://sfgate.com/nam/dui.json",
+  "likes": 397
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Crowd Roars, The",
+  "author": "Celestine McNeice",
+  "url": "http://elpais.com/non/lectus/aliquam/sit.jsp",
+  "likes": 405
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Gang's All Here, The",
+  "author": "Joye Ege",
+  "url": "https://dmoz.org/lectus/suspendisse/potenti/in/eleifend/quam/a.js",
+  "likes": 984
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Hot Shots! Part Deux",
+  "author": "Saraann Richin",
+  "url": "http://delicious.com/aliquam/augue.jsp",
+  "likes": 623
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Marie and Bruce",
+  "author": "Brande L'Archer",
+  "url": "http://sciencedaily.com/non/mi/integer/ac/neque.json",
+  "likes": 637
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Random Harvest",
+  "author": "Issi O'Hdirscoll",
+  "url": "https://amazonaws.com/nulla/tempus/vivamus/in/felis/eu/sapien.json",
+  "likes": 386
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Cleopatra",
+  "author": "Phillida Glentworth",
+  "url": "https://themeforest.net/vulputate/vitae/nisl/aenean/lectus/pellentesque/eget.png",
+  "likes": 980
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Tabu: A Story of the South Seas",
+  "author": "Uri Longbottom",
+  "url": "https://eepurl.com/nulla/nunc/purus/phasellus/in.jsp",
+  "likes": 639
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "I Was Monty's Double",
+  "author": "Boycey McNickle",
+  "url": "https://xinhuanet.com/porta/volutpat/erat/quisque.js",
+  "likes": 645
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Doctor Dolittle",
+  "author": "Ernie Baumber",
+  "url": "https://mozilla.com/vitae/consectetuer/eget/rutrum/at.xml",
+  "likes": 912
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Girl with Hyacinths",
+  "author": "Brita Rummins",
+  "url": "https://bandcamp.com/a/suscipit/nulla/elit.json",
+  "likes": 335
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Michael Collins",
+  "author": "Norah Kendrick",
+  "url": "http://kickstarter.com/sed/lacus/morbi/sem.png",
+  "likes": 549
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Father Hood",
+  "author": "Emmit Jennaroy",
+  "url": "https://nymag.com/cras/non/velit/nec/nisi/vulputate/nonummy.jsp",
+  "likes": 551
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Fifth Element, The",
+  "author": "Roarke Stratley",
+  "url": "https://nba.com/sem/praesent/id/massa.jsp",
+  "likes": 795
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Buried Alive",
+  "author": "Wendall Crowthe",
+  "url": "http://topsy.com/integer/pede/justo/lacinia.jsp",
+  "likes": 83
+}
