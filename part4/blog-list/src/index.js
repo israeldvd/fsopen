@@ -1,21 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const blogsRouter = require("../controllers/blogs");
-const config = require("../utils/config");
+const { PORT } = require("../utils/config");
 const logger = require("../utils/logger");
+const app = require("./app");
 
-const app = express();
-
-const mongoUrl = config.MONGODB_URI || "mongodb://localhost/bloglist";
-mongoose.connect(mongoUrl);
-
-app.use(cors());
-app.use(express.json());
-
-app.use("/api/blogs", blogsRouter);
-
-const appPort = config.PORT;
-app.listen(appPort, () => {
-  logger.info(`Server running on port ${appPort}`);
+app.listen(PORT, () => {
+  logger.info(`Server running on port ${PORT}`);
 });
