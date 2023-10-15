@@ -1,0 +1,10 @@
+## Create a new blog information
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Second change blog",
+    "author": "Robert Jale",
+    "url": "change.blog.com",
+    "likes": 20
+}
