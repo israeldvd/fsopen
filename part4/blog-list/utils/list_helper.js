@@ -13,7 +13,11 @@ const favoriteBlog = (blogs) => {
   const favorite = blogs.reduce((mostVotedBlog, blog) => {
     return blog.likes > mostVotedBlog.likes ? blog : mostVotedBlog;
   });
-  return favorite;
+  return {
+    title: favorite.title,
+    author: favorite.author,
+    likes: favorite.likes,
+  };
 };
 
 module.exports = {

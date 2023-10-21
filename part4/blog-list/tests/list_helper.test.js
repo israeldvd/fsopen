@@ -96,6 +96,7 @@ describe("total likes", () => {
 
   test("find the most-liked blog", () => {
     const result = listHelper.favoriteBlog(listWithMultipleBlogs);
-    expect(result).toEqual(mostFavoredBlog);
+    const { title, author, likes } = mostFavoredBlog;
+    expect(result).toEqual({ title, author, likes });
   });
 });
