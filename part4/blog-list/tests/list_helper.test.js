@@ -18,6 +18,12 @@ describe("total likes", () => {
     },
   ];
 
+  test("of empty list is zero", () => {
+    const emptyList = [];
+    const result = listHelper.totalLikes(emptyList);
+    expect(result).toBe(0);
+  });
+
   test("when list has only one blog equals the like of that", () => {
     const result = listHelper.totalLikes(listWithOneBlog);
     expect(result).toBe(listWithOneBlog[0].likes);
