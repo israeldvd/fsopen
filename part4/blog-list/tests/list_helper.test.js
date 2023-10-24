@@ -193,11 +193,10 @@ describe("most blogs", () => {
     blogs: 3,
   };
 
-  test("of empty list is none", () => {
+  test("of empty list is null", () => {
     const result = listHelper.mostBlogs([]);
-    const { author, blogs } = { author: "", blogs: 0 };
 
-    expect(result).toEqual({ author, blogs });
+    expect(result).toEqual(null);
   });
 
   test("when list has only one blog find the author of that", () => {

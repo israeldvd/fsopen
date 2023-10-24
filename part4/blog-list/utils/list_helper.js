@@ -34,7 +34,7 @@ const mostBlogs = (blogs) => {
   const pairs = toPairs(authorsPostCount);
 
   if (pairs.length === 0) {
-    return { author: "", blogs: 0 };
+    return null;
   }
 
   const [author, numOfBlogs] = maxBy(pairs, last);
