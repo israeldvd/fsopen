@@ -125,7 +125,7 @@ describe("favorite blog", () => {
   });
 });
 
-describe("most blogs", () => {
+describe("author with most blogs", () => {
   const listWithOneBlog = [
     {
       _id: "5a422aa71b54a676234d17f8",
@@ -199,7 +199,7 @@ describe("most blogs", () => {
     expect(result).toEqual(null);
   });
 
-  test("when list has only one blog find the author of that", () => {
+  test("when list has only one blog is its author", () => {
     const result = listHelper.mostBlogs(listWithOneBlog);
     const { author, blogs } = {
       author: listWithOneBlog[0].author,
@@ -209,7 +209,7 @@ describe("most blogs", () => {
     expect(result).toEqual({ author, blogs });
   });
 
-  test("of a bigger list, find the author with largest amount of blogs", () => {
+  test("of a bigger list is calculated aright", () => {
     const result = listHelper.mostBlogs(sampleBlogs);
     const { author, blogs } = authorWithMostBlogs;
 
