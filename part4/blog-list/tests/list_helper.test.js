@@ -87,6 +87,17 @@ describe("total likes", () => {
 });
 
 describe("favorite blog", () => {
+  const listWithOneBlog = [
+    {
+      _id: "5a422ba71b54a676234d17fb",
+      title: "TDD harms architecture",
+      author: "Robert C. Martin",
+      url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+      likes: 0,
+      __v: 0,
+    },
+  ];
+
   const mostFavoredBlog = {
     _id: "5a422b3a1b54a676234d17f9",
     title: "Canonical string reduction",
@@ -95,6 +106,17 @@ describe("favorite blog", () => {
     likes: 12,
     __v: 0,
   };
+
+  test("of empty list is null", () => {
+    const result = listHelper.favoriteBlog([]);
+    expect(result).toBe(null);
+  });
+
+  test("of one-blog list is itself", () => {
+    const result = listHelper.favoriteBlog(listWithOneBlog);
+    const { author, title, likes } = listWithOneBlog[0];
+    expect(result).toEqual({ author, title, likes });
+  });
 
   test("find the favorite blog", () => {
     const result = listHelper.favoriteBlog(listWithMultipleBlogs);

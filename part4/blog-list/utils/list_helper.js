@@ -15,6 +15,10 @@ const totalLikes = (blogs) => {
 };
 
 const favoriteBlog = (blogs) => {
+  if (!blogs || blogs.length === 0) {
+    return null;
+  }
+
   const favorite = blogs.reduce((mostVotedBlog, blog) => {
     return blog.likes > mostVotedBlog.likes ? blog : mostVotedBlog;
   });
