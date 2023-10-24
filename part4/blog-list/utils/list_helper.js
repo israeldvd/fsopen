@@ -3,7 +3,7 @@ const toPairs = require("lodash.topairs");
 const maxBy = require("lodash.maxby");
 const countBy = require("lodash.countby");
 
-const dummy = (blogs) => {
+const dummy = () => {
   return 1;
 };
 
