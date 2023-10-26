@@ -216,3 +216,42 @@ describe("author with most blogs", () => {
     expect(result).toEqual({ author, blogs });
   });
 });
+
+describe("author of most-liked posts", () => {
+  const listWithOneBlog = [
+    {
+      _id: "5a422bc61b54a676234d17fc",
+      title: "Type wars",
+      author: "Robert C. Martin",
+      url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+      likes: 2,
+      __v: 0,
+    },
+  ];
+  const mostLikedAuthorAndPosts = {
+    author: "Edsger W. Dijkstra",
+    likes: 12 + 5,
+  };
+
+  test("of an empty list is null", () => {
+    const result = listHelper.mostLikes([]);
+
+    expect(result).toBe(null);
+  });
+
+  test("of an one-post list is the same author and likes", () => {
+    const result = listHelper.mostLikes(listWithOneBlog);
+    const { author, likes } = listWithOneBlog[0];
+
+    expect(result).toEqual({ author, likes });
+  });
+
+  test("of a bigger list is calculated accordingly", () => {
+    const result = listHelper.mostLikes(listWithMultipleBlogs);
+
+    expect(result).toEqual({
+      author: mostLikedAuthorAndPosts.author,
+      likes: mostLikedAuthorAndPosts.likes,
+    });
+  });
+});
