@@ -4,11 +4,11 @@
   "description": "The application allows users to save information about interesting blogs they have stumbled across on the internet.",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "mongoose": "^7.6.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "dotenv-expand": "^10.0.0",
     "eslint": "^8.51.0",
