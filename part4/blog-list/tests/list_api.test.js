@@ -25,6 +25,14 @@ describe("blog list API", () => {
     const response = await api.get(api_url);
     expect(response.body).toHaveLength(helper.initialBlogList.length);
   });
+
+  test("(response) blog posts unique identifier property is named id", async () => {
+    const response = await api.get(api_url);
+
+    response.body.forEach((blog) => {
+      expect(blog.id).toBeDefined();
+    });
+  });
 });
 
 afterAll(async () => {
