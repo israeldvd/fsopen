@@ -74,6 +74,16 @@ describe("blog list API", () => {
     expect(response.body.error).toBeDefined();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
   });
+
+  test("missing property 'likes' is default to value 0", async () => {
+    const response = await api
+      .post(api_url)
+      .send({ ...newMockPost, likes: undefined })
+      .set("Content-Type", "application/json")
+      .expect(201);
+
+    expect(response.body.likes).toEqual(0);
+  });
 });
 
 afterAll(async () => {
