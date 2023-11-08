@@ -61,6 +61,19 @@ describe("blog list API", () => {
     });
     expect(blogTitles).toContain(newMockPost.title);
   });
+
+  test("an empty blog is not added", async () => {
+    const response = await api
+      .post(api_url)
+      .send({})
+      .set("Content-Type", "application/json")
+      .expect(400);
+
+    const blogsAtEnd = await helper.blogsInDb();
+
+    expect(response.body.error).toBeDefined();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
+  });
 });
 
 afterAll(async () => {
