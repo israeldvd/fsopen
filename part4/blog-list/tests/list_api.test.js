@@ -14,6 +14,15 @@ beforeEach(async () => {
 });
 
 describe("blog list API", () => {
+  const newMockPost = {
+    _id: "654aee48fc13ae08472fa60f",
+    name: "Hieronymus Harsant",
+    title: "Nurse",
+    url: "https://slate.com",
+    likes: 10,
+    __v: 0,
+  };
+
   test("(response) is returned as json", async () => {
     await api
       .get(api_url)
@@ -32,6 +41,25 @@ describe("blog list API", () => {
     response.body.forEach((blog) => {
       expect(blog.id).toBeDefined();
     });
+  });
+
+  test("a valid blog post can be added", async () => {
+    await api
+      .post(api_url)
+      .send({
+        ...newMockPost,
+      })
+      .set("Content-Type", "application/json")
+      .expect(201);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length + 1);
+
+    // the new list of blog should contain the title
+    const blogTitles = blogsAtEnd.map((blog) => {
+      return blog.title;
+    });
+    expect(blogTitles).toContain(newMockPost.title);
   });
 });
 
