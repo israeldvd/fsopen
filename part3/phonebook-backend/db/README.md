@@ -9,7 +9,7 @@ Example directly related to the container variables are placed in [`.env.local.e
 ## Usage
 
 ```shell
-docker-compose -f docker-compose.dev.yml up # or use docker compose, for v2
+docker-compose -f docker-compose.dev.yml up -d # or use docker compose, for v2
 ```
 
 This will create a mongodb image if there is not one and run the container with the mongodb instance. To run an app with it, as it is forwarded to port 27017, you must define to your `.env.*` file (or script) according to your project. You may use the [this `.env` file](../.env.local.example) as an example.
