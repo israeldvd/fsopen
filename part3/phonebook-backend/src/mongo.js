@@ -18,7 +18,7 @@ if (!nameIsMissing && numberIsMissing) {
 // the URI to make a database connection -- username, hostname and the database name should be defined in the enviroment (could be in an .env file)
 const url =
   process.env.MONGODB_URI ||
-  `mongodb+srv://${process.PHONE_DB_USERNAME}:${password}@${process.PHONE_DB_HOSTNAME}/${process.PHONE_DB_DATABASE}?retryWrites=true&w=majority`;
+  `mongodb+srv://${process.env.PHONE_DB_USERNAME}:${password}@${process.env.PHONE_DB_HOSTNAME}/${process.env.PHONE_DB_DATABASE}?retryWrites=true&w=majority`;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
@@ -32,9 +32,13 @@ const Person = mongoose.model("Person", personSchema);
 
 if (nameIsMissing) {
   Person.find({}).then((persons) => {
-    persons.forEach((person) => {
-      console.log(person.name, person.number);
-    });
+    if (persons.length === 0) {
+      console.warn("no one is found");
+    } else {
+      persons.forEach((person) => {
+        console.log(person.name, person.number);
+      });
+    }
     mongoose.connection.close();
   });
 } else {
