@@ -84,6 +84,28 @@ describe("blog list API", () => {
 
     expect(response.body.likes).toEqual(0);
   });
+
+  test("receiving a blog without a title responds with Bad Request", async () => {
+    const newNote = { ...newMockPost, title: "" };
+    const newNoteHavingUndefinedTitle = { ...newMockPost, title: undefined };
+
+    await api.post(api_url).send(newNote).expect(400);
+    await api.post(api_url).send(newNoteHavingUndefinedTitle).expect(400);
+
+    const notesAtEnd = await helper.blogsInDb();
+    expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+  });
+
+  test("receiving a blog without an url responds with Bad Request", async () => {
+    const newNote = { ...newMockPost, url: "" };
+    const newNoteHavingUndefinedUrl = { ...newMockPost, url: undefined };
+
+    await api.post(api_url).send(newNote).expect(400);
+    await api.post(api_url).send(newNoteHavingUndefinedUrl).expect(400);
+
+    const notesAtEnd = await helper.blogsInDb();
+    expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+  });
 });
 
 afterAll(async () => {
