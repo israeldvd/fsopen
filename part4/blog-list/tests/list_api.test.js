@@ -13,7 +13,7 @@ beforeEach(async () => {
   await Blog.insertMany(helper.initialBlogList);
 });
 
-describe("blog list API", () => {
+describe("when there is initially some blogs saved", () => {
   const newMockPost = {
     _id: "654aee48fc13ae08472fa60f",
     name: "Hieronymus Harsant",
@@ -43,68 +43,70 @@ describe("blog list API", () => {
     });
   });
 
-  test("a valid blog post can be added", async () => {
-    await api
-      .post(api_url)
-      .send({
-        ...newMockPost,
-      })
-      .set("Content-Type", "application/json")
-      .expect(201);
+  describe("addition of a new blog", () => {
+    test("a valid blog post can be added", async () => {
+      await api
+        .post(api_url)
+        .send({
+          ...newMockPost,
+        })
+        .set("Content-Type", "application/json")
+        .expect(201);
 
-    const blogsAtEnd = await helper.blogsInDb();
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length + 1);
+      const blogsAtEnd = await helper.blogsInDb();
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length + 1);
 
-    // the new list of blog should contain the title
-    const blogTitles = blogsAtEnd.map((blog) => {
-      return blog.title;
+      // the new list of blog should contain the title
+      const blogTitles = blogsAtEnd.map((blog) => {
+        return blog.title;
+      });
+      expect(blogTitles).toContain(newMockPost.title);
     });
-    expect(blogTitles).toContain(newMockPost.title);
-  });
 
-  test("an empty blog is not added", async () => {
-    const response = await api
-      .post(api_url)
-      .send({})
-      .set("Content-Type", "application/json")
-      .expect(400);
+    test("an empty blog is not added", async () => {
+      const response = await api
+        .post(api_url)
+        .send({})
+        .set("Content-Type", "application/json")
+        .expect(400);
 
-    const blogsAtEnd = await helper.blogsInDb();
+      const blogsAtEnd = await helper.blogsInDb();
 
-    expect(response.body.error).toBeDefined();
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
-  });
+      expect(response.body.error).toBeDefined();
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
+    });
 
-  test("missing property 'likes' is default to value 0", async () => {
-    const response = await api
-      .post(api_url)
-      .send({ ...newMockPost, likes: undefined })
-      .set("Content-Type", "application/json")
-      .expect(201);
+    test("missing property 'likes' is default to value 0", async () => {
+      const response = await api
+        .post(api_url)
+        .send({ ...newMockPost, likes: undefined })
+        .set("Content-Type", "application/json")
+        .expect(201);
 
-    expect(response.body.likes).toEqual(0);
-  });
+      expect(response.body.likes).toEqual(0);
+    });
 
-  test("receiving a blog without a title responds with Bad Request", async () => {
-    const newNote = { ...newMockPost, title: "" };
-    const newNoteHavingUndefinedTitle = { ...newMockPost, title: undefined };
+    test("receiving a blog without a title responds with Bad Request", async () => {
+      const newNote = { ...newMockPost, title: "" };
+      const newNoteHavingUndefinedTitle = { ...newMockPost, title: undefined };
 
-    await api.post(api_url).send(newNote).expect(400);
-    await api.post(api_url).send(newNoteHavingUndefinedTitle).expect(400);
+      await api.post(api_url).send(newNote).expect(400);
+      await api.post(api_url).send(newNoteHavingUndefinedTitle).expect(400);
 
-    const notesAtEnd = await helper.blogsInDb();
-    expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
-  });
+      const notesAtEnd = await helper.blogsInDb();
+      expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+    });
 
-  test("receiving a blog without an url responds with Bad Request", async () => {
-    const newNote = { ...newMockPost, url: "" };
-    const newNoteHavingUndefinedUrl = { ...newMockPost, url: undefined };
+    test("receiving a blog without an url responds with Bad Request", async () => {
+      const newNote = { ...newMockPost, url: "" };
+      const newNoteHavingUndefinedUrl = { ...newMockPost, url: undefined };
 
-    await api.post(api_url).send(newNote).expect(400);
-    await api.post(api_url).send(newNoteHavingUndefinedUrl).expect(400);
+      await api.post(api_url).send(newNote).expect(400);
+      await api.post(api_url).send(newNoteHavingUndefinedUrl).expect(400);
 
-    const notesAtEnd = await helper.blogsInDb();
-    expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+      const notesAtEnd = await helper.blogsInDb();
+      expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+    });
   });
 });
 
