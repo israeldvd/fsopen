@@ -147,19 +147,34 @@ describe("when there is initially some blogs saved", () => {
 
   describe("updating a blog post", () => {
     test("succeeds with valid data and id", async () => {
-      const id = helper.initialBlogList[0]._id;
-      const newTitle = "A new version is coming";
+      const firstBlog = helper.initialBlogList[0];
 
-      const payload = { title: newTitle };
+      // blog post data
+      const id = firstBlog._id; // id to be updated
+      const newTitle = newMockPost.title;
+      const newAuthor = newMockPost.name;
+      const newLikesAmount = newMockPost.likes;
+      const newUrl = newMockPost.url;
 
-      await api.patch(`${api_url}/${id}`)
+      // payloads (body) for requests
+      const titleOnlyPayload = { title: newTitle };
+      const patchedBlogPayload = { title: newTitle, author: newAuthor, likes: newLikesAmount, url: newUrl }; // some properties of the first blog is changed
+      const payloadOptions = [titleOnlyPayload, patchedBlogPayload];
+
+      // send a request for each kind of payload (complete or not)
+      const promiseArray = payloadOptions.map((payload) => api.patch(`${api_url}/${id}`)
         .send(payload)
-        .set("Content-Type", "application/json").expect(201);
+        .set("Content-Type", "application/json").expect(201));
 
+      // wait for all of the asynchronous operations to finish
+      await Promise.all(promiseArray);
+
+      // check the latter state
       const blogsAtEnd = await helper.blogsInDb();
       const titles = blogsAtEnd.map((blog) => blog.title);
 
       expect(titles).toContain(newTitle);
+      expect(blogsAtEnd).toContainEqual({ ...firstBlog, ...patchedBlogPayload, _id: undefined, id: firstBlog._id }); // check agains all NEW changes to first blog (repeat unchanged properties)
     });
 
     test("fails with status code 400 when id is invalid", async () => {
