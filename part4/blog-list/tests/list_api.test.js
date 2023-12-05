@@ -182,6 +182,14 @@ describe("when there is initially some blogs saved", () => {
 
       await api.patch(`${api_url}/${malformattedId}`).expect(400);
     })
+
+    test("fails with status code 400 when any required field is empty", async () => {
+      const id = helper.initialBlogList[0]._id; // id to be updated
+
+      // either title or url is empty
+      await api.patch(`${api_url}/${id}`).send({ title: "" }).expect(400);
+      await api.patch(`${api_url}/${id}`).send({ url: "" }).expect(400);
+    })
   })
 });
 
