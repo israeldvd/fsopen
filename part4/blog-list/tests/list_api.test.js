@@ -155,6 +155,11 @@ describe("when there is initially some blogs saved", () => {
       await api.patch(`${api_url}/${id}`)
         .send(payload)
         .set("Content-Type", "application/json").expect(201);
+
+      const blogsAtEnd = await helper.blogsInDb();
+      const titles = blogsAtEnd.map((blog) => blog.title);
+
+      expect(titles).toContain(newTitle);
     });
 
     test("fails with status code 400 when id is invalid", async () => {
