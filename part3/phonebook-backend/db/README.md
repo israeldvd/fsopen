@@ -16,6 +16,22 @@ This will create a mongodb image if there is not one and run the container with 
 
 ## Connecting with authentication to the database server
 
+Here you have two options to access the MongoDB (local) server:
+
+1. Running directly from the port mapping.
+2. Running from the inside of the container.
+
+### Running directly from the port mapping
+
+Assuming you have installed mongo and added the commands to make a connection, now your shell is able to access the instance directly with:
+
+```shell
+# localhost works the same as '127.0.0.1' here
+mongosh localhost:27017 --username phonebook-user --authenticationDatabase admin
+```
+
+### Running from the inside of the container
+
 After running your container from the image, take the following steps to connect to the MongoDB deployment (the example uses `localMongo` container name):
 
 ```shell
