@@ -156,6 +156,12 @@ describe("when there is initially some blogs saved", () => {
         .send(payload)
         .set("Content-Type", "application/json").expect(201);
     });
+
+    test("fails with status code 400 when id is invalid", async () => {
+      const malformattedId = "123abc";
+
+      await api.patch(`${api_url}/${malformattedId}`).expect(400);
+    })
   })
 });
 
