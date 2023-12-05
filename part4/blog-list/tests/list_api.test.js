@@ -144,6 +144,19 @@ describe("when there is initially some blogs saved", () => {
       expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
     });
   });
+
+  describe("updating a blog post", () => {
+    test("succeeds with valid data and id", async () => {
+      const id = helper.initialBlogList[0]._id;
+      const newTitle = "A new version is coming";
+
+      const payload = { title: newTitle };
+
+      await api.patch(`${api_url}/${id}`)
+        .send(payload)
+        .set("Content-Type", "application/json").expect(201);
+    });
+  })
 });
 
 afterAll(async () => {
