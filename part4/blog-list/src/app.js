@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("express-async-errors");
 const blogsRouter = require("./controllers/blogs");
-const config = require("./utils/config");
-const middleware = require("./utils/middleware");
+const config = require("./utils/helpers/config");
+const middleware = require("./utils/helpers/middleware");
 const usersRouter = require("./controllers/users");
 
 const app = express();

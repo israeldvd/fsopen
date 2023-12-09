@@ -14,7 +14,7 @@ jest.mock("bcrypt", () => ({
   },
 }));
 
-const Encrypter = require("../src/utils/encrypter");
+const Encrypter = require("../src/utils/helpers/encrypter");
 const bcrypt = require("bcrypt");
 const { MissingParamError } = require("../src/utils/errors/params");
 

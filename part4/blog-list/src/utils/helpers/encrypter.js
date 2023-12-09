@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { MissingParamError } = require("./errors/params");
+const { MissingParamError } = require("../errors/params");
 
 module.exports = class Encrypter {
   async encrypt(value) {
