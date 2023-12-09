@@ -48,6 +48,24 @@ describe("when there are many users added", () => {
     const usernames = response.body.map((user) => user.username);
     expect(usernames).toContain(helper.initialUsersList[0].username);
   });
+
+  describe("adding a specific user", () => {
+    test("should respond with 400 for an invalid username", async () => {
+      const emptyUserName = "";
+
+      await api
+        .post(api_url)
+        .send({
+          username: emptyUserName,
+          name: "Any Name",
+          password: "any_password",
+        })
+        .expect(400);
+
+      const usersAtEnd = await helper.usersInDb();
+      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
+    });
+  });
 });
 
 afterAll(async () => {
