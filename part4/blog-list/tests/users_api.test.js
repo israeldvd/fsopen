@@ -41,6 +41,13 @@ describe("when there are many users added", () => {
     // the response length is the same as the initial list
     expect(response.body).toHaveLength(helper.initialUsersList.length);
   });
+
+  test("a specific username is withing the users", async () => {
+    const response = await api.get(api_url);
+
+    const usernames = response.body.map((user) => user.username);
+    expect(usernames).toContain(helper.initialUsersList[0].username);
+  });
 });
 
 afterAll(async () => {
