@@ -9,4 +9,16 @@ module.exports = class Encrypter {
 
     return await bcrypt.hash(value, 12);
   }
+
+  async compare(value, hash) {
+    if (!value) {
+      throw new MissingParamError("missing value");
+    }
+
+    if (!hash) {
+      throw new MissingParamError("missing hash");
+    }
+
+    return await bcrypt.compare(value, hash);
+  }
 };
