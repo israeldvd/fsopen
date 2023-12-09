@@ -50,7 +50,7 @@ describe("when there are many users added", () => {
   });
 
   describe("adding a specific user", () => {
-    test("should respond with 400 for an invalid username", async () => {
+    test("should respond with a Bad Request for an invalid username", async () => {
       const emptyUserName = "";
 
       await api
