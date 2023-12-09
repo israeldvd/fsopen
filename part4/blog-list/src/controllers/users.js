@@ -1,16 +1,11 @@
+const User = require("../models/user");
+
 const usersRouter = require("express").Router();
 
-usersRouter.get("/", (request, response) => {
-  const { name, username, password } = request.body;
+usersRouter.get("/", async (request, response) => {
+  const users = await User.find({});
 
-  response.json({
-    message: "ok",
-    user: {
-      name,
-      username,
-      password: undefined,
-    },
-  });
+  response.json(users);
 });
 
 module.exports = usersRouter;

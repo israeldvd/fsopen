@@ -8,8 +8,12 @@ const Encrypter = require("../src/utils/encrypter");
 const api = supertest(app);
 const api_url = "/api/users";
 
+const helper = require("./test_helper");
+
 describe("when there are many users added", () => {
   beforeAll(async () => {
+    await User.deleteMany({});
+
     const encrypter = new Encrypter();
 
     const promiseArray = initialUsersList.map(async (user) => {
@@ -29,6 +33,13 @@ describe("when there are many users added", () => {
       .get(api_url)
       .expect(200)
       .expect("Content-Type", /application\/json/);
+  });
+
+  test("all users are returned", async () => {
+    const response = await api.get(api_url);
+
+    // the response length is the same as the initial list
+    expect(response.body).toHaveLength(helper.initialUsersList.length);
   });
 });
 
