@@ -11,7 +11,7 @@ const api_url = "/api/users";
 const helper = require("./test_helper");
 
 describe("when there are many users added", () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await User.deleteMany({});
 
     const encrypter = new Encrypter();
