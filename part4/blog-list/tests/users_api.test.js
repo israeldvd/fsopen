@@ -54,6 +54,9 @@ describe("when there are many users added", () => {
   describe("adding a specific user", () => {
     test("should respond with a Bad Request for an invalid username", async () => {
       const emptyUserName = "";
+      const badRequestResponse = HttpResponse.badRequest(
+        new MissingParamError("username")
+      );
 
       await api
         .post(api_url)
@@ -62,7 +65,7 @@ describe("when there are many users added", () => {
           name: "Any Name",
           password: "any_password",
         })
-        .expect(400);
+        .expect(badRequestResponse.code);
 
       const usersAtEnd = await helper.usersInDb();
       expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
