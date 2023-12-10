@@ -1,9 +1,16 @@
 const mongoose = require("mongoose");
+const { MissingParamError } = require("../utils/errors/params");
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
+  username: {
+    type: String,
+    required: new MissingParamError("username").message,
+  },
   name: String,
-  passwordHash: { type: String, required: true },
+  passwordHash: {
+    type: String,
+    required: new MissingParamError("passwordHash").message,
+  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
