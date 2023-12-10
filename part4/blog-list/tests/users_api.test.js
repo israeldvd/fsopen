@@ -31,9 +31,11 @@ describe("when there are many users added", () => {
   });
 
   test("users are returned as json", async () => {
+    const httpOkResponse = HttpResponse.ok({ message: "any message" });
+
     await api
       .get(api_url)
-      .expect(200)
+      .expect(httpOkResponse.code)
       .expect("Content-Type", /application\/json/);
   });
 
