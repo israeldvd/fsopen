@@ -96,6 +96,42 @@ describe("when there are many users added", () => {
       const usersAtEnd = await helper.usersInDb();
       expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
     });
+
+    test("succeeds with valid user data", async () => {
+      const newUserData = {
+        username: "any_username",
+        name: "Any Name",
+        password: "any_password",
+      };
+      const createdResponse = HttpResponse.created({
+        ...newUserData,
+        password: undefined,
+        blogs: [],
+      });
+
+      // send new user data
+      // ignore any ID that is generated on-the-fly
+      const response = await api
+        .post(api_url)
+        .send(newUserData)
+        .expect(createdResponse.code);
+
+      expect({ ...response.body, id: "user_generated_id" }).toEqual({
+        ...createdResponse.body,
+        id: "user_generated_id",
+      });
+
+      // query the database for users
+      // there should be one more user
+      const usersAtEnd = await helper.usersInDb();
+      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length + 1);
+
+      // username is stored
+      const usernames = usersAtEnd.map((user) => {
+        return user.username;
+      });
+      expect(usernames).toContain(newUserData.username);
+    });
   });
 });
 

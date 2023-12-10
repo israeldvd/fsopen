@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const { MissingParamError } = require("../utils/errors/params");
+const Encrypter = require("../utils/helpers/encrypter");
 const HttpResponse = require("../utils/helpers/http-response");
 
 const usersRouter = require("express").Router();
@@ -11,7 +12,7 @@ usersRouter.get("/", async (request, response) => {
 });
 
 usersRouter.post("/", async (request, response) => {
-  const { username, password } = request.body;
+  const { username, password, name } = request.body;
 
   // this validates username before any other fields
   // so a response is simplified to only it (it may be undesirable)
@@ -29,13 +30,20 @@ usersRouter.post("/", async (request, response) => {
     response.status(badRequestResponse.code).json(badRequestResponse.body);
   }
 
+  // generate hash
+  const passwordHash = await new Encrypter().encrypt(password);
+
   // user is created
   // username validation is done (implicitly) with it
-  const newUser = await User.create({
+  const user = new User({
     username,
+    passwordHash,
+    name,
   });
+  const savedUser = await user.save();
 
-  response.json(newUser.toJSON());
+  const httpCreated = HttpResponse.created(savedUser.toJSON());
+  response.status(httpCreated.code).json(httpCreated.body);
 });
 
 module.exports = usersRouter;

@@ -12,4 +12,11 @@ module.exports = class HttpResponse {
       body: { error: error.message },
     };
   }
+
+  static created(body) {
+    return {
+      code: 201,
+      body: body,
+    };
+  }
 };
