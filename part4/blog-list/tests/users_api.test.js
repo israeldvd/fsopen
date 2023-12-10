@@ -60,7 +60,7 @@ describe("when there are many users added", () => {
         new MissingParamError("username")
       );
 
-      await api
+      const response = await api
         .post(api_url)
         .send({
           username: emptyUserName,
@@ -68,6 +68,7 @@ describe("when there are many users added", () => {
           password: "any_password",
         })
         .expect(badRequestResponse.code);
+      expect(response.body).toEqual(badRequestResponse.body);
 
       const usersAtEnd = await helper.usersInDb();
       expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);

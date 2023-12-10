@@ -13,6 +13,15 @@ usersRouter.get("/", async (request, response) => {
 usersRouter.post("/", async (request, response) => {
   const { username, password } = request.body;
 
+  // this validates username before any other fields
+  // so a response is simplified to only it (it may be undesirable)
+  if (!username) {
+    const badRequestResponse = HttpResponse.badRequest(
+      new MissingParamError("username")
+    );
+    response.status(badRequestResponse.code).json(badRequestResponse.body);
+  }
+
   if (!password) {
     const badRequestResponse = HttpResponse.badRequest(
       new MissingParamError("password")
