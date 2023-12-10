@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const { MissingParamError } = require("../utils/errors/params");
+const HttpResponse = require("../utils/helpers/http-response");
 
 const usersRouter = require("express").Router();
 
@@ -9,7 +11,14 @@ usersRouter.get("/", async (request, response) => {
 });
 
 usersRouter.post("/", async (request, response) => {
-  const { username } = request.body;
+  const { username, password } = request.body;
+
+  if (!password) {
+    const badRequestResponse = HttpResponse.badRequest(
+      new MissingParamError("password")
+    );
+    response.status(badRequestResponse.code).json(badRequestResponse.body);
+  }
 
   // user is created
   // username validation is done (implicitly) with it
