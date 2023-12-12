@@ -13,6 +13,13 @@ module.exports = class HttpResponse {
     };
   }
 
+  static conflict(error) {
+    return {
+      code: 409,
+      body: { error: error.message, params: [...error.resourceParams] },
+    };
+  }
+
   static created(body) {
     return {
       code: 201,

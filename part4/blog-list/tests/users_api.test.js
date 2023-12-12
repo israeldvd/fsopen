@@ -11,6 +11,7 @@ const api_url = "/api/users";
 const helper = require("./test_helper");
 const { MissingParamError } = require("../src/utils/errors/params");
 const HttpResponse = require("../src/utils/helpers/http-response");
+const ConflictError = require("../src/utils/errors/resources");
 
 describe("when there are many users added", () => {
   beforeEach(async () => {
@@ -131,6 +132,33 @@ describe("when there are many users added", () => {
         return user.username;
       });
       expect(usernames).toContain(newUserData.username);
+    });
+
+    test("fails when username is already taken", async () => {
+      const newUserData = {
+        username: "any_username",
+        name: "Any Name",
+        password: "any_password",
+      };
+
+      const conflictResponse = HttpResponse.conflict(
+        new ConflictError("user", ["username"])
+      );
+
+      // the user is saved here
+      await api.post(api_url).send(newUserData);
+
+      // a bad attempt (resquest sending the same username) is done then
+      const secondResponse = await api
+        .post(api_url)
+        .send({
+          name: "Another Name",
+          password: "any_password_but_different",
+          username: newUserData.username,
+        })
+        .expect(conflictResponse.code);
+
+      expect(secondResponse.body).toEqual(conflictResponse.body);
     });
   });
 });

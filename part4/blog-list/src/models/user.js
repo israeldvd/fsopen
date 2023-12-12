@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 const { MissingParamError } = require("../utils/errors/params");
+const uniqueValidator = require("mongoose-unique-validator");
+const ConflictError = require("../utils/errors/resources");
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: new MissingParamError("username").message,
+    unique: new ConflictError("user", ["username"]).message,
   },
   name: String,
   passwordHash: {
@@ -18,6 +21,8 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+
+userSchema.plugin(uniqueValidator);
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
