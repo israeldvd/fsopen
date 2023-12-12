@@ -134,7 +134,7 @@ describe("when there are many users added", () => {
       expect(usernames).toContain(newUserData.username);
     });
 
-    test("fails when username is already taken", async () => {
+    test("fails with a Conflict response when username is already taken", async () => {
       const newUserData = {
         username: "any_username",
         name: "Any Name",
@@ -154,7 +154,7 @@ describe("when there are many users added", () => {
         .send({
           name: "Another Name",
           password: "any_password_but_different",
-          username: newUserData.username,
+          username: newUserData.username.toUpperCase(),
         })
         .expect(conflictResponse.code);
 

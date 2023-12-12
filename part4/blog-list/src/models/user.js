@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: new MissingParamError("username").message,
     unique: new ConflictError("user", ["username"]).message,
+    uniqueCaseInsensitive: true,
   },
   name: String,
   passwordHash: {
