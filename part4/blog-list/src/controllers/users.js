@@ -5,6 +5,7 @@ const {
 } = require("../utils/errors/params");
 const Encrypter = require("../utils/helpers/encrypter");
 const HttpResponse = require("../utils/helpers/http-response");
+const { UsernameValidator } = require("../utils/helpers/validators");
 
 const usersRouter = require("express").Router();
 
@@ -33,7 +34,9 @@ usersRouter.post("/", async (request, response) => {
     response.status(badRequestResponse.code).json(badRequestResponse.body);
   }
 
-  if (username && typeof username === "string" && username.length < 3) {
+  // validate username
+  const usernameValidator = new UsernameValidator(username);
+  if (!usernameValidator.isValid()) {
     const usernameRequestResponse = HttpResponse.badRequest(
       new InvalidParamError("username")
     );
