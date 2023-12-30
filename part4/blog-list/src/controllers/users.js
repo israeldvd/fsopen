@@ -1,5 +1,8 @@
 const User = require("../models/user");
-const { MissingParamError } = require("../utils/errors/params");
+const {
+  MissingParamError,
+  InvalidParamError,
+} = require("../utils/errors/params");
 const Encrypter = require("../utils/helpers/encrypter");
 const HttpResponse = require("../utils/helpers/http-response");
 
@@ -28,6 +31,15 @@ usersRouter.post("/", async (request, response) => {
       new MissingParamError("password")
     );
     response.status(badRequestResponse.code).json(badRequestResponse.body);
+  }
+
+  if (username && typeof username === "string" && username.length < 3) {
+    const usernameRequestResponse = HttpResponse.badRequest(
+      new InvalidParamError("username")
+    );
+    response
+      .status(usernameRequestResponse.code)
+      .json(usernameRequestResponse.body);
   }
 
   // generate hash

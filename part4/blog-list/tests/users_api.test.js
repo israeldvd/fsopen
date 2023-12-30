@@ -9,7 +9,10 @@ const api = supertest(app);
 const api_url = "/api/users";
 
 const helper = require("./test_helper");
-const { MissingParamError } = require("../src/utils/errors/params");
+const {
+  MissingParamError,
+  InvalidParamError,
+} = require("../src/utils/errors/params");
 const HttpResponse = require("../src/utils/helpers/http-response");
 const ConflictError = require("../src/utils/errors/resources");
 
@@ -159,6 +162,22 @@ describe("when there are many users added", () => {
         .expect(conflictResponse.code);
 
       expect(secondResponse.body).toEqual(conflictResponse.body);
+    });
+
+    test("fails with a Bad Request when username has less than 3 characters", async () => {
+      const newUserData = {
+        username: "sh", // short username
+        name: "Any Name",
+        password: "any_password",
+      };
+
+      const response = await api.post(api_url).send(newUserData);
+
+      const badRequestResponse = HttpResponse.badRequest(
+        new InvalidParamError("username")
+      );
+
+      expect(response.body).toEqual(badRequestResponse.body);
     });
   });
 });
