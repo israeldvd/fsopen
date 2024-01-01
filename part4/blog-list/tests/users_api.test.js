@@ -149,6 +149,7 @@ describe("when there are many users added", () => {
       await api.post(api_url).send(dummyUserData);
 
       // a bad attempt (resquest sending the same username) is done then
+      // username must be unique
       const secondResponse = await api
         .post(api_url)
         .send({
