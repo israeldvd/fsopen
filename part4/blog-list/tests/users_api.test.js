@@ -88,6 +88,8 @@ describe("when there are many users added", () => {
 
     test("should respond with a Bad Request for an invalid password", async () => {
       const emptyPassword = "";
+      dummyUserData.password = emptyPassword;
+
       const badRequestResponse = HttpResponse.badRequest(
         new MissingParamError("password")
       );
@@ -95,11 +97,7 @@ describe("when there are many users added", () => {
       // api request-response cycle
       const response = await api
         .post(api_url)
-        .send({
-          username: "any_username",
-          name: "Any Name",
-          password: emptyPassword,
-        })
+        .send(dummyUserData)
         .expect(badRequestResponse.code);
 
       expect(response.body).toEqual(badRequestResponse.body);
