@@ -45,6 +45,17 @@ usersRouter.post("/", async (request, response) => {
       .json(usernameRequestResponse.body);
   }
 
+  // validate password length
+  if (typeof password === "string" && password.length < 3) {
+    const passwordBadRequestResponse = HttpResponse.badRequest(
+      new InvalidParamError("password")
+    );
+
+    response
+      .status(passwordBadRequestResponse.code)
+      .json(passwordBadRequestResponse.body);
+  }
+
   // generate hash
   const passwordHash = await new Encrypter().encrypt(password);
 

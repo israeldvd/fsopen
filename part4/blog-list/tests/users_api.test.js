@@ -172,6 +172,21 @@ describe("when there are many users added", () => {
 
       expect(response.body).toEqual(badRequestResponse.body);
     });
+
+    test("fails with a Bad Request when password has less than 3 characters", async () => {
+      dummyUserData.password = "sh"; // has a hhort password
+
+      const badRequestResponse = HttpResponse.badRequest(
+        new InvalidParamError("password")
+      );
+
+      const response = await api
+        .post(api_url)
+        .send(dummyUserData)
+        .expect(badRequestResponse.code);
+
+      expect(response.body).toEqual(badRequestResponse.body);
+    });
   });
 });
 
