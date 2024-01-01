@@ -17,7 +17,15 @@ const HttpResponse = require("../src/utils/helpers/http-response");
 const ConflictError = require("../src/utils/errors/resources");
 
 describe("when there are many users added", () => {
+  let dummyUserData;
+
   beforeEach(async () => {
+    dummyUserData = {
+      username: "any_username",
+      name: "Any Name",
+      password: "any_Password",
+    };
+
     await User.deleteMany({});
 
     const encrypter = new Encrypter();
@@ -102,13 +110,8 @@ describe("when there are many users added", () => {
     });
 
     test("succeeds with valid user data", async () => {
-      const newUserData = {
-        username: "any_username",
-        name: "Any Name",
-        password: "any_password",
-      };
       const createdResponse = HttpResponse.created({
-        ...newUserData,
+        ...dummyUserData,
         password: undefined,
         blogs: [],
       });
@@ -117,7 +120,7 @@ describe("when there are many users added", () => {
       // ignore any ID that is generated on-the-fly
       const response = await api
         .post(api_url)
-        .send(newUserData)
+        .send(dummyUserData)
         .expect(createdResponse.code);
 
       expect({ ...response.body, id: "user_generated_id" }).toEqual({
@@ -134,22 +137,16 @@ describe("when there are many users added", () => {
       const usernames = usersAtEnd.map((user) => {
         return user.username;
       });
-      expect(usernames).toContain(newUserData.username);
+      expect(usernames).toContain(dummyUserData.username);
     });
 
     test("fails with a Conflict response when username is already taken", async () => {
-      const newUserData = {
-        username: "any_username",
-        name: "Any Name",
-        password: "any_password",
-      };
-
       const conflictResponse = HttpResponse.conflict(
         new ConflictError("user", ["username"])
       );
 
       // the user is saved here
-      await api.post(api_url).send(newUserData);
+      await api.post(api_url).send(dummyUserData);
 
       // a bad attempt (resquest sending the same username) is done then
       const secondResponse = await api
@@ -157,7 +154,7 @@ describe("when there are many users added", () => {
         .send({
           name: "Another Name",
           password: "any_password_but_different",
-          username: newUserData.username.toUpperCase(),
+          username: dummyUserData.username.toUpperCase(),
         })
         .expect(conflictResponse.code);
 
@@ -165,13 +162,9 @@ describe("when there are many users added", () => {
     });
 
     test("fails with a Bad Request when username has less than 3 characters", async () => {
-      const newUserData = {
-        username: "sh", // short username
-        name: "Any Name",
-        password: "any_password",
-      };
+      dummyUserData.username = "sh"; // has a short username
 
-      const response = await api.post(api_url).send(newUserData);
+      const response = await api.post(api_url).send(dummyUserData);
 
       const badRequestResponse = HttpResponse.badRequest(
         new InvalidParamError("username")
