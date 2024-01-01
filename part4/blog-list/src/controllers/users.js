@@ -5,7 +5,10 @@ const {
 } = require("../utils/errors/params");
 const Encrypter = require("../utils/helpers/encrypter");
 const HttpResponse = require("../utils/helpers/http-response");
-const { UsernameValidator } = require("../utils/helpers/validators");
+const {
+  UsernameValidator,
+  PasswordValidator,
+} = require("../utils/helpers/validators");
 
 const usersRouter = require("express").Router();
 
@@ -46,7 +49,8 @@ usersRouter.post("/", async (request, response) => {
   }
 
   // validate password length
-  if (typeof password === "string" && password.length < 3) {
+  const passwordValidator = new PasswordValidator(password);
+  if (!passwordValidator.isValid()) {
     const passwordBadRequestResponse = HttpResponse.badRequest(
       new InvalidParamError("password")
     );

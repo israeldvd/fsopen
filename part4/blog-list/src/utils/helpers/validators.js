@@ -12,6 +12,21 @@ class UsernameValidator {
   }
 }
 
+class PasswordValidator {
+  constructor(password) {
+    this.password = password;
+  }
+
+  isValid() {
+    return (
+      this.password &&
+      typeof this.password === "string" &&
+      this.password.trim().length > 3
+    );
+  }
+}
+
 module.exports = {
   UsernameValidator,
+  PasswordValidator,
 };
