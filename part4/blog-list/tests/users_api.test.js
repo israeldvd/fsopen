@@ -139,12 +139,14 @@ describe("when there are many users added", () => {
     });
 
     test("fails with a Conflict response when username is already taken", async () => {
+      let numberOfUsersAdded = 0;
       const conflictResponse = HttpResponse.conflict(
         new ConflictError("user", ["username"])
       );
 
       // the user is saved here
       await api.post(api_url).send(dummyUserData);
+      numberOfUsersAdded += 1;
 
       // a bad attempt (resquest sending the same username) is done then
       // username must be unique
@@ -158,6 +160,12 @@ describe("when there are many users added", () => {
         .expect(conflictResponse.code);
 
       expect(secondResponse.body).toEqual(conflictResponse.body);
+
+      // check that no user with the same username was added
+      const usersAtEnd = await helper.usersInDb();
+      expect(usersAtEnd).toHaveLength(
+        helper.initialUsersList.length + numberOfUsersAdded
+      );
     });
 
     test("fails with a Bad Request when username has less than 3 characters", async () => {
@@ -170,6 +178,10 @@ describe("when there are many users added", () => {
       );
 
       expect(response.body).toEqual(badRequestResponse.body);
+
+      // check that no user was added
+      const usersAtEnd = await helper.usersInDb();
+      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
     });
 
     test("fails with a Bad Request when password has less than 3 characters", async () => {
@@ -185,6 +197,10 @@ describe("when there are many users added", () => {
         .expect(badRequestResponse.code);
 
       expect(response.body).toEqual(badRequestResponse.body);
+
+      // check that no user was added
+      const usersAtEnd = await helper.usersInDb();
+      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
     });
   });
 });

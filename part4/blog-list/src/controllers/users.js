@@ -27,14 +27,18 @@ usersRouter.post("/", async (request, response) => {
     const badRequestResponse = HttpResponse.badRequest(
       new MissingParamError("username")
     );
-    response.status(badRequestResponse.code).json(badRequestResponse.body);
+    return response
+      .status(badRequestResponse.code)
+      .json(badRequestResponse.body);
   }
 
   if (!password) {
     const badRequestResponse = HttpResponse.badRequest(
       new MissingParamError("password")
     );
-    response.status(badRequestResponse.code).json(badRequestResponse.body);
+    return response
+      .status(badRequestResponse.code)
+      .json(badRequestResponse.body);
   }
 
   // validate username
@@ -43,7 +47,7 @@ usersRouter.post("/", async (request, response) => {
     const usernameRequestResponse = HttpResponse.badRequest(
       new InvalidParamError("username")
     );
-    response
+    return response
       .status(usernameRequestResponse.code)
       .json(usernameRequestResponse.body);
   }
@@ -55,7 +59,7 @@ usersRouter.post("/", async (request, response) => {
       new InvalidParamError("password")
     );
 
-    response
+    return response
       .status(passwordBadRequestResponse.code)
       .json(passwordBadRequestResponse.body);
   }
