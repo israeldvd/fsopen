@@ -14,7 +14,7 @@ beforeEach(async () => {
 });
 
 describe("when there is initially some blogs saved", () => {
-  const newMockPost = {
+  const dummyNewPost = {
     _id: "654aee48fc13ae08472fa60f",
     name: "Hieronymus Harsant",
     title: "Nurse",
@@ -48,7 +48,7 @@ describe("when there is initially some blogs saved", () => {
       await api
         .post(api_url)
         .send({
-          ...newMockPost,
+          ...dummyNewPost,
         })
         .set("Content-Type", "application/json")
         .expect(201);
@@ -60,7 +60,7 @@ describe("when there is initially some blogs saved", () => {
       const blogTitles = blogsAtEnd.map((blog) => {
         return blog.title;
       });
-      expect(blogTitles).toContain(newMockPost.title);
+      expect(blogTitles).toContain(dummyNewPost.title);
     });
 
     test("an empty blog is not added", async () => {
@@ -79,7 +79,7 @@ describe("when there is initially some blogs saved", () => {
     test("missing property 'likes' is default to value 0", async () => {
       const response = await api
         .post(api_url)
-        .send({ ...newMockPost, likes: undefined })
+        .send({ ...dummyNewPost, likes: undefined })
         .set("Content-Type", "application/json")
         .expect(201);
 
@@ -87,8 +87,8 @@ describe("when there is initially some blogs saved", () => {
     });
 
     test("receiving a blog without a title responds with Bad Request", async () => {
-      const newNote = { ...newMockPost, title: "" };
-      const newNoteHavingUndefinedTitle = { ...newMockPost, title: undefined };
+      const newNote = { ...dummyNewPost, title: "" };
+      const newNoteHavingUndefinedTitle = { ...dummyNewPost, title: undefined };
 
       await api.post(api_url).send(newNote).expect(400);
       await api.post(api_url).send(newNoteHavingUndefinedTitle).expect(400);
@@ -98,8 +98,8 @@ describe("when there is initially some blogs saved", () => {
     });
 
     test("receiving a blog without an url responds with Bad Request", async () => {
-      const newNote = { ...newMockPost, url: "" };
-      const newNoteHavingUndefinedUrl = { ...newMockPost, url: undefined };
+      const newNote = { ...dummyNewPost, url: "" };
+      const newNoteHavingUndefinedUrl = { ...dummyNewPost, url: undefined };
 
       await api.post(api_url).send(newNote).expect(400);
       await api.post(api_url).send(newNoteHavingUndefinedUrl).expect(400);
@@ -151,10 +151,10 @@ describe("when there is initially some blogs saved", () => {
 
       // blog post data
       const id = firstBlog._id; // id to be updated
-      const newTitle = newMockPost.title;
-      const newAuthor = newMockPost.name;
-      const newLikesAmount = newMockPost.likes;
-      const newUrl = newMockPost.url;
+      const newTitle = dummyNewPost.title;
+      const newAuthor = dummyNewPost.name;
+      const newLikesAmount = dummyNewPost.likes;
+      const newUrl = dummyNewPost.url;
 
       // payloads (body) for requests
       const titleOnlyPayload = { title: newTitle };
