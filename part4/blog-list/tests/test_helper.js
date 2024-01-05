@@ -1,5 +1,8 @@
 const Blog = require("../src/models/blog");
-const { blogPopulateSelectionOptions } = require("../src/models/model-options");
+const {
+  blogPopulateSelectionOptions,
+  userPopulateSelectionOptions,
+} = require("../src/models/model-options");
 const User = require("../src/models/user");
 
 const initialBlogList = [
@@ -98,6 +101,20 @@ const usersInDb = async () => {
   return users.map((user) => user.toJSON());
 };
 
+const usersInDbPopulated = async () => {
+  const users = await User.find({});
+  const populatedUsersPromises = users.map(async (user) => {
+    const populated = await user.populate(
+      "blogs",
+      userPopulateSelectionOptions
+    );
+    return populated;
+  });
+
+  const populatedBlogs = await Promise.all(populatedUsersPromises);
+  return populatedBlogs.map((blog) => blog.toJSON());
+};
+
 module.exports = {
   initialBlogList,
   nonExistingId,
@@ -105,4 +122,5 @@ module.exports = {
   blogsInDbPopulated,
   initialUsersList,
   usersInDb,
+  usersInDbPopulated,
 };
