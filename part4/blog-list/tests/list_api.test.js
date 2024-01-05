@@ -158,13 +158,22 @@ describe("when there is initially some blogs saved", () => {
 
       // payloads (body) for requests
       const titleOnlyPayload = { title: newTitle };
-      const patchedBlogPayload = { title: newTitle, author: newAuthor, likes: newLikesAmount, url: newUrl }; // some properties of the first blog is changed
+      const patchedBlogPayload = {
+        title: newTitle,
+        author: newAuthor,
+        likes: newLikesAmount,
+        url: newUrl,
+      }; // some properties of the first blog is changed
       const payloadOptions = [titleOnlyPayload, patchedBlogPayload];
 
       // send a request for each kind of payload (complete or not)
-      const promiseArray = payloadOptions.map((payload) => api.patch(`${api_url}/${id}`)
-        .send(payload)
-        .set("Content-Type", "application/json").expect(201));
+      const promiseArray = payloadOptions.map((payload) =>
+        api
+          .patch(`${api_url}/${id}`)
+          .send(payload)
+          .set("Content-Type", "application/json")
+          .expect(201)
+      );
 
       // wait for all of the asynchronous operations to finish
       await Promise.all(promiseArray);
@@ -174,14 +183,19 @@ describe("when there is initially some blogs saved", () => {
       const titles = blogsAtEnd.map((blog) => blog.title);
 
       expect(titles).toContain(newTitle);
-      expect(blogsAtEnd).toContainEqual({ ...firstBlog, ...patchedBlogPayload, _id: undefined, id: firstBlog._id }); // check agains all NEW changes to first blog (repeat unchanged properties)
+      expect(blogsAtEnd).toContainEqual({
+        ...firstBlog,
+        ...patchedBlogPayload,
+        _id: undefined,
+        id: firstBlog._id,
+      }); // check agains all NEW changes to first blog (repeat unchanged properties)
     });
 
     test("fails with status code 400 when id is invalid", async () => {
       const malformattedId = "123abc";
 
       await api.patch(`${api_url}/${malformattedId}`).expect(400);
-    })
+    });
 
     test("fails with status code 400 when any required field is empty", async () => {
       const id = helper.initialBlogList[0]._id; // id to be updated
@@ -189,8 +203,8 @@ describe("when there is initially some blogs saved", () => {
       // either title or url is empty
       await api.patch(`${api_url}/${id}`).send({ title: "" }).expect(400);
       await api.patch(`${api_url}/${id}`).send({ url: "" }).expect(400);
-    })
-  })
+    });
+  });
 });
 
 afterAll(async () => {
