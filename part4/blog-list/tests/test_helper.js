@@ -5,7 +5,7 @@ const initialBlogList = [
   {
     _id: "5a422a851b54a676234d17f7",
     title: "React patterns",
-    author: "Michael Chan",
+    author: "65936732fc13ae59bafa21f8", // "Michael Chan"
     url: "https://reactpatterns.com/",
     likes: 7,
     __v: 0,
@@ -13,7 +13,7 @@ const initialBlogList = [
   {
     _id: "5a422aa71b54a676234d17f8",
     title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
+    author: "65936732fc13ae59bafa2195",
     url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
     likes: 5,
     __v: 0,
@@ -64,6 +64,7 @@ const nonExistingId = async () => {
     title: "none",
     likes: 0,
     url: "removed.com",
+    author: "659766157edbf0a6c70a34f4", // dummy author ID
     content: "willremovethissoon",
   });
   await blog.save();

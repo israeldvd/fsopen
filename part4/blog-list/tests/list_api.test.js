@@ -16,7 +16,7 @@ beforeEach(async () => {
 describe("when there is initially some blogs saved", () => {
   const dummyNewPost = {
     _id: "654aee48fc13ae08472fa60f",
-    name: "Hieronymus Harsant",
+    name: "65936a0178a367a01b097430", // "Hieronymus Harsant",
     title: "Nurse",
     url: "https://slate.com",
     likes: 10,

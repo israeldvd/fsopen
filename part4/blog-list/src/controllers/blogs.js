@@ -1,5 +1,6 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({});
@@ -14,6 +15,10 @@ blogsRouter.post("/", async (request, response) => {
     response.status(400).json({ error: "Blog information cannot be empty." });
     return;
   }
+
+  // picking an user for this blog
+  const foundUsersList = await User.find({});
+  body.author = foundUsersList[0]._id; // the first one
 
   const blog = new Blog(body);
 

@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  author: String,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   url: { type: String, required: true },
   likes: { type: Number, default: 0 },
 });
@@ -10,6 +14,12 @@ const blogSchema = new mongoose.Schema({
 blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = document._id.toString();
+
+    // save author (ObjectID) as string
+    if (document.author) {
+      returnedObject.author = document.author.toString();
+    }
+
     delete returnedObject._id;
   },
 });
