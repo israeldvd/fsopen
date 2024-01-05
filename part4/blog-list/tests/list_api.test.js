@@ -175,7 +175,7 @@ describe("when there are initially some blogs saved", () => {
       const firstBlog = helper.initialBlogList[0];
 
       // blog post data
-      const id = firstBlog._id; // id to be updated
+      const blogId = firstBlog._id; // ID of blog to be updated
       const newTitle = dummyNewPost.title;
       const newAuthor = dummyNewPost.name;
       const newLikesAmount = dummyNewPost.likes;
@@ -194,7 +194,7 @@ describe("when there are initially some blogs saved", () => {
       // send a request for each kind of payload (complete or not)
       const promiseArray = payloadOptions.map((payload) =>
         api
-          .patch(`${api_url}/${id}`)
+          .patch(`${api_url}/${blogId}`)
           .send(payload)
           .set("Content-Type", "application/json")
           .expect(201)
