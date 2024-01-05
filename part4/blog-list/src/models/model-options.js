@@ -4,4 +4,10 @@ const blogPopulateSelectionOptions = {
   id: 1,
 };
 
-module.exports = { blogPopulateSelectionOptions };
+const userPopulateSelectionOptions = {
+  url: 1,
+  title: 1,
+  id: 1,
+};
+
+module.exports = { blogPopulateSelectionOptions, userPopulateSelectionOptions };
