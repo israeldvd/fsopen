@@ -4,6 +4,7 @@ const {
   userPopulateSelectionOptions,
 } = require("../src/models/model-options");
 const User = require("../src/models/user");
+const Encrypter = require("../src/utils/helpers/encrypter");
 
 const initialBlogList = [
   {
@@ -77,6 +78,21 @@ const nonExistingId = async () => {
   return blog._id.toString();
 };
 
+const getInitialUserListForDb = async () => {
+  const encrypter = new Encrypter();
+
+  const promiseArray = initialUsersList.map(async (user) => {
+    const hash = await encrypter.encrypt(user.password);
+    return {
+      ...user,
+      passwordHash: hash,
+    };
+  });
+
+  const initialUsersListWithHashes = await Promise.all(promiseArray);
+  return initialUsersListWithHashes;
+};
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
   return blogs.map((blog) => blog.toJSON());
@@ -118,6 +134,7 @@ const usersInDbPopulated = async () => {
 module.exports = {
   initialBlogList,
   nonExistingId,
+  getInitialUserListForDb,
   blogsInDb,
   blogsInDbPopulated,
   initialUsersList,
