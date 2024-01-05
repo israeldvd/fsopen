@@ -16,7 +16,7 @@ beforeEach(async () => {
 describe("when there are initially some blogs saved", () => {
   const dummyNewPost = {
     _id: "654aee48fc13ae08472fa60f",
-    name: "65936a0178a367a01b097430", // "Hieronymus Harsant",
+    authorId: "65936a0178a367a01b097430", // "Hieronymus Harsant",
     title: "Nurse",
     url: "https://slate.com",
     likes: 10,
@@ -171,48 +171,74 @@ describe("when there are initially some blogs saved", () => {
   });
 
   describe("updating a blog post", () => {
-    test("succeeds with valid data and id", async () => {
+    test("succeeds with valid title and ID", async () => {
+      const firstDummyBlog = helper.initialBlogList[0];
+      const blogId = firstDummyBlog._id;
+
+      // new blog information
+      // should have its title changed to the same title (there would be no changes at all)
+      const patchedBlog = { title: dummyNewPost.title, id: blogId };
+      expect(patchedBlog.title).not.toBe(firstDummyBlog.title);
+
+      // make a request patch request
+      // make change only to the title
+      const blogTitleOnlyPatchPayload = { title: patchedBlog.title };
+      await api
+        .patch(`${api_url}/${blogId}`)
+        .send(blogTitleOnlyPatchPayload)
+        .set("Content-Type", "application/json")
+        .expect(201);
+
+      // check the latter state
+      const blogsAtEnd = await helper.blogsInDb();
+      const partialBlogs = blogsAtEnd.map((blog) => {
+        return { title: blog.title, id: blog.id };
+      });
+
+      // the new title should be stored
+      // into the same blog document
+      expect(partialBlogs).toContainEqual({
+        title: patchedBlog.title,
+        id: patchedBlog.id,
+      });
+    });
+
+    test("succeeds with multiple valid data and ID", async () => {
       const firstBlog = helper.initialBlogList[0];
-
-      // blog post data
       const blogId = firstBlog._id; // ID of blog to be updated
-      const newTitle = dummyNewPost.title;
-      const newAuthor = dummyNewPost.name;
-      const newLikesAmount = dummyNewPost.likes;
-      const newUrl = dummyNewPost.url;
 
-      // payloads (body) for requests
-      const titleOnlyPayload = { title: newTitle };
-      const patchedBlogPayload = {
-        title: newTitle,
-        author: newAuthor,
-        likes: newLikesAmount,
-        url: newUrl,
-      }; // some properties of the first blog is changed
-      const payloadOptions = [titleOnlyPayload, patchedBlogPayload];
+      const patchedBlog = {
+        title: dummyNewPost.title,
+        author: dummyNewPost.authorId,
+        likes: dummyNewPost.likes,
+        url: dummyNewPost.url,
+        id: blogId,
+      };
+
+      // blog post data payloads
+      // makes up the body for request
+      const blogPatchPayload = {
+        title: patchedBlog.title,
+        author: patchedBlog.author,
+        likes: patchedBlog.likes,
+        url: patchedBlog.url,
+      };
 
       // send a request for each kind of payload (complete or not)
-      const promiseArray = payloadOptions.map((payload) =>
-        api
-          .patch(`${api_url}/${blogId}`)
-          .send(payload)
-          .set("Content-Type", "application/json")
-          .expect(201)
-      );
-
-      // wait for all of the asynchronous operations to finish
-      await Promise.all(promiseArray);
+      await api
+        .patch(`${api_url}/${blogId}`)
+        .send(blogPatchPayload)
+        .set("Content-Type", "application/json")
+        .expect(201);
 
       // check the latter state
       const blogsAtEnd = await helper.blogsInDb();
       const titles = blogsAtEnd.map((blog) => blog.title);
 
-      expect(titles).toContain(newTitle);
+      expect(titles).toContain(blogPatchPayload.title);
       expect(blogsAtEnd).toContainEqual({
-        ...patchedBlogPayload,
-        author: new mongoose.Types.ObjectId(patchedBlogPayload.author), // dummy data's author is pure string, but blogs at database have id as ObjectId
-        _id: undefined,
-        id: firstBlog._id,
+        ...patchedBlog,
+        author: new mongoose.Types.ObjectId(blogPatchPayload.author), // dummy data's author is pure string, but blogs at database have id as ObjectId
       });
     });
 
