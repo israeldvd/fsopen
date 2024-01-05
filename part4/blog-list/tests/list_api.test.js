@@ -209,12 +209,11 @@ describe("when there are initially some blogs saved", () => {
 
       expect(titles).toContain(newTitle);
       expect(blogsAtEnd).toContainEqual({
-        ...firstBlog,
         ...patchedBlogPayload,
         author: new mongoose.Types.ObjectId(patchedBlogPayload.author), // dummy data's author is pure string, but blogs at database have id as ObjectId
         _id: undefined,
         id: firstBlog._id,
-      }); // check agains all NEW changes to first blog (repeat unchanged properties)
+      });
     });
 
     test("fails with status code 400 when id is invalid", async () => {
