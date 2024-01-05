@@ -63,6 +63,21 @@ describe("when there is initially some blogs saved", () => {
       expect(blogTitles).toContain(dummyNewPost.title);
     });
 
+    test("when a valid blog is added having the first user as its creator", async () => {
+      await api
+        .post(api_url)
+        .send({
+          ...dummyNewPost,
+        })
+        .set("Content-Type", "application/json");
+
+      const newBlogAtEnd = await Blog.findById(dummyNewPost._id);
+      const usersAtEnd = await helper.usersInDb();
+
+      const firstUserID = usersAtEnd[0].id;
+      expect(firstUserID).toEqual(newBlogAtEnd.author._id.toString());
+    });
+
     test("an empty blog is not added", async () => {
       const response = await api
         .post(api_url)
