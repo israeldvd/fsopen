@@ -43,6 +43,16 @@ describe("when there are initially some blogs saved", () => {
     });
   });
 
+  describe("view of blog posts", () => {
+    test("a blog has its author field populated", async () => {
+      const response = await api.get(api_url);
+
+      // response contains at least the first populated blog in DB
+      const populatedBlogs = await helper.blogsInDbPopulated();
+      expect(response.body).toContainEqual(populatedBlogs[0]);
+    });
+  });
+
   describe("addition of a new blog", () => {
     test("a valid blog post can be added", async () => {
       await api
@@ -201,6 +211,7 @@ describe("when there are initially some blogs saved", () => {
       expect(blogsAtEnd).toContainEqual({
         ...firstBlog,
         ...patchedBlogPayload,
+        author: new mongoose.Types.ObjectId(patchedBlogPayload.author), // dummy data's author is pure string, but blogs at database have id as ObjectId
         _id: undefined,
         id: firstBlog._id,
       }); // check agains all NEW changes to first blog (repeat unchanged properties)

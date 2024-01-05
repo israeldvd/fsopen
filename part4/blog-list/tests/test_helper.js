@@ -1,4 +1,5 @@
 const Blog = require("../src/models/blog");
+const { blogPopulateSelectionOptions } = require("../src/models/model-options");
 const User = require("../src/models/user");
 
 const initialBlogList = [
@@ -78,6 +79,20 @@ const blogsInDb = async () => {
   return blogs.map((blog) => blog.toJSON());
 };
 
+const blogsInDbPopulated = async () => {
+  const blogs = await Blog.find({});
+  const populatedBlogsPromises = blogs.map(async (blog) => {
+    const populated = await blog.populate(
+      "author",
+      blogPopulateSelectionOptions
+    );
+    return populated;
+  });
+
+  const populatedBlogs = await Promise.all(populatedBlogsPromises);
+  return populatedBlogs.map((blog) => blog.toJSON());
+};
+
 const usersInDb = async () => {
   const users = await User.find({});
   return users.map((user) => user.toJSON());
@@ -87,6 +102,7 @@ module.exports = {
   initialBlogList,
   nonExistingId,
   blogsInDb,
+  blogsInDbPopulated,
   initialUsersList,
   usersInDb,
 };

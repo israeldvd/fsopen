@@ -15,11 +15,6 @@ blogSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = document._id.toString();
 
-    // save author (ObjectID) as string
-    if (document.author) {
-      returnedObject.author = document.author.toString();
-    }
-
     delete returnedObject._id;
   },
 });
