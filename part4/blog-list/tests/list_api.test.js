@@ -13,7 +13,7 @@ beforeEach(async () => {
   await Blog.insertMany(helper.initialBlogList);
 });
 
-describe("when there is initially some blogs saved", () => {
+describe("when there are initially some blogs saved", () => {
   const dummyNewPost = {
     _id: "654aee48fc13ae08472fa60f",
     name: "65936a0178a367a01b097430", // "Hieronymus Harsant",
