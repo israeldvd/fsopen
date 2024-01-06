@@ -1,3 +1,4 @@
+const { userPopulateSelectionOptions } = require("../models/model-options");
 const User = require("../models/user");
 const {
   MissingParamError,
@@ -13,7 +14,10 @@ const {
 const usersRouter = require("express").Router();
 
 usersRouter.get("/", async (request, response) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate(
+    "blogs",
+    userPopulateSelectionOptions
+  );
 
   response.json(users);
 });

@@ -22,11 +22,18 @@ blogsRouter.post("/", async (request, response) => {
 
   // picking an user for this blog
   const foundUsersList = await User.find({});
-  body.author = foundUsersList[0]._id; // the first one
+  const selectedUser = foundUsersList[0];
+  body.author = selectedUser._id; // the first one
 
   const blog = new Blog(body);
 
   const result = await blog.save();
+
+  // update the user document
+  selectedUser.blogs = selectedUser.blogs.concat(result._id);
+  await selectedUser.save();
+
+  // response
   response.status(201).json(result);
 });
 

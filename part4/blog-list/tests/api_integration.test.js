@@ -40,6 +40,20 @@ describe("when there are some blogs and users saved", () => {
     await Promise.all(dbSavesPromiseArray);
   });
 
+  describe("viewing users", () => {
+    test("users are returned with their respective blog(s)", async () => {
+      const response = await api.get(api_users_url).expect(200);
+
+      // response contains at least the first populated user in DB
+      const populatedUsers = await helper.usersInDbPopulated();
+
+      // verify that each user is populated correctly
+      populatedUsers.forEach((user) => {
+        expect(response.body).toContainEqual(user);
+      });
+    });
+  });
+
   describe("viewing blog posts", () => {
     test("a blog has its author field populated", async () => {
       const response = await api.get(api_blogs_url);
