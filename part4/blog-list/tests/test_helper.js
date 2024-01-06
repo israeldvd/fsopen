@@ -57,9 +57,10 @@ const initialUsersList = [
     password: "lG5*OVE|",
   },
   {
-    name: "Matilde Boaler",
+    _id: "65936732fc13ae59bafa21f8",
+    name: "Michael Chan",
     email: "mboaler5@cornell.edu",
-    username: "mboaler5",
+    username: "mchan5",
     password: "rU2=~sCKC",
   },
 ];
