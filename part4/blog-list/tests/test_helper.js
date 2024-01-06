@@ -113,17 +113,11 @@ const usersInDb = async () => {
 };
 
 const usersInDbPopulated = async () => {
-  const users = await User.find({});
-  const populatedUsersPromises = users.map(async (user) => {
-    const populated = await user.populate(
-      "blogs",
-      userPopulateSelectionOptions
-    );
-    return populated;
-  });
-
-  const populatedBlogs = await Promise.all(populatedUsersPromises);
-  return populatedBlogs.map((blog) => blog.toJSON());
+  const populatedUsers = await User.find({}).populate(
+    "blogs",
+    userPopulateSelectionOptions
+  );
+  return populatedUsers.map((blog) => blog.toJSON());
 };
 
 module.exports = {
