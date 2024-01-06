@@ -46,7 +46,9 @@ describe("when there are some blogs and users saved", () => {
 
       // response contains at least the first populated blog in DB
       const populatedBlogs = await helper.blogsInDbPopulated();
-      expect(response.body).toContainEqual(populatedBlogs[0]);
+      populatedBlogs.forEach((popBlog) => {
+        expect(response.body).toContainEqual(popBlog);
+      });
     });
   });
 
