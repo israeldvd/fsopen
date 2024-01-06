@@ -99,16 +99,11 @@ const blogsInDb = async () => {
 };
 
 const blogsInDbPopulated = async () => {
-  const blogs = await Blog.find({});
-  const populatedBlogsPromises = blogs.map(async (blog) => {
-    const populated = await blog.populate(
-      "author",
-      blogPopulateSelectionOptions
-    );
-    return populated;
-  });
+  const populatedBlogs = await Blog.find({}).populate(
+    "author",
+    blogPopulateSelectionOptions
+  );
 
-  const populatedBlogs = await Promise.all(populatedBlogsPromises);
   return populatedBlogs.map((blog) => blog.toJSON());
 };
 
