@@ -40,8 +40,8 @@ loginRoute.post("/", async (request, response) => {
 
   // otherwise, ok
   response.json({
-    passwordMatches: true,
-    access_token: jwt.sign(password || "password", process.env.GENERIC_SECRET),
+    username: user.username,
+    access_token: jwt.sign(password, process.env.GENERIC_SECRET),
   });
 });
 

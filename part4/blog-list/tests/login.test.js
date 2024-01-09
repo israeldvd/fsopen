@@ -5,6 +5,7 @@ const app = require("../src/app");
 const supertest = require("supertest");
 const HttpResponse = require("../src/utils/helpers/http-response");
 const { InvalidCredentialsError } = require("../src/utils/errors/credentials");
+const jwt = require("jsonwebtoken");
 
 // api object and info
 const api = supertest(app);
@@ -37,9 +38,32 @@ describe("when there are some users signed up", () => {
 
   describe("Login route", () => {
     it("should successfully login a user with valid credentials", async () => {
-      const okResponse = HttpResponse.ok();
+      // JWT-related configuration
+      expect(process.env.GENERIC_SECRET).toBeDefined();
+      const jwtSignSpy = jest
+        .spyOn(jwt, "sign")
+        .mockReturnValue("jwt_access_token");
 
-      await api.post(api_url).send(dummyLoginData).expect(okResponse.code);
+      // response definition
+      const okResponse = HttpResponse.ok({
+        access_token: dummyLoginResponse.access_token,
+        username: dummyLoginData.username,
+      });
+
+      // request-response cycle
+      const response = await api
+        .post(api_url)
+        .send(dummyLoginData)
+        .expect(okResponse.code);
+
+      expect(response.body).toEqual(okResponse.body);
+
+      // verification on JWT-related method spy
+      expect(jwtSignSpy).toHaveBeenCalledWith(
+        dummyLoginData.password,
+        process.env.GENERIC_SECRET
+      );
+      jwtSignSpy.mockRestore();
     });
 
     it("should return 401 Unauthorized if invalid credentials are provided", async () => {
