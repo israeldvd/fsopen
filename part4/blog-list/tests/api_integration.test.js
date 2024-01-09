@@ -13,32 +13,30 @@ const mongoose = require("mongoose");
 describe("when there are some blogs and users saved", () => {
   // the (user and blog) lists used throughout this test file
   const helperUsers = helper.initialIntegrationUsers;
-  const helperBlogs = helper.initialBlogList;
+  const helperBlogs = helper.initialIntegrationBlogs;
 
   beforeEach(async () => {
     await User.deleteMany({});
     await User.insertMany(await helper.transformUserListForDb(helperUsers));
 
     await Blog.deleteMany({});
-    const dbSavesPromiseArray = helperBlogs.map(
-      async (blogInfoObject) => {
-        // save a new blog (having the creator's id)
-        const blog = new Blog(blogInfoObject);
-        await blog.save();
+    const dbSavesPromiseArray = helperBlogs.map(async (blogInfoObject) => {
+      // save a new blog (having the creator's id)
+      const blog = new Blog(blogInfoObject);
+      await blog.save();
 
-        // fetch all user (author) information
-        // append it to the blogs field
-        const user = await User.findById(blog.author);
+      // fetch all user (author) information
+      // append it to the blogs field
+      const user = await User.findById(blog.author);
 
-        if (!user) {
-          return null;
-        }
-
-        // save user info with this new blog
-        user.blogs = user.blogs.concat(blog._id);
-        return user.save();
+      if (!user) {
+        return null;
       }
-    );
+
+      // save user info with this new blog
+      user.blogs = user.blogs.concat(blog._id);
+      return user.save();
+    });
 
     await Promise.all(dbSavesPromiseArray);
   });
