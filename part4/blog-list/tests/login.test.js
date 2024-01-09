@@ -12,18 +12,27 @@ const api_url = "/api/login";
 
 describe("when there are some users signed up", () => {
   // dummy data used for all log-in tests
-  let dummyLoginData;
+  let dummyLoginData = {
+    username: "invalid_username",
+    password: "invalid_password",
+  };
+
+  let dummyLoginResponse = {
+    username: dummyLoginData.username,
+    access_token: "jwt_access_token",
+  };
 
   beforeEach(async () => {
     await User.deleteMany({});
     const initialUsersListForDb = await helper.getInitialUserListForDb();
     await User.insertMany(initialUsersListForDb);
 
-    // dummy generic data is from the first user
-    dummyLoginData = {
-      username: initialUsersListForDb[0].username,
-      password: initialUsersListForDb[0].password,
-    };
+    // dummy generic data stems from the first user
+    dummyLoginData.username = initialUsersListForDb[0].username;
+    dummyLoginData.password = initialUsersListForDb[0].password;
+
+    // username
+    dummyLoginResponse.username = dummyLoginData.username;
   });
 
   describe("Login route", () => {
