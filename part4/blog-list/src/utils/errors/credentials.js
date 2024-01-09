@@ -1,6 +1,6 @@
 class InvalidCredentialsError extends Error {
   constructor(identifier) {
-    super(`Credentials invalid for ${identifier}`);
+    super(`Invalid credentials for ${identifier}`);
     this.name = "InvalidCredentialsError";
   }
 }
