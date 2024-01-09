@@ -112,10 +112,6 @@ const nonExistingId = async () => {
   return blog._id.toString();
 };
 
-const getInitialUserListForDb = async () => {
-  return await transformUserListForDb(initialUsersList);
-};
-
 const transformUserListForDb = async (list) => {
   const encrypter = new Encrypter();
 
@@ -166,7 +162,6 @@ module.exports = {
   initialBlogList,
   initialLoginUserList,
   nonExistingId,
-  getInitialUserListForDb,
   transformUserListForDb,
   blogsInDb,
   blogsInDbPopulated,

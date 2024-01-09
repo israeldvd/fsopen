@@ -13,7 +13,9 @@ const mongoose = require("mongoose");
 describe("when there are some blogs and users saved", () => {
   beforeEach(async () => {
     await User.deleteMany({});
-    const initialUsersListForDb = await helper.getInitialUserListForDb();
+    const initialUsersListForDb = await helper.transformUserListForDb(
+      helper.initialUsersList
+    );
     await User.insertMany(initialUsersListForDb);
 
     await Blog.deleteMany({});

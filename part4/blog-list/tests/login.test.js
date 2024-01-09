@@ -26,7 +26,9 @@ describe("when there are some users signed up", () => {
 
   beforeEach(async () => {
     await User.deleteMany({});
-    const initialUsersListForDb = await helper.getInitialUserListForDb();
+    const initialUsersListForDb = await helper.transformUserListForDb(
+      helper.initialUsersList
+    );
     await User.insertMany(initialUsersListForDb);
 
     // dummy generic data stems from the first user

@@ -26,7 +26,9 @@ describe("when there are many users added", () => {
 
     await User.deleteMany({});
 
-    const initialUsersListForDb = await helper.getInitialUserListForDb();
+    const initialUsersListForDb = await helper.transformUserListForDb(
+      helper.initialUsersList
+    );
     await User.insertMany(initialUsersListForDb);
   });
 
