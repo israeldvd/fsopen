@@ -11,15 +11,16 @@ const User = require("../src/models/user");
 const mongoose = require("mongoose");
 
 describe("when there are some blogs and users saved", () => {
-  // user list used throughout this test file
+  // the (user and blog) lists used throughout this test file
   const helperUsers = helper.initialIntegrationUsers;
+  const helperBlogs = helper.initialBlogList;
 
   beforeEach(async () => {
     await User.deleteMany({});
     await User.insertMany(await helper.transformUserListForDb(helperUsers));
 
     await Blog.deleteMany({});
-    const dbSavesPromiseArray = helper.initialBlogList.map(
+    const dbSavesPromiseArray = helperBlogs.map(
       async (blogInfoObject) => {
         // save a new blog (having the creator's id)
         const blog = new Blog(blogInfoObject);

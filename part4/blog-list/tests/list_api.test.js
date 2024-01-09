@@ -8,12 +8,10 @@ const api_url = "/api/blogs";
 const helper = require("./test_helper");
 const Blog = require("../src/models/blog");
 
-beforeEach(async () => {
-  await Blog.deleteMany({});
-  await Blog.insertMany(helper.initialBlogList);
-});
-
 describe("when there are initially some blogs saved", () => {
+  // the blog list used throughout this test file
+  const helperBlogs = helper.initialBlogList;
+
   const dummyNewPost = {
     _id: "654aee48fc13ae08472fa60f",
     authorId: "65936a0178a367a01b097430", // "Hieronymus Harsant",
@@ -22,6 +20,11 @@ describe("when there are initially some blogs saved", () => {
     likes: 10,
     __v: 0,
   };
+
+  beforeEach(async () => {
+    await Blog.deleteMany({});
+    await Blog.insertMany(helperBlogs);
+  });
 
   test("(response) is returned as json", async () => {
     await api
@@ -32,7 +35,7 @@ describe("when there are initially some blogs saved", () => {
 
   test("returns the correct amount of blog posts", async () => {
     const response = await api.get(api_url);
-    expect(response.body).toHaveLength(helper.initialBlogList.length);
+    expect(response.body).toHaveLength(helperBlogs.length);
   });
 
   test("(response) blog posts unique identifier property is named id", async () => {
@@ -54,7 +57,7 @@ describe("when there are initially some blogs saved", () => {
         .expect(201);
 
       const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length + 1);
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length + 1);
 
       // the new list of blog should contain the title
       const blogTitles = blogsAtEnd.map((blog) => {
@@ -88,7 +91,7 @@ describe("when there are initially some blogs saved", () => {
       const blogsAtEnd = await helper.blogsInDb();
 
       expect(response.body.error).toBeDefined();
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length);
     });
 
     test("missing property 'likes' is default to value 0", async () => {
@@ -109,7 +112,7 @@ describe("when there are initially some blogs saved", () => {
       await api.post(api_url).send(newNoteHavingUndefinedTitle).expect(400);
 
       const notesAtEnd = await helper.blogsInDb();
-      expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+      expect(notesAtEnd).toHaveLength(helperBlogs.length);
     });
 
     test("receiving a blog without an url responds with Bad Request", async () => {
@@ -120,7 +123,7 @@ describe("when there are initially some blogs saved", () => {
       await api.post(api_url).send(newNoteHavingUndefinedUrl).expect(400);
 
       const notesAtEnd = await helper.blogsInDb();
-      expect(notesAtEnd).toHaveLength(helper.initialBlogList.length);
+      expect(notesAtEnd).toHaveLength(helperBlogs.length);
     });
   });
 
@@ -136,7 +139,7 @@ describe("when there are initially some blogs saved", () => {
       await api.delete(`${api_url}/${blogToDelete.id}`).expect(204);
 
       const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length - 1);
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length - 1);
     });
 
     test("still returns status code 204 when id is invalid", async () => {
@@ -146,7 +149,7 @@ describe("when there are initially some blogs saved", () => {
 
       // nothing is changed from the initial list
       const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length);
     });
 
     test("returns status code 400 when id is malformatted", async () => {
@@ -156,13 +159,13 @@ describe("when there are initially some blogs saved", () => {
 
       // nothing is changed from the initial list
       const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogList.length);
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length);
     });
   });
 
   describe("updating a blog post", () => {
     test("succeeds with valid title and ID", async () => {
-      const firstDummyBlog = helper.initialBlogList[0];
+      const firstDummyBlog = helperBlogs[0];
       const blogId = firstDummyBlog._id;
 
       // new blog information
@@ -194,7 +197,7 @@ describe("when there are initially some blogs saved", () => {
     });
 
     test("succeeds with multiple valid data and ID", async () => {
-      const firstBlog = helper.initialBlogList[0];
+      const firstBlog = helperBlogs[0];
       const blogId = firstBlog._id; // ID of blog to be updated
 
       const patchedBlog = {
@@ -239,7 +242,7 @@ describe("when there are initially some blogs saved", () => {
     });
 
     test("fails with status code 400 when any required field is empty", async () => {
-      const id = helper.initialBlogList[0]._id; // id to be updated
+      const id = helperBlogs[0]._id; // id to be updated
 
       // either title or url is empty
       await api.patch(`${api_url}/${id}`).send({ title: "" }).expect(400);
