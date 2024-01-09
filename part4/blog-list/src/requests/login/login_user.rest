@@ -11,3 +11,13 @@ Content-Type: application/json
     "username": "john",
     "password": "j!@#$"
 }
+
+### Login route with an INVALID user credential
+
+POST {{domain_name}}/{{api_login_endpoint}}
+Content-Type: application/json
+
+{
+    "username": "john",
+    "password": "invalid_password"
+}
