@@ -65,6 +65,39 @@ const initialUsersList = [
   },
 ];
 
+const initialLoginUserList = [
+  {
+    name: "Almeda Capps",
+    email: "acapps0@unc.edu",
+    username: "acapps0",
+    password: "rT6~mm\\Xf'$",
+  },
+  {
+    name: "Jeanne Witchard",
+    email: "jwitchard1@imgur.com",
+    username: "jwitchard1",
+    password: "rX8|WJ%#5T55MP",
+  },
+  {
+    name: "Carce Hillam",
+    email: "chillam2@spotify.com",
+    username: "chillam2",
+    password: "sW9$#<4R%oFY",
+  },
+  {
+    name: "Findlay Woodrooffe",
+    email: "fwoodrooffe3@bigcartel.com",
+    username: "fwoodrooffe3",
+    password: "tQ8*w7'W}}B",
+  },
+  {
+    name: "Jeromy Klimsch",
+    email: "jklimsch4@list-manage.com",
+    username: "jklimsch4",
+    password: "yQ3)>lD*jtpvr?Q",
+  },
+];
+
 const nonExistingId = async () => {
   const blog = new Blog({
     title: "none",
@@ -123,6 +156,7 @@ const usersInDbPopulated = async () => {
 
 module.exports = {
   initialBlogList,
+  initialLoginUserList,
   nonExistingId,
   getInitialUserListForDb,
   blogsInDb,
