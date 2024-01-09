@@ -98,6 +98,75 @@ const initialLoginUserList = [
   },
 ];
 
+const initialIntegrationUsers = [
+  {
+    name: "Phillis Beining",
+    email: "pbeining0@posterous.com",
+    username: "pbeining0",
+    password: "pY4<H`@R%X$HuSe~",
+  },
+  {
+    name: "Sarge Stuchbery",
+    email: "sstuchbery1@tinyurl.com",
+    username: "sstuchbery1",
+    password: "gQ2(q|/!~",
+  },
+  {
+    name: "Molly Dignum",
+    email: "mdignum2@behance.net",
+    username: "mdignum2",
+    password: "lR7+j\\Wlb<AmAy",
+  },
+  {
+    name: "Jonis Brotherick",
+    email: "jbrotherick3@tamu.edu",
+    username: "jbrotherick3",
+    password: "rE0'GoqD0{g5lJ5Z",
+  },
+  {
+    name: "Micaela Olyonov",
+    email: "molyonov4@washingtonpost.com",
+    username: "molyonov4",
+    password: "zU7!\\N5lEH9Cl&iX",
+  },
+  {
+    name: "Hamlen Behnke",
+    email: "hbehnke5@feedburner.com",
+    username: "hbehnke5",
+    password: "pU4}Eww5l&|n'mR",
+  },
+  {
+    name: "Anabella O'Ferris",
+    email: "aoferris6@ucoz.ru",
+    username: "aoferris6",
+    password: "cT5`nA*%",
+  },
+  {
+    name: "Goddart Buckel",
+    email: "gbuckel7@home.pl",
+    username: "gbuckel7",
+    password: "bU8}*X_Bj/Y",
+  },
+  {
+    name: "Terrel Fairleigh",
+    email: "tfairleigh8@ft.com",
+    username: "tfairleigh8",
+    password: "wL6/w)nE@",
+  },
+  {
+    name: "Zollie Bischof",
+    email: "zbischof9@google.cn",
+    username: "zbischof9",
+    password: "fT0('>U|H`",
+  },
+  {
+    name: "Kit Lapish",
+    email: "klapisha@github.io",
+    username: "klapisha",
+    password: "fB2|<!1O'9fk",
+  },
+];
+
 const nonExistingId = async () => {
   const blog = new Blog({
     title: "none",
@@ -161,6 +230,7 @@ const usersInDbPopulated = async () => {
 module.exports = {
   initialBlogList,
   initialLoginUserList,
+  initialIntegrationUsers,
   nonExistingId,
   transformUserListForDb,
   blogsInDb,
