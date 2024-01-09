@@ -44,6 +44,18 @@ describe("when there are some users signed up", () => {
         .send(dummyLoginData)
         .expect(unauthorizedResponse.code);
     });
+
+    it("should return 401 Unauthorized if a username that is not signed up is provided", async () => {
+      dummyLoginData.username = "inexistent_username";
+      const unauthorizedResponse = HttpResponse.unauthorized(
+        new InvalidCredentialsError(dummyLoginData.username)
+      );
+
+      await api
+        .post(api_url)
+        .send(dummyLoginData)
+        .expect(unauthorizedResponse.code);
+    });
   });
 
   afterAll(async () => {
