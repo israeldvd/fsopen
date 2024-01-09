@@ -12,11 +12,22 @@ loginRoute.post("/", async (request, response) => {
   const encrypter = new Encrypter();
 
   const user = await User.findOne({ username });
-  const validCredentials =
-    user === null
-      ? false
-      : await encrypter.compare(password, user.passwordHash);
 
+  // unauthorized response object instance
+  const unauthorizedResponse = HttpResponse.unauthorized(
+    new InvalidCredentialsError(username)
+  );
+
+  // check if any user was found
+  if (user === null) {
+    return response
+      .status(unauthorizedResponse.code)
+      .json(unauthorizedResponse.body);
+  }
+
+  // check credentials validity for this user...
+  // when not, responds with Unauthorized -- same response code
+  const validCredentials = await encrypter.compare(password, user.passwordHash);
   if (!validCredentials) {
     const unauthorizedResponse = HttpResponse.unauthorized(
       new InvalidCredentialsError(username)
@@ -27,8 +38,9 @@ loginRoute.post("/", async (request, response) => {
       .json(unauthorizedResponse.body);
   }
 
+  // otherwise, ok
   response.json({
-    passwordMatches: validCredentials,
+    passwordMatches: true,
     access_token: jwt.sign(password || "password", process.env.GENERIC_SECRET),
   });
 });
