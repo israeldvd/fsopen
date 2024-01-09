@@ -13,6 +13,13 @@ module.exports = class HttpResponse {
     };
   }
 
+  static unauthorized(error) {
+    return {
+      code: 401,
+      body: { error: error.message },
+    };
+  }
+
   static conflict(error) {
     return {
       code: 409,
