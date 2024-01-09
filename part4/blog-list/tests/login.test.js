@@ -20,7 +20,7 @@ describe("when there are some users signed up", () => {
 
     // dummy generic data is from the first user
     dummyLoginData = {
-      usename: initialUsersListForDb[0].username,
+      username: initialUsersListForDb[0].username,
       password: initialUsersListForDb[0].password,
     };
   });
