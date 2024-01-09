@@ -25,6 +25,99 @@ const initialBlogList = [
   },
 ];
 
+const initialIntegrationBlogs = [
+  {
+    author: "659da346fc13ae5978fa20b9",
+    title: "Breast Men",
+    likes: "14246",
+    url: "https://nature.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20ba",
+    title: "Home",
+    likes: "67",
+    url: "https://csmonitor.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20bb",
+    title: "Detroit",
+    likes: "281",
+    url: "https://mit.edu",
+  },
+  {
+    author: "659da346fc13ae5978fa20bc",
+    title: "Locke",
+    likes: "03",
+    url: "https://home.pl",
+  },
+  {
+    author: "659da346fc13ae5978fa20bd",
+    title: "Dream Land",
+    likes: "2122",
+    url: "https://linkedin.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20be",
+    title: "Daar",
+    likes: "59",
+    url: "http://icq.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20bf",
+    title: "Adventures of Felix, The (a.k.a. Funny Felix) (Drôle de Félix)",
+    likes: "9996",
+    url: "https://nature.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20c0",
+    title: "Run Ronnie Run",
+    likes: "9002",
+    url: "http://cbslocal.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20c1",
+    title: "Joker Is Wild, The (All the Way)",
+    likes: "16508",
+    url: "https://biblegateway.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20c2",
+    title: "I Became a Criminal (They Made Me a Fugitive)",
+    likes: "560",
+    url: "http://eepurl.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20c3",
+    title: "Life of Emile Zola, The",
+    likes: "037",
+    url: "https://phoca.cz",
+  },
+  {
+    author: "659da346fc13ae5978fa20c4",
+    title: "Zatoichi's Cane Sword (Zatôichi tekka tabi) (Zatôichi 15)",
+    likes: "2",
+    url: "http://redcross.org",
+  },
+  {
+    author: "659da346fc13ae5978fa20c5",
+    title: "Blind Dating",
+    likes: "7",
+    url: "http://stanford.edu",
+  },
+  {
+    author: "659da346fc13ae5978fa20c6",
+    title: "Black Christmas",
+    likes: "43885",
+    url: "https://youtube.com",
+  },
+  {
+    author: "659da346fc13ae5978fa20c7",
+    title: "Paradise",
+    likes: "680",
+    url: "https://unesco.org",
+  },
+];
+
 const initialUsersList = [
   {
     name: "Alidia Jewes",
@@ -229,6 +322,7 @@ const usersInDbPopulated = async () => {
 
 module.exports = {
   initialBlogList,
+  initialIntegrationBlogs,
   initialLoginUserList,
   initialIntegrationUsers,
   nonExistingId,
