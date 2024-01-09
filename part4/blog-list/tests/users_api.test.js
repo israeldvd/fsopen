@@ -15,6 +15,10 @@ const HttpResponse = require("../src/utils/helpers/http-response");
 const ConflictError = require("../src/utils/errors/resources");
 
 describe("when there are many users added", () => {
+  // user list used throughout this test file
+  const helperUsers = helper.initialUsersList;
+
+  // dummy user data
   let dummyUserData;
 
   beforeEach(async () => {
@@ -25,11 +29,7 @@ describe("when there are many users added", () => {
     };
 
     await User.deleteMany({});
-
-    const initialUsersListForDb = await helper.transformUserListForDb(
-      helper.initialUsersList
-    );
-    await User.insertMany(initialUsersListForDb);
+    await User.insertMany(await helper.transformUserListForDb(helperUsers));
   });
 
   test("users are returned as json", async () => {
@@ -45,14 +45,14 @@ describe("when there are many users added", () => {
     const response = await api.get(api_url);
 
     // the response length is the same as the initial list
-    expect(response.body).toHaveLength(helper.initialUsersList.length);
+    expect(response.body).toHaveLength(helperUsers.length);
   });
 
   test("a specific username is withing the users", async () => {
     const response = await api.get(api_url);
 
     const usernames = response.body.map((user) => user.username);
-    expect(usernames).toContain(helper.initialUsersList[0].username);
+    expect(usernames).toContain(helperUsers[0].username);
   });
 
   describe("adding a specific user", () => {
@@ -73,7 +73,7 @@ describe("when there are many users added", () => {
       expect(response.body).toEqual(badRequestResponse.body);
 
       const usersAtEnd = await helper.usersInDb();
-      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
+      expect(usersAtEnd).toHaveLength(helperUsers.length);
     });
 
     test("should respond with a Bad Request for an invalid password", async () => {
@@ -94,7 +94,7 @@ describe("when there are many users added", () => {
 
       // query the database for users
       const usersAtEnd = await helper.usersInDb();
-      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
+      expect(usersAtEnd).toHaveLength(helperUsers.length);
     });
 
     test("succeeds with valid user data", async () => {
@@ -119,7 +119,7 @@ describe("when there are many users added", () => {
       // query the database for users
       // there should be one more user
       const usersAtEnd = await helper.usersInDb();
-      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length + 1);
+      expect(usersAtEnd).toHaveLength(helperUsers.length + 1);
 
       // username is stored
       const usernames = usersAtEnd.map((user) => {
@@ -153,9 +153,7 @@ describe("when there are many users added", () => {
 
       // check that no user with the same username was added
       const usersAtEnd = await helper.usersInDb();
-      expect(usersAtEnd).toHaveLength(
-        helper.initialUsersList.length + numberOfUsersAdded
-      );
+      expect(usersAtEnd).toHaveLength(helperUsers.length + numberOfUsersAdded);
     });
 
     test("fails with a Bad Request when username has less than 3 characters", async () => {
@@ -171,7 +169,7 @@ describe("when there are many users added", () => {
 
       // check that no user was added
       const usersAtEnd = await helper.usersInDb();
-      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
+      expect(usersAtEnd).toHaveLength(helperUsers.length);
     });
 
     test("fails with a Bad Request when password has less than 3 characters", async () => {
@@ -190,7 +188,7 @@ describe("when there are many users added", () => {
 
       // check that no user was added
       const usersAtEnd = await helper.usersInDb();
-      expect(usersAtEnd).toHaveLength(helper.initialUsersList.length);
+      expect(usersAtEnd).toHaveLength(helperUsers.length);
     });
   });
 });
