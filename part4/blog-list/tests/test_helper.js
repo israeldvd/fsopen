@@ -113,9 +113,17 @@ const nonExistingId = async () => {
 };
 
 const getInitialUserListForDb = async () => {
+  return await transformUserListForDb(initialUsersList);
+};
+
+const transformUserListForDb = async (list) => {
   const encrypter = new Encrypter();
 
-  const promiseArray = initialUsersList.map(async (user) => {
+  if (!Array.isArray(list)) {
+    throw new TypeError("Provided list is not an array!");
+  }
+
+  const promiseArray = list.map(async (user) => {
     const hash = await encrypter.encrypt(user.password);
     return {
       ...user,
@@ -159,6 +167,7 @@ module.exports = {
   initialLoginUserList,
   nonExistingId,
   getInitialUserListForDb,
+  transformUserListForDb,
   blogsInDb,
   blogsInDbPopulated,
   initialUsersList,
