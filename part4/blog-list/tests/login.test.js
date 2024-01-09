@@ -6,6 +6,7 @@ const supertest = require("supertest");
 const HttpResponse = require("../src/utils/helpers/http-response");
 const { InvalidCredentialsError } = require("../src/utils/errors/credentials");
 const jwt = require("jsonwebtoken");
+const { SECRET } = require("../src/utils/helpers/config");
 
 // api object and info
 const api = supertest(app);
@@ -42,7 +43,7 @@ describe("when there are some users signed up", () => {
   describe("Login route", () => {
     it("should successfully login a user with valid credentials", async () => {
       // JWT-related configuration
-      expect(process.env.GENERIC_SECRET).toBeDefined();
+      expect(SECRET).toBeDefined();
       const jwtSignSpy = jest
         .spyOn(jwt, "sign")
         .mockReturnValue("jwt_access_token");
@@ -67,7 +68,7 @@ describe("when there are some users signed up", () => {
           id: expect.any(String),
           username: dummyLoginData.username,
         },
-        process.env.GENERIC_SECRET
+        SECRET
       );
       jwtSignSpy.mockRestore();
     });

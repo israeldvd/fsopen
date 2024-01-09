@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
+const { SECRET } = require("./config");
 
 module.exports = class UserForToken {
-  static secret = process.env.GENERIC_SECRET;
+  static secret = SECRET;
 
   static generate(id, username) {
     return jwt.sign(
