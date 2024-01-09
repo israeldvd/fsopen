@@ -14,6 +14,7 @@ const api_url = "/api/login";
 describe("when there are some users signed up", () => {
   // dummy data used for all log-in tests
   let dummyLoginData = {
+    id: null, // dummy list does not have an ID field (it is DB-generated)
     username: "invalid_username",
     password: "invalid_password",
   };
@@ -60,7 +61,10 @@ describe("when there are some users signed up", () => {
 
       // verification on JWT-related method spy
       expect(jwtSignSpy).toHaveBeenCalledWith(
-        dummyLoginData.password,
+        {
+          id: expect.any(String),
+          username: dummyLoginData.username,
+        },
         process.env.GENERIC_SECRET
       );
       jwtSignSpy.mockRestore();

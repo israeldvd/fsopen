@@ -1,9 +1,9 @@
 const { Router } = require("express");
-const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Encrypter = require("../utils/helpers/encrypter");
 const HttpResponse = require("../utils/helpers/http-response");
 const { InvalidCredentialsError } = require("../utils/errors/credentials");
+const UserForToken = require("../utils/helpers/user-for-token");
 
 const loginRoute = Router();
 
@@ -39,9 +39,14 @@ loginRoute.post("/", async (request, response) => {
   }
 
   // otherwise, ok
+  const access_token = UserForToken.generate(
+    user._id.toString(),
+    user.username
+  );
+
   response.json({
     username: user.username,
-    access_token: jwt.sign(password, process.env.GENERIC_SECRET),
+    access_token: access_token,
   });
 });
 
