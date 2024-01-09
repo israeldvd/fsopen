@@ -11,12 +11,12 @@ const User = require("../src/models/user");
 const mongoose = require("mongoose");
 
 describe("when there are some blogs and users saved", () => {
+  // user list used throughout this test file
+  const helperUsers = helper.initialIntegrationUsers;
+
   beforeEach(async () => {
     await User.deleteMany({});
-    const initialUsersListForDb = await helper.transformUserListForDb(
-      helper.initialUsersList
-    );
-    await User.insertMany(initialUsersListForDb);
+    await User.insertMany(await helper.transformUserListForDb(helperUsers));
 
     await Blog.deleteMany({});
     const dbSavesPromiseArray = helper.initialBlogList.map(
