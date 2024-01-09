@@ -12,6 +12,9 @@ const api = supertest(app);
 const api_url = "/api/login";
 
 describe("when there are some users signed up", () => {
+  // user list used throughout this test file
+  const helperUsers = helper.initialLoginUserList;
+
   // dummy data used for all log-in tests
   let dummyLoginData = {
     id: null, // dummy list does not have an ID field (it is DB-generated)
@@ -26,14 +29,11 @@ describe("when there are some users signed up", () => {
 
   beforeEach(async () => {
     await User.deleteMany({});
-    const initialUsersListForDb = await helper.transformUserListForDb(
-      helper.initialUsersList
-    );
-    await User.insertMany(initialUsersListForDb);
+    await User.insertMany(await helper.transformUserListForDb(helperUsers));
 
     // dummy generic data stems from the first user
-    dummyLoginData.username = initialUsersListForDb[0].username;
-    dummyLoginData.password = initialUsersListForDb[0].password;
+    dummyLoginData.username = helperUsers[0].username;
+    dummyLoginData.password = helperUsers[0].password;
 
     // username
     dummyLoginResponse.username = dummyLoginData.username;
