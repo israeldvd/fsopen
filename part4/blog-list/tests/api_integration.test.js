@@ -9,13 +9,38 @@ const helper = require("./test_helper");
 const Blog = require("../src/models/blog");
 const User = require("../src/models/user");
 const mongoose = require("mongoose");
+const HttpResponse = require("../src/utils/helpers/http-response");
+const { InvalidParamError } = require("../src/utils/errors/params");
+const UserForToken = require("../src/utils/helpers/user-for-token");
 
 describe("when there are some blogs and users saved", () => {
   // the (user and blog) lists used throughout this test file
   const helperUsers = helper.initialIntegrationUsers;
   const helperBlogs = helper.initialIntegrationBlogs;
 
+  const dummyAuthorIdOfNewPost = "65936a0178a367a01b097430";
+
+  let dummyNewPost = {
+    _id: "inval1dID",
+    authorId: "inval1dAuthorID", // "Hieronymus Harsant",
+    title: "Invalid title",
+    url: "https://invalid.com/",
+    likes: 3,
+    __v: 0,
+  };
+
   beforeEach(async () => {
+    // save a new set of valid data
+    dummyNewPost = {
+      _id: "654aee48fc13ae08472fa60f",
+      authorId: dummyAuthorIdOfNewPost, // "Hieronymus Harsant",
+      title: "Learning a new lesson",
+      url: "https://learn.com/new-lesson",
+      likes: 201,
+      __v: 0,
+    };
+
+    // update user collection
     await User.deleteMany({});
     await User.insertMany(await helper.transformUserListForDb(helperUsers));
 
@@ -64,6 +89,31 @@ describe("when there are some blogs and users saved", () => {
       populatedBlogs.forEach((popBlog) => {
         expect(response.body).toContainEqual(popBlog);
       });
+    });
+  });
+
+  describe("adding a new post checking auth status", () => {
+    test("an error 401 Unauthorized is sent when auth token is invalid", async () => {
+      const authToken = "auth-token";
+      dummyNewPost.authorId = "invalid id";
+
+      const getPayloadSpy = jest.spyOn(UserForToken, "getPayload");
+      getPayloadSpy.mockReturnValue({
+        undefined,
+      });
+
+      const unauthorizedErrorResponse = HttpResponse.unauthorized(
+        new Error("invalid token")
+      );
+
+      const response = await api
+        .post(api_blogs_url)
+        .send(dummyNewPost)
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(unauthorizedErrorResponse.code);
+
+      expect(getPayloadSpy).toHaveBeenCalledWith(authToken);
+      expect(response.body).toEqual(unauthorizedErrorResponse.body);
     });
   });
 

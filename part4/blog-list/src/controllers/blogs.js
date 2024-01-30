@@ -2,6 +2,16 @@ const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 const { blogPopulateSelectionOptions } = require("../models/model-options");
 const User = require("../models/user");
+const HttpResponse = require("../utils/helpers/http-response");
+const UserForToken = require("../utils/helpers/user-for-token");
+
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate(
@@ -13,6 +23,16 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response) => {
+  const decodedToken = UserForToken.getPayload(getTokenFrom(request));
+  if (!decodedToken.id) {
+    const unauthorizedResponse = HttpResponse.unauthorized(
+      new Error("invalid token")
+    );
+    return response
+      .status(unauthorizedResponse.code)
+      .json(unauthorizedResponse.body);
+  }
+
   const body = request.body;
 
   if (!body || !("title" in body)) {
