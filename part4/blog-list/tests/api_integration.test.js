@@ -10,7 +10,6 @@ const Blog = require("../src/models/blog");
 const User = require("../src/models/user");
 const mongoose = require("mongoose");
 const HttpResponse = require("../src/utils/helpers/http-response");
-const { InvalidParamError } = require("../src/utils/errors/params");
 const UserForToken = require("../src/utils/helpers/user-for-token");
 
 describe("when there are some blogs and users saved", () => {
