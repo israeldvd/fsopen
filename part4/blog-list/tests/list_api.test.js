@@ -7,6 +7,7 @@ const api_url = "/api/blogs";
 
 const helper = require("./test_helper");
 const Blog = require("../src/models/blog");
+const UserForToken = require("../src/utils/helpers/user-for-token");
 
 describe("when there are initially some blogs saved", () => {
   // the blog list used throughout this test file
@@ -20,6 +21,11 @@ describe("when there are initially some blogs saved", () => {
     likes: 10,
     __v: 0,
   };
+
+  beforeAll(() => {
+    // payload obtained from JWT verify is not tested here
+    jest.spyOn(UserForToken, "getPayload").mockReturnValue({ id: "a-valid-logged-in-user-id" });
+  })
 
   beforeEach(async () => {
     await Blog.deleteMany({});
