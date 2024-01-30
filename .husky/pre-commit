@@ -1,1 +1,1 @@
-cd part4/blog-list && npm test
+cd part4/blog-list && npx lint-staged
