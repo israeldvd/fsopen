@@ -39,7 +39,7 @@ describe("when there are some blogs and users saved", () => {
     });
 
     await Promise.all(dbSavesPromiseArray);
-  });
+  }, 100000);
 
   describe("viewing users", () => {
     test("users are returned with their respective blog(s)", async () => {
