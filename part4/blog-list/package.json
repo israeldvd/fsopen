@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "prepare": "cd ../.. && husky"
+    "prepare": "cd ../.. && husky",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
