@@ -7,3 +7,14 @@ Content-Type: application/json
     "name": "John",
     "password": "j!@#$"
 }
+
+### Create a new user in the database
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "erick",
+    "name": "Erick",
+    "password": "Erick1234"
+}

@@ -8,8 +8,8 @@ POST {{domain_name}}/{{api_login_endpoint}}
 Content-Type: application/json
 
 {
-    "username": "john",
-    "password": "j!@#$"
+    "username": "erick",
+    "password": "Erick1234"
 }
 
 ### Login route with an INVALID user credential
