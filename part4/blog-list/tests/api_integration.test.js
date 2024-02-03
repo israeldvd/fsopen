@@ -28,6 +28,13 @@ describe("when there are some blogs and users saved", () => {
     __v: 0,
   };
 
+  // dummy data used for all log-in tests
+  const loggedInUserData = {
+    id: null, // dummy list does not have an ID field (it is DB-generated)
+    username: "login_username",
+    password: "login_password",
+  };
+
   beforeEach(async () => {
     // save a new set of valid data
     dummyNewPost = {
@@ -41,7 +48,9 @@ describe("when there are some blogs and users saved", () => {
 
     // update user collection
     await User.deleteMany({});
-    await User.insertMany(await helper.transformUserListForDb(helperUsers));
+    await User.insertMany(
+      await helper.transformUserListForDb(helperUsers.concat(loggedInUserData))
+    );
 
     await Blog.deleteMany({});
     const dbSavesPromiseArray = helperBlogs.map(async (blogInfoObject) => {
