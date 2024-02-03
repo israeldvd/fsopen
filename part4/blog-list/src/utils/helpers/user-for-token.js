@@ -15,6 +15,6 @@ module.exports = class UserForToken {
   }
 
   static getPayload(token) {
-    return jwt.verify(token, UserForToken.secret).payload;
+    return jwt.verify(token, UserForToken.secret);
   }
 };

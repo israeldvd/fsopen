@@ -4,6 +4,7 @@ const app = require("../src/app");
 const api = supertest(app);
 const api_blogs_url = "/api/blogs";
 const api_users_url = "/api/users";
+const api_login_url = "/api/login";
 
 const helper = require("./test_helper");
 const Blog = require("../src/models/blog");
@@ -101,6 +102,24 @@ describe("when there are some blogs and users saved", () => {
   });
 
   describe("adding a new post checking auth status", () => {
+    test("a new post is added having the authenticated user as its creator", async () => {
+      const loginResponse = await api
+        .post(api_login_url)
+        .send(loggedInUserData);
+
+      // response definition
+      const authToken = loginResponse.body.access_token;
+
+      // a future response to a creation of a blog is ok
+      const createdResponse = HttpResponse.created();
+
+      await api
+        .post(api_blogs_url)
+        .send(dummyNewPost)
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(createdResponse.code);
+    });
+
     test("an error 401 Unauthorized is sent when auth token is invalid", async () => {
       const authToken = "auth-token";
       dummyNewPost.authorId = "invalid id";
