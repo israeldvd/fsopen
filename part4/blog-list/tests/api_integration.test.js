@@ -118,6 +118,28 @@ describe("when there are some blogs and users saved", () => {
         .send(dummyNewPost)
         .set("Authorization", `Bearer ${authToken}`)
         .expect(createdResponse.code);
+
+      const blogsAtEnd = await helper.blogsInDbPopulated();
+      const blogsAndAuthors = blogsAtEnd
+        .filter((blog) => {
+          return blog.author !== null;
+        })
+        .map((blog) => {
+          return {
+            title: blog.title,
+            url: blog.url,
+            author: blog.author, // ObjectID (but populated)
+          };
+        });
+
+      expect(blogsAndAuthors).toContainEqual({
+        title: dummyNewPost.title,
+        url: dummyNewPost.url,
+        author: {
+          username: loggedInUserData.username,
+          id: expect.any(String),
+        },
+      });
     });
 
     test("an error 401 Unauthorized is sent when auth token is invalid", async () => {

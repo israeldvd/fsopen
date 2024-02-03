@@ -40,13 +40,16 @@ blogsRouter.post("/", async (request, response) => {
     return;
   }
 
-  // picking an user for this blog
-  const foundUsersList = await User.find({});
-  const selectedUser = foundUsersList[0];
-  body.author = selectedUser._id; // the first one
+  // finding the creator of the blog
+  const selectedUser = await User.findById(decodedToken.id);
 
-  const blog = new Blog(body);
-
+  const blog = new Blog({
+    title: body.title,
+    likes: body.likes,
+    url: body.url,
+    author: selectedUser._id,
+    _id: body._id,
+  });
   const result = await blog.save();
 
   // update the user document

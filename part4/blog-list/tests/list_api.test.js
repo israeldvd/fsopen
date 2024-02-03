@@ -22,14 +22,26 @@ describe("when there are initially some blogs saved", () => {
     __v: 0,
   };
 
+  // the decoded token function
+  const userForTokenGetPayloadSpy = jest.spyOn(UserForToken, "getPayload");
+
   beforeAll(() => {
     // payload obtained from JWT verify is not tested here
-    jest.spyOn(UserForToken, "getPayload").mockReturnValue({ id: "a-valid-logged-in-user-id" });
-  })
+    jest
+      .spyOn(UserForToken, "getPayload")
+      .mockReturnValue({ id: "a-valid-logged-in-user-id" });
+  });
 
   beforeEach(async () => {
     await Blog.deleteMany({});
     await Blog.insertMany(helperBlogs);
+
+    const usersAtStart = await helper.usersInDb();
+    const lastUserIDInDb = usersAtStart.slice(-1)[0].id; // the last one (for the sake of avoiding the first one)
+
+    userForTokenGetPayloadSpy.mockReturnValueOnce({
+      id: lastUserIDInDb, // user is identified as logged in (token is decoded then)
+    });
   });
 
   test("(response) is returned as json", async () => {
@@ -72,19 +84,21 @@ describe("when there are initially some blogs saved", () => {
       expect(blogTitles).toContain(dummyNewPost.title);
     });
 
-    test("when a valid blog is added having the first user as its creator", async () => {
+    test("when a valid blog is added having an user as its creator", async () => {
       await api
         .post(api_url)
         .send({
           ...dummyNewPost,
         })
-        .set("Content-Type", "application/json");
+        .set("Content-Type", "application/json")
+        .expect(201);
+      expect(userForTokenGetPayloadSpy).toHaveBeenCalled();
 
       const newBlogAtEnd = await Blog.findById(dummyNewPost._id);
-      const usersAtEnd = await helper.usersInDb();
 
-      const firstUserID = usersAtEnd[0].id;
-      expect(firstUserID).toEqual(newBlogAtEnd.author._id.toString());
+      const usersAtEnd = await helper.usersInDb();
+      const lastUserIDInDb = usersAtEnd.slice(-1)[0].id; // the last one (for the sake of avoiding the first one)
+      expect(lastUserIDInDb).toEqual(newBlogAtEnd.author._id.toString());
     });
 
     test("an empty blog is not added", async () => {
