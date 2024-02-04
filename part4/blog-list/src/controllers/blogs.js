@@ -5,14 +5,6 @@ const User = require("../models/user");
 const HttpResponse = require("../utils/helpers/http-response");
 const UserForToken = require("../utils/helpers/user-for-token");
 
-const getTokenFrom = (request) => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.startsWith("Bearer ")) {
-    return authorization.replace("Bearer ", "");
-  }
-  return null;
-};
-
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate(
     "author",
@@ -23,7 +15,7 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response) => {
-  const decodedToken = UserForToken.getPayload(getTokenFrom(request));
+  const decodedToken = UserForToken.getPayload(request.token);
   if (!decodedToken.id) {
     const unauthorizedResponse = HttpResponse.unauthorized(
       new Error("invalid token")
