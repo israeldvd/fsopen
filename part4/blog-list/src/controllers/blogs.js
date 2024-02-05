@@ -53,6 +53,18 @@ blogsRouter.post("/", async (request, response) => {
 });
 
 blogsRouter.delete("/:id", async (request, response) => {
+  const decodedToken = UserForToken.getPayload(request.token);
+
+  if (!decodedToken || !decodedToken.id) {
+    const unauthorizedResponse = HttpResponse.unauthorized(
+      new Error("invalid token")
+    );
+
+    return response
+      .status(unauthorizedResponse.code)
+      .json(unauthorizedResponse.body);
+  }
+
   await Blog.findByIdAndRemove(request.params.id);
 
   response.status(204).end();

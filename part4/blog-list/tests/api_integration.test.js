@@ -12,6 +12,7 @@ const User = require("../src/models/user");
 const mongoose = require("mongoose");
 const HttpResponse = require("../src/utils/helpers/http-response");
 const UserForToken = require("../src/utils/helpers/user-for-token");
+const { InvalidCredentialsError } = require("../src/utils/errors/credentials");
 
 describe("when there are some blogs and users saved", () => {
   // the (user and blog) lists used throughout this test file
@@ -96,6 +97,10 @@ describe("when there are some blogs and users saved", () => {
     expect(loginResponse.body.access_token).toEqual(expect.any(String));
     authTokenOfAuthorOfB0 = loginResponse.body.access_token;
   }, 100000);
+
+  afterEach(async () => {
+    jest.restoreAllMocks();
+  });
 
   describe("viewing users", () => {
     test("users are returned with their respective blog(s)", async () => {
@@ -207,6 +212,34 @@ describe("when there are some blogs and users saved", () => {
         return blog.title;
       });
       expect(titlesAtEnd).not.toContain(helperBlogB0WithAnAuthor.title);
+    });
+
+    test("a blog cannot be deleted another user other than its creator", async () => {
+      // the user token (different that the blog's author)
+      const offlineUserToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+      expect(offlineUserToken).not.toEqual(authTokenOfAuthorOfB0);
+
+      // an unauthorized request is expect
+      const unauthorizedResponse = HttpResponse.unauthorized(
+        new InvalidCredentialsError("user")
+      );
+
+      // send a delete request (user is supposed to be logged in)
+      await api
+        .delete(`${api_blogs_url}/${blogB0Id._id.toString()}`)
+        .set("Authorization", `Bearer ${offlineUserToken}`)
+        .expect(unauthorizedResponse.code);
+
+      // the blog list (end) should NOT change in size
+      const blogsAtEnd = await helper.blogsInDb();
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length);
+
+      // the title should NOT be removed from the (end) list
+      const titlesAtEnd = blogsAtEnd.map((blog) => {
+        return blog.title;
+      });
+      expect(titlesAtEnd).toContain(helperBlogB0WithAnAuthor.title);
     });
   });
 
