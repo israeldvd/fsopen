@@ -38,6 +38,8 @@ describe("when there are some blogs and users saved", () => {
     password: "login_password",
   };
 
+  let authTokenOfLoggedinUser = "";
+
   // the first blog has the second author as its creator/author
   const helperBlogB0WithAnAuthor = helper.initialIntegrationBlogs[0];
   const helperAuthorOfBlogB0 = helper.initialIntegrationUsers[1]; // this is chosen by hand
@@ -97,6 +99,14 @@ describe("when there are some blogs and users saved", () => {
     // the token should be 'mocked'
     expect(loginResponse.body.access_token).toEqual(expect.any(String));
     authTokenOfAuthorOfB0 = loginResponse.body.access_token;
+
+    // login of the 'logged-in' user
+    const dummyUserLoginResponse = await api
+      .post(api_login_url)
+      .send(loggedInUserData);
+
+    // response definition
+    authTokenOfLoggedinUser = dummyUserLoginResponse.body.access_token;
   }, 100000);
 
   afterEach(async () => {
@@ -130,6 +140,37 @@ describe("when there are some blogs and users saved", () => {
   });
 
   describe("adding a new post checking auth status", () => {
+    test("a valid blog post can be added", async () => {
+      await api
+        .post(api_blogs_url)
+        .send({
+          ...dummyNewPost,
+        })
+        .set("Content-Type", "application/json")
+        .set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
+        .expect(201);
+
+      const blogsAtEnd = await helper.blogsInDb();
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length + 1);
+
+      // the new list of blog should contain the title
+      const blogTitles = blogsAtEnd.map((blog) => {
+        return blog.title;
+      });
+      expect(blogTitles).toContain(dummyNewPost.title);
+    });
+
+    test("missing property 'likes' is default to value 0", async () => {
+      const response = await api
+        .post(api_blogs_url)
+        .send({ ...dummyNewPost, likes: undefined })
+        .set("Content-Type", "application/json")
+        .set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
+        .expect(201);
+
+      expect(response.body.likes).toEqual(0);
+    });
+
     test("a new post is added having the authenticated user as its creator", async () => {
       const loginResponse = await api
         .post(api_login_url)

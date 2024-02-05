@@ -22,9 +22,6 @@ describe("when there are initially some blogs saved", () => {
     __v: 0,
   };
 
-  // the decoded token function
-  const userForTokenGetPayloadSpy = jest.spyOn(UserForToken, "getPayload");
-
   beforeAll(() => {
     // payload obtained from JWT verify is not tested here
     jest
@@ -35,13 +32,6 @@ describe("when there are initially some blogs saved", () => {
   beforeEach(async () => {
     await Blog.deleteMany({});
     await Blog.insertMany(helperBlogs);
-
-    const usersAtStart = await helper.usersInDb();
-    const lastUserIDInDb = usersAtStart.slice(-1)[0].id; // the last one (for the sake of avoiding the first one)
-
-    userForTokenGetPayloadSpy.mockReturnValueOnce({
-      id: lastUserIDInDb, // user is identified as logged in (token is decoded then)
-    });
   });
 
   test("(response) is returned as json", async () => {
@@ -65,25 +55,6 @@ describe("when there are initially some blogs saved", () => {
   });
 
   describe("addition of a new blog", () => {
-    test("a valid blog post can be added", async () => {
-      await api
-        .post(api_url)
-        .send({
-          ...dummyNewPost,
-        })
-        .set("Content-Type", "application/json")
-        .expect(201);
-
-      const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helperBlogs.length + 1);
-
-      // the new list of blog should contain the title
-      const blogTitles = blogsAtEnd.map((blog) => {
-        return blog.title;
-      });
-      expect(blogTitles).toContain(dummyNewPost.title);
-    });
-
     test("an empty blog is not added", async () => {
       const response = await api
         .post(api_url)
@@ -95,16 +66,6 @@ describe("when there are initially some blogs saved", () => {
 
       expect(response.body.error).toBeDefined();
       expect(blogsAtEnd).toHaveLength(helperBlogs.length);
-    });
-
-    test("missing property 'likes' is default to value 0", async () => {
-      const response = await api
-        .post(api_url)
-        .send({ ...dummyNewPost, likes: undefined })
-        .set("Content-Type", "application/json")
-        .expect(201);
-
-      expect(response.body.likes).toEqual(0);
     });
 
     test("receiving a blog without a title responds with Bad Request", async () => {
