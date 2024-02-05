@@ -29,6 +29,13 @@
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
       "cwd": "${workspaceFolder}/part3/phonebook-backend"
+    },
+    {
+      "command": "npm test",
+      "name": "Test blog-list",
+      "request": "launch",
+      "type": "node-terminal",
+      "cwd": "${workspaceFolder}/part4/blog-list"
     }
   ]
 }

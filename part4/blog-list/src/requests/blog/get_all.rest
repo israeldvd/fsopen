@@ -1,0 +1,2 @@
+## Find all informations of blogs
+GET http://localhost:3003/api/blogs

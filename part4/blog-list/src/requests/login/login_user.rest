@@ -1,0 +1,23 @@
+@domain_name = http://localhost:3003
+@api_login_endpoint = api/login
+
+
+### Login route with a valid user credential
+
+POST {{domain_name}}/{{api_login_endpoint}}
+Content-Type: application/json
+
+{
+    "username": "erick",
+    "password": "Erick1234"
+}
+
+### Login route with an INVALID user credential
+
+POST {{domain_name}}/{{api_login_endpoint}}
+Content-Type: application/json
+
+{
+    "username": "john",
+    "password": "invalid_password"
+}
