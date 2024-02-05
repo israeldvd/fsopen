@@ -5,6 +5,14 @@ class InvalidCredentialsError extends Error {
   }
 }
 
+class CredentialsRefusedError extends Error {
+  constructor(identifier) {
+    super(`Credentials are not sufficient for ${identifier}`);
+    this.name = "CredentialsRefusedError";
+  }
+}
+
 module.exports = {
   InvalidCredentialsError,
+  CredentialsRefusedError,
 };
