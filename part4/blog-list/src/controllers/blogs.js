@@ -14,7 +14,10 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.post("/", middleware.userExtractor, async (request, response) => {
-  if (!request.user) {
+  // finding the creator of the blog
+  const selectedUser = request.user;
+
+  if (!selectedUser) {
     const unauthorizedResponse = HttpResponse.unauthorized(
       new Error("invalid token")
     );
@@ -29,9 +32,6 @@ blogsRouter.post("/", middleware.userExtractor, async (request, response) => {
     response.status(400).json({ error: "Blog information cannot be empty." });
     return;
   }
-
-  // finding the creator of the blog
-  const selectedUser = request.user;
 
   const blog = new Blog({
     title: body.title,
