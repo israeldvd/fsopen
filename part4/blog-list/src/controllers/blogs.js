@@ -1,9 +1,8 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 const { blogPopulateSelectionOptions } = require("../models/model-options");
-const User = require("../models/user");
 const HttpResponse = require("../utils/helpers/http-response");
-const UserForToken = require("../utils/helpers/user-for-token");
+const middleware = require("../utils/helpers/middleware");
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate(
@@ -14,9 +13,8 @@ blogsRouter.get("/", async (request, response) => {
   response.json(blogs);
 });
 
-blogsRouter.post("/", async (request, response) => {
-  const decodedToken = UserForToken.getPayload(request.token);
-  if (!decodedToken.id) {
+blogsRouter.post("/", middleware.userExtractor, async (request, response) => {
+  if (!request.user) {
     const unauthorizedResponse = HttpResponse.unauthorized(
       new Error("invalid token")
     );
@@ -33,7 +31,7 @@ blogsRouter.post("/", async (request, response) => {
   }
 
   // finding the creator of the blog
-  const selectedUser = await User.findById(decodedToken.id);
+  const selectedUser = request.user;
 
   const blog = new Blog({
     title: body.title,
@@ -52,23 +50,25 @@ blogsRouter.post("/", async (request, response) => {
   response.status(201).json(result);
 });
 
-blogsRouter.delete("/:id", async (request, response) => {
-  const decodedToken = UserForToken.getPayload(request.token);
+blogsRouter.delete(
+  "/:id",
+  middleware.userExtractor,
+  async (request, response) => {
+    if (!request.user) {
+      const unauthorizedResponse = HttpResponse.unauthorized(
+        new Error("invalid token")
+      );
 
-  if (!decodedToken || !decodedToken.id) {
-    const unauthorizedResponse = HttpResponse.unauthorized(
-      new Error("invalid token")
-    );
+      return response
+        .status(unauthorizedResponse.code)
+        .json(unauthorizedResponse.body);
+    }
 
-    return response
-      .status(unauthorizedResponse.code)
-      .json(unauthorizedResponse.body);
+    await Blog.findByIdAndRemove(request.params.id);
+
+    response.status(204).end();
   }
-
-  await Blog.findByIdAndRemove(request.params.id);
-
-  response.status(204).end();
-});
+);
 
 blogsRouter.patch("/:id", async (request, response) => {
   const { title, url, likes, author } = request.body;
