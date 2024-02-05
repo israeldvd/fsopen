@@ -237,6 +237,36 @@ describe("when there are some blogs and users saved", () => {
   });
 
   describe("deleting a blog post after checking auth status", () => {
+    test("succeeds with status code 204 when id is valid", async () => {
+      const blogsAtStart = await helper.blogsInDb();
+      const blogToDelete = blogsAtStart[0];
+
+      if (!blogToDelete) {
+        return false;
+      }
+
+      await api
+        .delete(`${api_blogs_url}/${blogToDelete.id}`)
+        .set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
+        .expect(204);
+
+      const blogsAtEnd = await helper.blogsInDb();
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length - 1);
+    });
+
+    test("still returns status code 204 when id is invalid", async () => {
+      const inexistentID = await helper.nonExistingId();
+
+      await api
+        .delete(`${api_blogs_url}/${inexistentID}`)
+        .set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
+        .expect(204);
+
+      // nothing is changed from the initial list
+      const blogsAtEnd = await helper.blogsInDb();
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length);
+    });
+
     test("a blog can be deleted by its creator", async () => {
       // send a delete request (user is supposed to be logged in)
       const response = await api

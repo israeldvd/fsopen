@@ -92,30 +92,6 @@ describe("when there are initially some blogs saved", () => {
   });
 
   describe("deletion of a blog", () => {
-    test("succeeds with status code 204 when id is valid", async () => {
-      const blogsAtStart = await helper.blogsInDb();
-      const blogToDelete = blogsAtStart[0];
-
-      if (!blogToDelete) {
-        return false;
-      }
-
-      await api.delete(`${api_url}/${blogToDelete.id}`).expect(204);
-
-      const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helperBlogs.length - 1);
-    });
-
-    test("still returns status code 204 when id is invalid", async () => {
-      const inexistentID = await helper.nonExistingId();
-
-      await api.delete(`${api_url}/${inexistentID}`).expect(204);
-
-      // nothing is changed from the initial list
-      const blogsAtEnd = await helper.blogsInDb();
-      expect(blogsAtEnd).toHaveLength(helperBlogs.length);
-    });
-
     test("returns status code 400 when id is malformatted", async () => {
       const malformattedId = "123abc";
 
