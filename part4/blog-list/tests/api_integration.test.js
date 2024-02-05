@@ -160,6 +160,7 @@ describe("when there are some blogs and users saved", () => {
           };
         });
 
+      // test when a valid blog is added having an user as its creator (identified by the auth token)
       expect(blogsAndAuthors).toContainEqual({
         title: dummyNewPost.title,
         url: dummyNewPost.url,
