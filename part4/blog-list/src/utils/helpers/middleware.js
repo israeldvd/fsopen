@@ -1,10 +1,34 @@
+const User = require("../../models/user");
+const HttpResponse = require("./http-response");
 const logger = require("./logger");
+const UserForToken = require("./user-for-token");
 
 const tokenExtractor = (request, _response, next) => {
   const authorization = request.get("authorization");
   if (authorization && authorization.startsWith("Bearer ")) {
     request.token = authorization.replace("Bearer ", "");
   }
+  next();
+};
+
+const userExtractor = async (request, response, next) => {
+  const decodedToken = UserForToken.getPayload(request.token);
+
+  // check if the token was succesfully decoded and has an id field
+  // serves as an authentication checker
+  if (!decodedToken.id) {
+    const unauthorizedResponse = HttpResponse.unauthorized(
+      new Error("invalid token")
+    );
+    return response
+      .status(unauthorizedResponse.code)
+      .json(unauthorizedResponse.body);
+  }
+
+  // set user to the user attribute
+  const user = await User.findById(decodedToken.id);
+  request.user = user;
+
   next();
 };
 
@@ -51,4 +75,5 @@ module.exports = {
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  userExtractor,
 };
