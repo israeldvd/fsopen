@@ -27,7 +27,7 @@ const initialBlogList = [
 
 const initialIntegrationBlogs = [
   {
-    author: "659da346fc13ae5978fa20b9",
+    author: "659da346fc13ae5978fa20b9", // "Sarge Stuchbery" (user in integration having this blog)
     title: "Breast Men",
     likes: "14246",
     url: "https://nature.com",
@@ -199,6 +199,7 @@ const initialIntegrationUsers = [
     password: "pY4<H`@R%X$HuSe~",
   },
   {
+    _id: "659da346fc13ae5978fa20b9",
     name: "Sarge Stuchbery",
     email: "sstuchbery1@tinyurl.com",
     username: "sstuchbery1",

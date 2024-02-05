@@ -36,6 +36,13 @@ describe("when there are some blogs and users saved", () => {
     password: "login_password",
   };
 
+  // the first blog has the second author as its creator/author
+  const helperBlogB0WithAnAuthor = helper.initialIntegrationBlogs[0];
+  const helperAuthorOfBlogB0 = helper.initialIntegrationUsers[1]; // this is chosen by hand
+
+  let authTokenOfAuthorOfB0 = "";
+  let blogB0Id = "";
+
   beforeEach(async () => {
     // save a new set of valid data
     dummyNewPost = {
@@ -73,6 +80,21 @@ describe("when there are some blogs and users saved", () => {
     });
 
     await Promise.all(dbSavesPromiseArray);
+
+    // find the ID attributd to B0
+    const blogB0FromDb = await Blog.findOne({
+      title: helperBlogB0WithAnAuthor.title,
+    });
+    blogB0Id = blogB0FromDb._id;
+
+    // login the author of B0
+    const loginResponse = await api
+      .post(api_login_url)
+      .send(helperAuthorOfBlogB0);
+
+    // the token should be 'mocked'
+    expect(loginResponse.body.access_token).toEqual(expect.any(String));
+    authTokenOfAuthorOfB0 = loginResponse.body.access_token;
   }, 100000);
 
   describe("viewing users", () => {
@@ -163,6 +185,28 @@ describe("when there are some blogs and users saved", () => {
 
       expect(getPayloadSpy).toHaveBeenCalledWith(authToken);
       expect(response.body).toEqual(unauthorizedErrorResponse.body);
+    });
+  });
+
+  describe("deleting a blog post after checking auth status", () => {
+    test("a blog can be deleted by its creator", async () => {
+      // send a delete request (user is supposed to be logged in)
+      const response = await api
+        .delete(`${api_blogs_url}/${blogB0Id._id.toString()}`)
+        .set("Authorization", `Bearer ${authTokenOfAuthorOfB0}`)
+        .expect(204);
+
+      expect(response.body).toStrictEqual({});
+
+      // the blog list (end) should have one less blog
+      const blogsAtEnd = await helper.blogsInDb();
+      expect(blogsAtEnd).toHaveLength(helperBlogs.length - 1);
+
+      // the title should be in the (end) list anymore
+      const titlesAtEnd = blogsAtEnd.map((blog) => {
+        return blog.title;
+      });
+      expect(titlesAtEnd).not.toContain(helperBlogB0WithAnAuthor.title);
     });
   });
 
