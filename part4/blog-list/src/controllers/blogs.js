@@ -1,6 +1,8 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 const { blogPopulateSelectionOptions } = require("../models/model-options");
+const { CredentialsRefusedError } = require("../utils/errors/credentials");
+const { InvalidParamError } = require("../utils/errors/params");
 const HttpResponse = require("../utils/helpers/http-response");
 const middleware = require("../utils/helpers/middleware");
 
@@ -54,6 +56,18 @@ blogsRouter.delete(
   "/:id",
   middleware.userExtractor,
   async (request, response) => {
+    const blog = await Blog.findById(request.params.id);
+
+    if (!blog) {
+      const badRequestResponse = HttpResponse.badRequest(
+        new InvalidParamError("id")
+      );
+
+      return response
+        .status(badRequestResponse.code)
+        .json(badRequestResponse.body);
+    }
+
     if (!request.user) {
       const unauthorizedResponse = HttpResponse.unauthorized(
         new Error("invalid token")
@@ -64,7 +78,18 @@ blogsRouter.delete(
         .json(unauthorizedResponse.body);
     }
 
-    await Blog.findByIdAndRemove(request.params.id);
+    // user is found but is different that the blog's creator
+    if (blog.author._id.toString() !== request.user._id.toString()) {
+      const forbiddenReceivedResponse = HttpResponse.forbidden(
+        new CredentialsRefusedError("user")
+      );
+
+      return response
+        .status(forbiddenReceivedResponse.code)
+        .json(forbiddenReceivedResponse.body);
+    }
+
+    await blog.deleteOne();
 
     response.status(204).end();
   }

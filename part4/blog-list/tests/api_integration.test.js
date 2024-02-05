@@ -12,7 +12,7 @@ const User = require("../src/models/user");
 const mongoose = require("mongoose");
 const HttpResponse = require("../src/utils/helpers/http-response");
 const UserForToken = require("../src/utils/helpers/user-for-token");
-const { InvalidCredentialsError } = require("../src/utils/errors/credentials");
+const { CredentialsRefusedError } = require("../src/utils/errors/credentials");
 const { JsonWebTokenError } = require("jsonwebtoken");
 
 describe("when there are some blogs and users saved", () => {
@@ -237,13 +237,13 @@ describe("when there are some blogs and users saved", () => {
   });
 
   describe("deleting a blog post after checking auth status", () => {
-    test("still returns status code 204 when id is invalid", async () => {
+    test("a Bad Request response is sent when id is invalid", async () => {
       const inexistentID = await helper.nonExistingId();
 
       await api
         .delete(`${api_blogs_url}/${inexistentID}`)
         .set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
-        .expect(204);
+        .expect(400);
 
       // nothing is changed from the initial list
       const blogsAtEnd = await helper.blogsInDb();
@@ -272,20 +272,19 @@ describe("when there are some blogs and users saved", () => {
 
     test("a blog cannot be deleted another user other than its creator", async () => {
       // the user token (different that the blog's author)
-      const offlineUserToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-      expect(offlineUserToken).not.toEqual(authTokenOfAuthorOfB0);
+      const authToken = authTokenOfLoggedinUser;
+      expect(authToken).not.toEqual(authTokenOfAuthorOfB0);
 
       // an unauthorized request is expect
-      const unauthorizedResponse = HttpResponse.unauthorized(
-        new InvalidCredentialsError("user")
+      const forbiddenReceivedResponse = HttpResponse.forbidden(
+        new CredentialsRefusedError("user")
       );
 
       // send a delete request (user is supposed to be logged in)
       await api
         .delete(`${api_blogs_url}/${blogB0Id._id.toString()}`)
-        .set("Authorization", `Bearer ${offlineUserToken}`)
-        .expect(unauthorizedResponse.code);
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(forbiddenReceivedResponse.code);
 
       // the blog list (end) should NOT change in size
       const blogsAtEnd = await helper.blogsInDb();
