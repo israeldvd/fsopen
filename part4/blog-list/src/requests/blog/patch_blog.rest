@@ -1,0 +1,34 @@
+## Update some parts of a blog
+@domain_name = http://localhost:3003
+@api_endpoint = api/blogs
+@blog_id = 659768a09fbea33d25683bd2
+@blog_three_reasons_id = 652b5aebdfe82c05813082da
+
+### Changing title and likes number
+
+PATCH {{domain_name}}/{{api_endpoint}}/{{blog_id}}
+Content-Type: application/json
+
+{
+    "title": "[CHANGED] Naming a blog",
+    "likes": 20
+}
+
+### Changing only the title
+
+PATCH {{domain_name}}/{{api_endpoint}}/{{blog_id}}
+Content-Type: application/json
+
+{
+    "title": "[CHANGED] A new title"
+}
+
+### Changing the URL and the title of a site
+
+PATCH {{domain_name}}/{{api_endpoint}}/{{blog_three_reasons_id}}
+Content-Type: application/json
+
+{
+    "title": "[CHANGED] Three Reasons are not enough already, so we moved!",
+    "url": "moved.site.net"
+}

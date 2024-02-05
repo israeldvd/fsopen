@@ -1,6 +1,9 @@
+@access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVyaWNrIiwiaWQiOiI2NWJlYWM1MDdiYjNhNzdiYmMxZTM0YzEiLCJpYXQiOjE3MDY5OTQ3ODZ9.qMjLfIqzJP9uUCovwcDGcabLOhlfP_cJg0b3hBQHP00
+
 ## Create a new blog information
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
     "title": "Second change blog",
@@ -13,6 +16,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "By the Light of the Silvery Moon",
@@ -25,6 +29,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Dance of the Dead",
@@ -37,6 +42,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Among Giants",
@@ -49,6 +55,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "The Slap",
@@ -61,6 +68,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Front Page Woman",
@@ -73,6 +81,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Just Visiting",
@@ -85,6 +94,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Benchwarmers, The",
@@ -97,6 +107,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Harry + Max",
@@ -109,6 +120,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Beyond All Boundaries",
@@ -121,6 +133,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Great Santini, The",
@@ -133,6 +146,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "The Happy Road",
@@ -145,6 +159,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Heaven's Burning",
@@ -157,6 +172,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Terrorizers, The (Kong bu fen zi)",
@@ -169,6 +185,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Dragon Age: Redemption",
@@ -181,6 +198,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Touch the Sound: A Sound Journey with Evelyn Glennie",
@@ -193,6 +211,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Predator",
@@ -205,6 +224,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Someone's Gaze",
@@ -217,6 +237,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "So Fine",
@@ -229,6 +250,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Crowd Roars, The",
@@ -241,6 +263,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Gang's All Here, The",
@@ -253,6 +276,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Hot Shots! Part Deux",
@@ -265,6 +289,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Marie and Bruce",
@@ -277,6 +302,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Random Harvest",
@@ -289,6 +315,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Cleopatra",
@@ -301,6 +328,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Tabu: A Story of the South Seas",
@@ -313,6 +341,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "I Was Monty's Double",
@@ -325,6 +354,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Doctor Dolittle",
@@ -337,6 +367,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Girl with Hyacinths",
@@ -349,6 +380,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Michael Collins",
@@ -361,6 +393,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Father Hood",
@@ -373,6 +406,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Fifth Element, The",
@@ -385,6 +419,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "title": "Buried Alive",

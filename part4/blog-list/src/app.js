@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("express-async-errors");
 const blogsRouter = require("./controllers/blogs");
-const config = require("./utils/config");
-const middleware = require("./utils/middleware");
+const config = require("./utils/helpers/config");
+const middleware = require("./utils/helpers/middleware");
+const usersRouter = require("./controllers/users");
+const loginRoute = require("./controllers/login");
 
 const app = express();
 
@@ -14,7 +16,10 @@ mongoose.connect(mongoUrl);
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/login", loginRoute);
+app.use(middleware.tokenExtractor);
 app.use("/api/blogs", blogsRouter);
+app.use("/api/users", usersRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
