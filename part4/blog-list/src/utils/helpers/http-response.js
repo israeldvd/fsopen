@@ -20,6 +20,13 @@ module.exports = class HttpResponse {
     };
   }
 
+  static forbidden(error) {
+    return {
+      code: 403,
+      body: { error: error.message },
+    };
+  }
+
   static conflict(error) {
     return {
       code: 409,
