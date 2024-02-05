@@ -234,6 +234,20 @@ describe("when there are some blogs and users saved", () => {
       expect(getPayloadSpy).toHaveBeenCalledWith(authToken);
       expect(response.body).toEqual(unauthorizedErrorResponse.body);
     });
+
+    it("fails with the code 401 Unauthorized if a token is not provided", async () => {
+      const unauthorizedErrorResponse = HttpResponse.unauthorized(
+        new JsonWebTokenError("jwt must be provided")
+      );
+
+      const response = await api
+        .post(api_blogs_url)
+        .send(dummyNewPost)
+        // .set("Authorization", "") // Missing auth token
+        .expect(unauthorizedErrorResponse.code);
+
+      expect(response.body).toEqual(unauthorizedErrorResponse.body);
+    });
   });
 
   describe("deleting a blog post after checking auth status", () => {
