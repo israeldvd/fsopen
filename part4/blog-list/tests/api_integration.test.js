@@ -13,6 +13,7 @@ const mongoose = require("mongoose");
 const HttpResponse = require("../src/utils/helpers/http-response");
 const UserForToken = require("../src/utils/helpers/user-for-token");
 const { InvalidCredentialsError } = require("../src/utils/errors/credentials");
+const { JsonWebTokenError } = require("jsonwebtoken");
 
 describe("when there are some blogs and users saved", () => {
   // the (user and blog) lists used throughout this test file
@@ -240,6 +241,20 @@ describe("when there are some blogs and users saved", () => {
         return blog.title;
       });
       expect(titlesAtEnd).toContain(helperBlogB0WithAnAuthor.title);
+    });
+
+    test("an unauthorized response is sent for a request without an auth token", async () => {
+      // an unauthorized request is expected
+      const unauthorizedResponse = HttpResponse.unauthorized(
+        new JsonWebTokenError("jwt must be provided") // assumes jsonwebtoken is the token provider and verifier
+      );
+
+      const response = await api
+        .delete(`${api_blogs_url}/${blogB0Id._id.toString()}`)
+        // .set("Authorization", "") // equivalent to...
+        .expect(unauthorizedResponse.code);
+
+      expect(response.body).toEqual(unauthorizedResponse.body);
     });
   });
 
