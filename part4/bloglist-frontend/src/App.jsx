@@ -18,13 +18,13 @@ const App = () => {
         <>
           <h2>Welcome!</h2>
           <p>Check all available posts. You are now logged in.</p>
+
+          <h2>blogs</h2>
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
         </>
       )}
-
-      <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
     </div>
   )
 }
