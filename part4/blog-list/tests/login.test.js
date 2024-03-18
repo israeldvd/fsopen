@@ -26,6 +26,7 @@ describe("when there are some users signed up", () => {
   let dummyLoginResponse = {
     username: dummyLoginData.username,
     access_token: "jwt_access_token",
+    name: "Invalid name",
   };
 
   beforeEach(async () => {
@@ -38,6 +39,7 @@ describe("when there are some users signed up", () => {
 
     // username
     dummyLoginResponse.username = dummyLoginData.username;
+    dummyLoginResponse.name = helperUsers[0].name;
   });
 
   describe("Login route", () => {
@@ -52,6 +54,7 @@ describe("when there are some users signed up", () => {
       const okResponse = HttpResponse.ok({
         access_token: dummyLoginResponse.access_token,
         username: dummyLoginData.username,
+        name: dummyLoginResponse.name,
       });
 
       // request-response cycle
@@ -67,6 +70,7 @@ describe("when there are some users signed up", () => {
         {
           id: expect.any(String),
           username: dummyLoginData.username,
+          name: dummyLoginResponse.name,
         },
         SECRET
       );

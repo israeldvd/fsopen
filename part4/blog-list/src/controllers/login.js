@@ -41,11 +41,13 @@ loginRoute.post("/", async (request, response) => {
   // otherwise, ok
   const access_token = UserForToken.generate(
     user._id.toString(),
-    user.username
+    user.username,
+    user.name
   );
 
   response.json({
     username: user.username,
+    name: user.name,
     access_token: access_token,
   });
 });
