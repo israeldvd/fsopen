@@ -4,11 +4,12 @@ const { SECRET } = require("./config");
 module.exports = class UserForToken {
   static secret = SECRET;
 
-  static generate(id, username) {
+  static generate(id, username, name) {
     return jwt.sign(
       {
         username: username,
         id: id,
+        name: name,
       },
       UserForToken.secret
     );
