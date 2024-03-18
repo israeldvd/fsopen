@@ -1,11 +1,19 @@
 import { useState } from "react"
+import loginService from "../services/login"
 
-export const LoginForm = () => {
+export const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
+
+    const userOnResponse = await loginService.login({ username, password })
+    setUser(userOnResponse)
+    setUsername("")
+    setPassword("")
+
+    window.alert(`user is logged in`)
   }
 
   return (
