@@ -39,6 +39,12 @@ const App = () => {
     const returnedBlog = await blogService.create(newBlogPost)
     setBlogs(blogs.concat(returnedBlog))
 
+    // new-post feedback
+    setTemporaryFeedback({
+      class: "success",
+      text: `a new blog ${returnedBlog.title} by ${user.name} was added`,
+    })
+
     return true
   }
 
