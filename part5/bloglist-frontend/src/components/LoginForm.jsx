@@ -1,17 +1,22 @@
 import { useState } from "react"
 
-export const LoginForm = ({ handleLogin }) => {
+export const LoginForm = (
+  /** @type {{handleLogin: (e: React.FormEvent<HTMLFormElement>, username: string,
+  password: string) => Promise<boolean> }} */ { handleLogin },
+) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   return (
     <form
-      onSubmit={(e) => {
-        handleLogin(e, username, password)
+      onSubmit={async (e) => {
+        const loginSuccess = await handleLogin(e, username, password)
 
-        // clear input
-        setUsername("")
-        setPassword("")
+        if (loginSuccess) {
+          // clear input
+          setUsername("")
+          setPassword("")
+        }
       }}
     >
       <h2>Login</h2>

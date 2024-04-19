@@ -48,6 +48,8 @@ const App = () => {
     return true
   }
 
+  /** @type (e: React.FormEvent<HTMLFormElement>, username: string,
+  password: string) => Promise<boolean> */
   const handleLogin = async (
     /** @type {React.FormEvent<HTMLFormElement>} */ e,
     /** @type {string} */ username,
@@ -55,18 +57,33 @@ const App = () => {
   ) => {
     e.preventDefault()
 
-    const userOnResponse = await loginService.login({ username, password })
+    try {
+      const userOnResponse = await loginService.login({ username, password })
 
-    // save user data
-    blogService.setToken(userOnResponse.access_token)
-    window.localStorage.setItem("loggedAppUser", JSON.stringify(userOnResponse))
+      // save user data
+      blogService.setToken(userOnResponse.access_token)
+      window.localStorage.setItem(
+        "loggedAppUser",
+        JSON.stringify(userOnResponse),
+      )
 
-    setUser(userOnResponse)
+      setUser(userOnResponse)
 
-    setTemporaryFeedback({
-      text: "You are now logged in!",
-      class: "success",
-    })
+      setTemporaryFeedback({
+        text: "You are now logged in!",
+        class: "success",
+      })
+
+      return Promise.resolve(true)
+    } catch (error) {
+      // failed authentication feedback
+      setTemporaryFeedback({
+        text: "Wrong password or username",
+        class: "error",
+      })
+
+      return Promise.resolve(false)
+    }
   }
 
   const handleLogout = () => {
@@ -78,11 +95,11 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={temporaryFeedback} />
       {user === null && <LoginForm handleLogin={handleLogin} />}
       {user !== null && (
         <>
           <h2>blogs</h2>
-          <Notification message={temporaryFeedback} />
           <p>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
