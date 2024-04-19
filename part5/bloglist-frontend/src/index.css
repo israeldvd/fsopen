@@ -1,3 +1,29 @@
 #new-blog-form {
   width: min-content;
 }
+
+.notification {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  font-weight: bold;
+  padding: 0.4rem 2rem;
+  background-color: whitesmoke;
+
+  border: 4px black solid;
+  border-radius: 0.8rem;
+}
+
+.notification.info {
+  border-color: rgb(170, 169, 122);
+  box-shadow: 1px 1px 2px black;
+}
+
+.notification.error {
+  border-color: sienna;
+}
+
+.notification.success {
+  border-color: darkcyan;
+}
