@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import Blog from "./components/Blog"
+import loginService from "./services/login"
 import blogService from "./services/blogs"
 import { LoginForm } from "./components/LoginForm"
 
@@ -19,6 +20,23 @@ const App = () => {
     }
   }, [])
 
+  const handleLogin = async (
+    /** @type {React.FormEvent<HTMLFormElement>} */ e,
+    /** @type {string} */ username,
+    /** @type {string} */ password,
+  ) => {
+    e.preventDefault()
+
+    const userOnResponse = await loginService.login({ username, password })
+
+    // save user data
+    window.localStorage.setItem("loggedAppUser", JSON.stringify(userOnResponse))
+
+    setUser(userOnResponse)
+
+    window.alert(`user is logged in`)
+  }
+
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       window.localStorage.removeItem("loggedAppUser")
@@ -28,7 +46,7 @@ const App = () => {
 
   return (
     <div>
-      {user === null && <LoginForm setUser={setUser} />}
+      {user === null && <LoginForm handleLogin={handleLogin} />}
       {user !== null && (
         <>
           <h2>blogs</h2>
