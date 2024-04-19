@@ -36,8 +36,8 @@ const App = () => {
   const addPost = async (
     /** @type {{ title: string; author: string; url: string; }} */ newBlogPost,
   ) => {
-    const returnedNote = await blogService.create(newBlogPost)
-    setBlogs(blogs.concat(returnedNote))
+    const returnedBlog = await blogService.create(newBlogPost)
+    setBlogs(blogs.concat(returnedBlog))
 
     return true
   }
