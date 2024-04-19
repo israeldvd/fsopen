@@ -9,6 +9,10 @@ export const LoginForm = ({ setUser }) => {
     e.preventDefault()
 
     const userOnResponse = await loginService.login({ username, password })
+
+    // save user data
+    window.localStorage.setItem("loggedAppUser", JSON.stringify(userOnResponse))
+
     setUser(userOnResponse)
     setUsername("")
     setPassword("")
