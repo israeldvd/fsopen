@@ -90,6 +90,12 @@ const App = () => {
     if (window.confirm("Are you sure you want to log out?")) {
       window.localStorage.removeItem("loggedAppUser")
       setUser(null)
+
+      // logout feedback
+      setTemporaryFeedback({
+        text: "That is it! You are now logged out.",
+        class: "info",
+      })
     }
   }
 
