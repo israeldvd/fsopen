@@ -4,10 +4,12 @@ import loginService from "./services/login"
 import blogService from "./services/blogs"
 import { LoginForm } from "./components/LoginForm"
 import { BlogForm } from "./components/BlogForm"
+import Notification, { nullishFeedback } from "./components/Notification"
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
+  const [feedback, setFeedback] = useState(nullishFeedback)
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -21,6 +23,15 @@ const App = () => {
       blogService.setToken(user.access_token)
     }
   }, [])
+
+  useEffect(() => {
+    // set every feedback (message) to be temporary
+    return () => {
+      setTimeout(() => {
+        setFeedback(nullishFeedback)
+      }, 5000)
+    }
+  }, [feedback])
 
   const addPost = async (
     /** @type {{ title: string; author: string; url: string; }} */ newBlogPost,
@@ -46,7 +57,10 @@ const App = () => {
 
     setUser(userOnResponse)
 
-    window.alert(`user is logged in`)
+    setFeedback({
+      text: "You are now logged in!",
+      class: "success",
+    })
   }
 
   const handleLogout = () => {
@@ -62,6 +76,7 @@ const App = () => {
       {user !== null && (
         <>
           <h2>blogs</h2>
+          <Notification message={feedback} />
           <p>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
