@@ -21,7 +21,7 @@ export const BlogForm = () => {
   }
 
   return (
-    <form className="new-blog-form">
+    <form id="new-blog-form">
       <label htmlFor="new-blog-title">title: </label>
       <input
         id="new-blog-title"
@@ -29,7 +29,6 @@ export const BlogForm = () => {
         value={newBlogPost.title}
         onChange={handlePostChange}
       />
-      <br />
       <label htmlFor="new-blog-author">author: </label>
       <input
         id="new-blog-author"
@@ -37,7 +36,6 @@ export const BlogForm = () => {
         value={newBlogPost.author}
         onChange={handlePostChange}
       />
-      <br />
       <label htmlFor="new-blog-url">url: </label>
       <input
         id="new-blog-url"
