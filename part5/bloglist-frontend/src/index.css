@@ -25,5 +25,6 @@
 }
 
 .notification.success {
+  color: darkcyan;
   border-color: darkcyan;
 }
