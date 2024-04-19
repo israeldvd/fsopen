@@ -1,11 +1,19 @@
 import { useState } from "react"
 
-export const BlogForm = () => {
-  const [newBlogPost, setNewBlogPost] = useState({
-    title: "",
-    author: "",
-    url: "",
-  })
+const defaultBlogpostInput = {
+  title: "",
+  author: "",
+  url: "",
+}
+
+export const BlogForm = (
+  /** @type {{addPost: (arg0: {
+    title: string;
+    author: string;
+    url: string;
+}) => Promise<boolean> }} */ { addPost },
+) => {
+  const [newBlogPost, setNewBlogPost] = useState(defaultBlogpostInput)
 
   const handlePostChange = (
     /** @type {React.ChangeEvent<HTMLInputElement>} */ event,
@@ -21,7 +29,15 @@ export const BlogForm = () => {
   }
 
   return (
-    <form id="new-blog-form">
+    <form
+      id="new-blog-form"
+      onSubmit={(e) => {
+        e.preventDefault()
+
+        addPost(newBlogPost)
+        setNewBlogPost(defaultBlogpostInput)
+      }}
+    >
       <label htmlFor="new-blog-title">title: </label>
       <input
         id="new-blog-title"
