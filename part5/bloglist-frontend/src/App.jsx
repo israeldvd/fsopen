@@ -9,7 +9,7 @@ import Notification, { nullishFeedback } from "./components/Notification"
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [feedback, setFeedback] = useState(nullishFeedback)
+  const [temporaryFeedback, setTemporaryFeedback] = useState(nullishFeedback)
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -28,10 +28,10 @@ const App = () => {
     // set every feedback (message) to be temporary
     return () => {
       setTimeout(() => {
-        setFeedback(nullishFeedback)
+        setTemporaryFeedback(nullishFeedback)
       }, 5000)
     }
-  }, [feedback])
+  }, [temporaryFeedback])
 
   const addPost = async (
     /** @type {{ title: string; author: string; url: string; }} */ newBlogPost,
@@ -57,7 +57,7 @@ const App = () => {
 
     setUser(userOnResponse)
 
-    setFeedback({
+    setTemporaryFeedback({
       text: "You are now logged in!",
       class: "success",
     })
@@ -76,7 +76,7 @@ const App = () => {
       {user !== null && (
         <>
           <h2>blogs</h2>
-          <Notification message={feedback} />
+          <Notification message={temporaryFeedback} />
           <p>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
