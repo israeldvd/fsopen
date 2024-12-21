@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { forwardRef, useImperativeHandle, useState } from "react"
 
 
-const Togglable = (/** @type {{ buttonLabel: string | number | boolean | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | Iterable<import("react").ReactNode> | import("react").ReactPortal; children: string | number | boolean | import("react").ReactElement<any, string | import("react").JSXElementConstructor<any>> | Iterable<import("react").ReactNode> | import("react").ReactPortal; }} */ props) => {
+const Togglable = forwardRef((props, refs) => {
     const [visible, setVisible] = useState(false)
 
     const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -10,6 +10,12 @@ const Togglable = (/** @type {{ buttonLabel: string | number | boolean | import(
     const toggleVisibility = () => {
         setVisible(!visible)
     }
+
+    useImperativeHandle(refs, () => {
+        return {
+            toggleVisibility
+        }
+    })
 
     return (
         <div>
@@ -23,6 +29,7 @@ const Togglable = (/** @type {{ buttonLabel: string | number | boolean | import(
             </div>
         </div>
     )
-}
+})
+Togglable.displayName = 'Togglable'
 
 export default Togglable
