@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Blog from "./components/Blog"
 import loginService from "./services/login"
 import blogService from "./services/blogs"
@@ -11,6 +11,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [temporaryFeedback, setTemporaryFeedback] = useState(nullishFeedback)
+
+  // blog-form reference used to hide it again, kept throughout re-renders of the component
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -45,6 +48,9 @@ const App = () => {
       class: "success",
       text: `a new blog ${returnedBlog.title} by ${user.name} was added`,
     })
+
+    // toggle form visibility by using the same reference
+    blogFormRef.current?.toggleVisibility()
 
     return true
   }
@@ -110,7 +116,7 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
-          <Togglable buttonLabel='new post' >
+          <Togglable buttonLabel='new post' ref={blogFormRef} >
             <BlogForm addPost={addPost} />
           </Togglable>
           {blogs.map((blog) => (
