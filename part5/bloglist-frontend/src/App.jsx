@@ -110,8 +110,6 @@ const App = () => {
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
           <>
-            <h2>Create new</h2>
-
             <BlogForm addPost={addPost} />
           </>
           {blogs.map((blog) => (
