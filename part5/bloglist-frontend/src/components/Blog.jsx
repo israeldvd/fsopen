@@ -1,10 +1,16 @@
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = (
+  /** @type {{ blog: any, updatePost: (blog: { id: string; title?: string; author?: string; url?: string; likes: number;}) => any }} **/
+  { blog, updatePost }
+) => {
   // visibility status (state, text and display mode)
   const [visible, setVisible] = useState(false);
   const showWhenVisible = { display: (visible) ? '' : 'none' }
   const visibilityTextButton = (visible) ? 'hide' : 'details'
+
+  // dynamic blog detail
+  const [displayLikes, setDisplayLikes] = useState(blog.likes)
 
   // styles
   const blogStyle = {
@@ -28,7 +34,16 @@ const Blog = ({ blog }) => {
 
   // like button
   const giveLike = () => {
-    return;
+    const success = updatePost(
+      {
+        id: blog.id,
+        likes: blog?.likes + 1 || 0
+      }
+    )
+
+    if (success) {
+      setDisplayLikes((/** @type {number} */ currLikes) => currLikes + 1)
+    }
   }
 
   return (
@@ -44,7 +59,7 @@ const Blog = ({ blog }) => {
           {blog.url}
         </p>
         <p>
-          {blog.likes} <button onClick={giveLike}>like</button>
+          {displayLikes} <button onClick={giveLike}>like</button>
         </p>
       </section>
     </div>

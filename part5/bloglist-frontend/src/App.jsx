@@ -55,6 +55,44 @@ const App = () => {
     return true
   }
 
+  const updatePost = async (/** @type {{ id: string; title?: string; author?: string; url?: string; likes?: number }} */ updatedBlogPost) => {
+    try {
+      const response = await blogService.update(updatedBlogPost)
+      const success = (response)
+      console.log(response)
+
+      if (!success) {
+        setTemporaryFeedback(
+          {
+            class: 'error',
+            text: 'something went wrong at updating the post'
+          }
+        )
+        return false;
+      }
+
+      // update feedback
+      setTemporaryFeedback(
+        {
+          class: 'success',
+          text: 'you have liked the post'
+        }
+      )
+    } catch (error) {
+      setTemporaryFeedback(
+        {
+          class: 'error',
+          text: 'check your internet connection: you may be offline'
+        }
+      )
+
+      return false;
+    }
+
+
+    return true;
+  }
+
   /** @type (e: React.FormEvent<HTMLFormElement>, username: string,
   password: string) => Promise<boolean> */
   const handleLogin = async (
@@ -120,7 +158,7 @@ const App = () => {
             <BlogForm addPost={addPost} />
           </Togglable>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updatePost={updatePost} />
           ))}
         </>
       )}
