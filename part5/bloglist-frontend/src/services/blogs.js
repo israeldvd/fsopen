@@ -23,4 +23,15 @@ const create = async (
   return response.data
 }
 
-export default { getAll, create, setToken }
+const update = async (
+  /** @type {{id: string, title?: string, author?: string, url?: string}} */ postData,
+) => {
+  const config = {
+    headers: { Authorization: authHeader },
+  }
+
+  const response = await axios.patch(`${baseUrl}/${postData.id}`, postData, config)
+  return response.data
+}
+
+export default { getAll, create, update, setToken }
