@@ -8,6 +8,7 @@ const api_url = "/api/blogs";
 const helper = require("./test_helper");
 const Blog = require("../src/models/blog");
 const UserForToken = require("../src/utils/helpers/user-for-token");
+const User = require("../src/models/user");
 
 describe("when there are initially some blogs saved", () => {
   // the blog list used throughout this test file
@@ -27,6 +28,9 @@ describe("when there are initially some blogs saved", () => {
     jest
       .spyOn(UserForToken, "getPayload")
       .mockReturnValue({ id: "a-valid-logged-in-user-id" });
+
+    // select which user is querying the blogs (id of MIchael Chan)
+    jest.spyOn(User, "findById").mockReturnValue({ username: "username", name: "name", "blogs": [], "_id": "65936732fc13ae59bafa21f8", save: () => void 0 })
   });
 
   beforeEach(async () => {
@@ -88,6 +92,21 @@ describe("when there are initially some blogs saved", () => {
 
       const notesAtEnd = await helper.blogsInDb();
       expect(notesAtEnd).toHaveLength(helperBlogs.length);
+    });
+
+    test("receiving a blog with the respective user", async () => {
+      const newBlog = { ...dummyNewPost, user: "random-user-id" };
+
+      // sending resquest with a new blog containing a user reference
+      const response = await api.post(api_url).send(newBlog).expect(201);
+
+      // check if list size has changed
+      // and if blog data is returned
+      const notesAtEnd = await helper.blogsInDb();
+      expect(notesAtEnd).toHaveLength(helperBlogs.length + 1);
+
+      // response body format
+      expect(response.body).toMatchObject({ user: newBlog.user })
     });
   });
 
