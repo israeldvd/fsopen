@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mongo
+    restart: always
+    container_name: blog-db-mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - blog_mongo_db:/data/db/
+
+volumes:
+  blog_mongo_db:
