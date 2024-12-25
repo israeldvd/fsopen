@@ -188,6 +188,21 @@ describe("when there are initially some blogs saved", () => {
       await api.patch(`${api_url}/${id}`).send({ title: "" }).expect(400);
       await api.patch(`${api_url}/${id}`).send({ url: "" }).expect(400);
     });
+
+    test("with an user ID while defining new likes count", async () => {
+      const user = "user-id-of-blog";
+      const id = helperBlogs[0]._id
+
+      // check if response is successful
+      await api.patch(`${api_url}/${id}`).send({ likes: 1, user }).expect(201)
+
+      // check if user is registered
+      const res = await api.get(`${api_url}`)
+
+      // check if user id is present
+      const listOfUsers = res.body.map((blogs) => (blogs.user))
+      expect(listOfUsers).toContain(user)
+    })
   });
 });
 

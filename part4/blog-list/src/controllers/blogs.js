@@ -96,11 +96,11 @@ blogsRouter.delete(
 );
 
 blogsRouter.patch("/:id", async (request, response) => {
-  const { title, url, likes, author } = request.body;
+  const { title, url, likes, author, user } = request.body;
 
   const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
-    { title, url, likes, author },
+    { title, url, likes, author, user },
     { runValidators: true, context: "query" }
   );
 
