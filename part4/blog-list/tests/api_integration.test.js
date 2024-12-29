@@ -163,7 +163,7 @@ describe("when there are some blogs and users saved", () => {
           title: dummyNewPost.title,
           likes: dummyNewPost.likes,
           url: dummyNewPost.url,
-          user: { id: expect.any(String), username: expect.any(String) }
+          user: { id: expect.any(String), username: loggedInUserData.username }
         }
       )
     })
@@ -377,4 +377,3 @@ describe("when there are some blogs and users saved", () => {
     await mongoose.connection.close();
   });
 });
-
