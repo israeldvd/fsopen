@@ -2,6 +2,7 @@ const Blog = require("../src/models/blog");
 const {
   blogPopulateSelectionOptions,
   userPopulateSelectionOptions,
+  blogUserPopulateSelectionOptions,
 } = require("../src/models/model-options");
 const User = require("../src/models/user");
 const Encrypter = require("../src/utils/helpers/encrypter");
@@ -303,6 +304,9 @@ const blogsInDbPopulated = async () => {
   const populatedBlogs = await Blog.find({}).populate(
     "author",
     blogPopulateSelectionOptions
+  ).populate(
+    "user",
+    blogUserPopulateSelectionOptions
   );
 
   return populatedBlogs.map((blog) => blog.toJSON());

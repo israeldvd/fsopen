@@ -107,6 +107,10 @@ describe("when there are some blogs and users saved", () => {
 
     // response definition
     authTokenOfLoggedinUser = dummyUserLoginResponse.body.access_token;
+
+    // save logged-in data
+    const foundUser = await User.findOne({ username: loggedInUserData.username })
+    loggedInUserData.id = foundUser._id.toString()
   }, 100000);
 
   afterEach(async () => {
@@ -137,6 +141,32 @@ describe("when there are some blogs and users saved", () => {
         expect(response.body).toContainEqual(popBlog);
       });
     });
+
+    test("a blog with a valid user reference is returned with it populated", async () => {
+      expect(loggedInUserData.id).not.toBeNull()
+      await api.post(api_blogs_url).send({ ...dummyNewPost, user: loggedInUserData.id })
+        .set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
+
+      const response = await api.get(api_blogs_url)
+      expect(response.body).toBeDefined()
+
+      // inspect current blogs and find specific one
+      const blogsInDb = await helper.blogsInDbPopulated()
+      const newBlog = blogsInDb.filter((blog) => {
+        return blog.id === dummyNewPost._id
+      })[0]
+
+      expect(newBlog).toEqual(
+        {
+          id: dummyNewPost._id,
+          author: expect.anything(),
+          title: dummyNewPost.title,
+          likes: dummyNewPost.likes,
+          url: dummyNewPost.url,
+          user: { id: expect.any(String), username: expect.any(String) }
+        }
+      )
+    })
   });
 
   describe("adding a new post checking auth status", () => {
@@ -248,6 +278,23 @@ describe("when there are some blogs and users saved", () => {
 
       expect(response.body).toEqual(unauthorizedErrorResponse.body);
     });
+
+    test("a blog with an invalid user reference cannot be saved", async () => {
+      // check new state of blogs
+      const blogsAtStart = await helper.blogsInDbPopulated();
+
+      await api.post(api_blogs_url).send({
+        ...dummyNewPost,
+        user: "invalid-reference"
+      }).set("Authorization", `Bearer ${authTokenOfLoggedinUser}`)
+        .expect(400)
+
+      // check new state of blogs
+      const blogsAtEnd = await helper.blogsInDbPopulated();
+
+      // ensure blog user is not saved
+      expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+    })
   });
 
   describe("deleting a blog post after checking auth status", () => {
@@ -330,3 +377,4 @@ describe("when there are some blogs and users saved", () => {
     await mongoose.connection.close();
   });
 });
+

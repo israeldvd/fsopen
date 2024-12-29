@@ -95,7 +95,7 @@ describe("when there are initially some blogs saved", () => {
     });
 
     test("receiving a blog with the respective user", async () => {
-      const newBlog = { ...dummyNewPost, user: "random-user-id" };
+      const newBlog = { ...dummyNewPost, user: dummyNewPost.authorId };
 
       // sending resquest with a new blog containing a user reference
       const response = await api.post(api_url).send(newBlog).expect(201);
@@ -209,7 +209,7 @@ describe("when there are initially some blogs saved", () => {
     });
 
     test("with an user ID while defining new likes count", async () => {
-      const user = "user-id-of-blog";
+      const user = dummyNewPost.authorId;
       const id = helperBlogs[0]._id
 
       // check if response is successful
