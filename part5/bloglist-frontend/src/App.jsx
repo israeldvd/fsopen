@@ -7,7 +7,16 @@ import { BlogForm } from "./components/BlogForm"
 import Notification, { nullishFeedback } from "./components/Notification"
 import Togglable from "./components/Togglable"
 
-/** @type { {name: string, username: string, access_token: string} } */
+/**
+ * The User data returned after the log-in event.
+ * @typedef {Object} UserLogin
+ * @property {string} name - Refers to proper name.
+ * @property {string} username - Refers to the global user nickname.
+ * @property {string} _id - Refers to the back-end user ID.
+ * @property {string} access_token - Refers to authentication token.
+ */
+
+/** @type { UserLogin } */
 const initialUser = null
 
 const App = () => {
@@ -25,7 +34,7 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedAppUser")
     if (loggedUserJSON) {
-      /** @type { { name: string, username: string, access_token: string } } */
+      /** @type { UserLogin } */
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.access_token)
@@ -61,7 +70,7 @@ const App = () => {
 
   const updatePost = async (/** @type {{ id: string; title?: string; author?: string; url?: string; likes?: number }} */ updatedBlogPost) => {
     try {
-      const response = await blogService.update(updatedBlogPost)
+      const response = await blogService.update(updatedBlogPost, user._id)
       const success = (response)
 
       if (!success) {
@@ -106,6 +115,7 @@ const App = () => {
     e.preventDefault()
 
     try {
+      /** @type {UserLogin} */
       const userOnResponse = await loginService.login({ username, password })
 
       // save user data

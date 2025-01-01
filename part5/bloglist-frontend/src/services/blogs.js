@@ -25,12 +25,13 @@ const create = async (
 
 const update = async (
   /** @type {{id: string, title?: string, author?: string, url?: string}} */ postData,
+  /** @type {import("App").UserLogin["_id"]} */ userId,
 ) => {
   const config = {
     headers: { Authorization: authHeader },
   }
 
-  const response = await axios.patch(`${baseUrl}/${postData.id}`, postData, config)
+  const response = await axios.patch(`${baseUrl}/${postData.id}`, { ...postData, user: userId }, config)
   return response.data
 }
 
