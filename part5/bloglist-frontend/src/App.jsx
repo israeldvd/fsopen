@@ -7,9 +7,12 @@ import { BlogForm } from "./components/BlogForm"
 import Notification, { nullishFeedback } from "./components/Notification"
 import Togglable from "./components/Togglable"
 
+/** @type { {name: string, username: string, access_token: string} } */
+const initialUser = null
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(initialUser)
   const [temporaryFeedback, setTemporaryFeedback] = useState(nullishFeedback)
 
   // blog-form reference used to hide it again, kept throughout re-renders of the component
@@ -22,6 +25,7 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedAppUser")
     if (loggedUserJSON) {
+      /** @type { { name: string, username: string, access_token: string } } */
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.access_token)
