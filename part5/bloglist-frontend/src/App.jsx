@@ -24,7 +24,7 @@ import Togglable from "./components/Togglable"
  * @property {string} author - Refers to its author.
  * @property {string} [user] - Refers to user that has changed it (or when has liked it).
  * @property {string} url - Refers to the post URI.
- * @property {string} likes - Indicates the amount of likes it currently has.
+ * @property {number} likes - Indicates the amount of likes it currently has.
  */
 
 /**
@@ -32,7 +32,11 @@ import Togglable from "./components/Togglable"
  * @param {{ (updatedBlogPost: import("./components/Blog").BlogPostUpdateDto): Promise<boolean>; (blog: import("./components/Blog").BlogPostUpdateDto): any; }} updatePost
  */
 function displayBlogList(blogs, updatePost) {
-  return blogs.map((blog) => (
+  // sort blog posts and display them with respective component
+  return blogs.sort((blogA, blogB) => {
+    // sort posts by number of likes in descending order
+    return blogB.likes - blogA.likes
+  }).map((blog) => (
     <Blog key={blog.id} blog={blog} updatePost={updatePost} />
   ))
 }
