@@ -27,6 +27,16 @@ import Togglable from "./components/Togglable"
  * @property {string} likes - Indicates the amount of likes it currently has.
  */
 
+/**
+ * @param {BlogPost[]} blogs
+ * @param {{ (updatedBlogPost: import("./components/Blog").BlogPostUpdateDto): Promise<boolean>; (blog: import("./components/Blog").BlogPostUpdateDto): any; }} updatePost
+ */
+function displayBlogList(blogs, updatePost) {
+  return blogs.map((blog) => (
+    <Blog key={blog.id} blog={blog} updatePost={updatePost} />
+  ))
+}
+
 /** @type { UserLogin } */
 const initialUser = null
 
@@ -184,9 +194,7 @@ const App = () => {
           <Togglable buttonLabel='new post' ref={blogFormRef} >
             <BlogForm addPost={addPost} />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} updatePost={updatePost} />
-          ))}
+          {displayBlogList(blogs, updatePost)}
         </>
       )}
     </div>
