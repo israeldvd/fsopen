@@ -220,7 +220,8 @@ describe("when there are initially some blogs saved", () => {
 
       // check if user id is present
       const listOfUsers = res.body.map((blogs) => (blogs.user))
-      expect(listOfUsers).toContain(user)
+      // null means that 'populate' method could not find user with specific id
+      expect(listOfUsers).toContainEqual(null)
     })
   });
 });

@@ -1,6 +1,6 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
-const { blogPopulateSelectionOptions } = require("../models/model-options");
+const { blogPopulateSelectionOptions, blogUserPopulateSelectionOptions } = require("../models/model-options");
 const { CredentialsRefusedError } = require("../utils/errors/credentials");
 const { InvalidParamError } = require("../utils/errors/params");
 const HttpResponse = require("../utils/helpers/http-response");
@@ -10,6 +10,9 @@ blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate(
     "author",
     blogPopulateSelectionOptions
+  ).populate(
+    "user",
+    blogUserPopulateSelectionOptions
   );
 
   response.json(blogs);

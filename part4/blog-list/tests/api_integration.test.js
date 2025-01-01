@@ -150,6 +150,12 @@ describe("when there are some blogs and users saved", () => {
 
       const response = await api.get(api_blogs_url)
       expect(response.body).toBeDefined()
+      expect(response.body.filter((blog) => {
+        return blog.id === dummyNewPost._id
+      })[0].user)
+        .toEqual(
+          { id: expect.any(String), username: loggedInUserData.username, name: loggedInUserData.name }
+        )
 
       // inspect current blogs and find specific one
       const blogsInDb = await helper.blogsInDbPopulated()
