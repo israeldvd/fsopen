@@ -27,6 +27,7 @@ describe("when there are some users signed up", () => {
     username: dummyLoginData.username,
     access_token: "jwt_access_token",
     name: "Invalid name",
+    id: "to-be-generated-automatically-id"
   };
 
   beforeEach(async () => {
@@ -55,6 +56,7 @@ describe("when there are some users signed up", () => {
         access_token: dummyLoginResponse.access_token,
         username: dummyLoginData.username,
         name: dummyLoginResponse.name,
+        _id: expect.any(String)
       });
 
       // request-response cycle

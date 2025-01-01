@@ -49,6 +49,7 @@ loginRoute.post("/", async (request, response) => {
     username: user.username,
     name: user.name,
     access_token: access_token,
+    _id: user._id.toString()
   });
 });
 
