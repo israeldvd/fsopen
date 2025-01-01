@@ -36,6 +36,7 @@ describe("when there are some blogs and users saved", () => {
     id: null, // dummy list does not have an ID field (it is DB-generated)
     username: "login_username",
     password: "login_password",
+    name: "User Name"
   };
 
   let authTokenOfLoggedinUser = "";
@@ -163,7 +164,7 @@ describe("when there are some blogs and users saved", () => {
           title: dummyNewPost.title,
           likes: dummyNewPost.likes,
           url: dummyNewPost.url,
-          user: { id: expect.any(String), username: loggedInUserData.username }
+          user: { id: expect.any(String), username: loggedInUserData.username, name: loggedInUserData.name }
         }
       )
     })
@@ -236,6 +237,7 @@ describe("when there are some blogs and users saved", () => {
         title: dummyNewPost.title,
         url: dummyNewPost.url,
         author: {
+          name: loggedInUserData.name,
           username: loggedInUserData.username,
           id: expect.any(String),
         },
