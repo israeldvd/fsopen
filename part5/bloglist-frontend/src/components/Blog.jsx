@@ -1,7 +1,12 @@
 import { useState } from "react"
 
+/**
+ * The Blog post information.
+ * @typedef {Partial<import("App").BlogPost> & Pick<import("App").BlogPost, "id">} BlogPostUpdateDto
+ */
+
 const Blog = (
-  /** @type {{ blog: any, updatePost: (blog: { id: string; title?: string; author?: string; url?: string; likes: number;}) => any }} **/
+  /** @type {{ blog: any, updatePost: (blog: BlogPostUpdateDto) => any }} **/
   { blog, updatePost }
 ) => {
   // visibility status (state, text and display mode)

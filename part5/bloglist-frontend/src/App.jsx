@@ -16,11 +16,25 @@ import Togglable from "./components/Togglable"
  * @property {string} access_token - Refers to authentication token.
  */
 
+/**
+ * The Blog post information.
+ * @typedef {Object} BlogPost
+ * @property {string} id - Refers to application-context blog's ID.
+ * @property {string} title - Refers to the blog title.
+ * @property {string} author - Refers to its author.
+ * @property {string} [user] - Refers to user that has changed it (or when has liked it).
+ * @property {string} url - Refers to the post URI.
+ * @property {string} likes - Indicates the amount of likes it currently has.
+ */
+
 /** @type { UserLogin } */
 const initialUser = null
 
+/** @type {BlogPost[]} */
+const initialBlogList = []
+
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const [blogs, setBlogs] = useState(initialBlogList)
   const [user, setUser] = useState(initialUser)
   const [temporaryFeedback, setTemporaryFeedback] = useState(nullishFeedback)
 
@@ -51,7 +65,7 @@ const App = () => {
   }, [temporaryFeedback])
 
   const addPost = async (
-    /** @type {{ title: string; author: string; url: string; }} */ newBlogPost,
+    /** @type {BlogPost} */ newBlogPost,
   ) => {
     const returnedBlog = await blogService.create(newBlogPost)
     setBlogs(blogs.concat(returnedBlog))
@@ -68,7 +82,7 @@ const App = () => {
     return true
   }
 
-  const updatePost = async (/** @type {{ id: string; title?: string; author?: string; url?: string; likes?: number }} */ updatedBlogPost) => {
+  const updatePost = async (/** @type {import("./components/Blog").BlogPostUpdateDto} */ updatedBlogPost) => {
     try {
       const response = await blogService.update(updatedBlogPost, user._id)
       const success = (response)
