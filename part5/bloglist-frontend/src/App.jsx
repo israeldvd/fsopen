@@ -63,7 +63,6 @@ const App = () => {
     try {
       const response = await blogService.update(updatedBlogPost)
       const success = (response)
-      console.log(response)
 
       if (!success) {
         setTemporaryFeedback(
