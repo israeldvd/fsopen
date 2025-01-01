@@ -61,6 +61,9 @@ const Blog = (
         <p>
           {displayLikes} <button onClick={giveLike}>like</button>
         </p>
+        <p>
+          {blog?.user?.name}
+        </p>
       </section>
     </div>
   )
