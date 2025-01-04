@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 /**
  * The Blog post information.
@@ -15,7 +15,7 @@ const Blog = (
   { blog, updatePost, deletePost, userId }
 ) => {
   // visibility status (state, text and display mode)
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
   const showWhenVisible = { display: (visible) ? '' : 'none' }
   const visibilityTextButton = (visible) ? 'hide' : 'details'
 
@@ -62,7 +62,7 @@ const Blog = (
   return (
     <div style={blogStyle}>
       <section style={headerStyle}>
-        {blog.title} {blog.author ? blog.author.name : "(unknown author)"}
+        {blog.title} {blog.author ? blog.author.name : '(unknown author)'}
         <button onClick={toggleVisibility}>
           {visibilityTextButton}
         </button>

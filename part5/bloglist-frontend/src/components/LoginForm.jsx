@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 export const LoginForm = (
   /** @type {{handleLogin: (e: React.FormEvent<HTMLFormElement>, username: string,
   password: string) => Promise<boolean> }} */ { handleLogin },
 ) => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <form
@@ -14,8 +14,8 @@ export const LoginForm = (
 
         if (loginSuccess) {
           // clear input
-          setUsername("")
-          setPassword("")
+          setUsername('')
+          setPassword('')
         }
       }}
     >

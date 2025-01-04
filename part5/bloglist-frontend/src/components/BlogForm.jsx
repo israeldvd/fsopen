@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const defaultBlogpostInput = {
-  title: "",
-  authorName: "",
-  url: "",
+  title: '',
+  authorName: '',
+  url: '',
 }
 
 export const BlogForm = (

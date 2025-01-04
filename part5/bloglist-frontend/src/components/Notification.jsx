@@ -1,4 +1,4 @@
-export const nullishFeedback = { text: "", class: "" }
+export const nullishFeedback = { text: '', class: '' }
 
 const Notification = ({ message }) => {
   if (!message.text) {

@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react"
-import Blog from "./components/Blog"
-import loginService from "./services/login"
-import blogService from "./services/blogs"
-import { LoginForm } from "./components/LoginForm"
-import { BlogForm } from "./components/BlogForm"
-import Notification, { nullishFeedback } from "./components/Notification"
-import Togglable from "./components/Togglable"
+import { useState, useEffect, useRef } from 'react'
+import Blog from './components/Blog'
+import loginService from './services/login'
+import blogService from './services/blogs'
+import { LoginForm } from './components/LoginForm'
+import { BlogForm } from './components/BlogForm'
+import Notification, { nullishFeedback } from './components/Notification'
+import Togglable from './components/Togglable'
 
 /**
  * The User data returned after the log-in event.
@@ -80,7 +80,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedAppUser")
+    const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
     if (loggedUserJSON) {
       /** @type { UserLogin } */
       const user = JSON.parse(loggedUserJSON)
@@ -106,7 +106,7 @@ const App = () => {
 
     // new-post feedback
     setTemporaryFeedback({
-      class: "success",
+      class: 'success',
       text: `a new blog ${returnedBlog.title} by ${user.name} was added`,
     })
 
@@ -128,7 +128,7 @@ const App = () => {
             text: 'something went wrong at updating the post'
           }
         )
-        return false;
+        return false
       }
 
       // update feedback
@@ -146,17 +146,17 @@ const App = () => {
         }
       )
 
-      return false;
+      return false
     }
 
 
-    return true;
+    return true
   }
 
   const deletePost = async (/** @type {BlogPost} */ { author, id, title }) => {
     // confirm deletion
     if (!window.confirm(`Remove blog ${title} by ${author.name}?`)) {
-      return false;
+      return false
     }
 
     try {
@@ -212,23 +212,23 @@ const App = () => {
       // save user data
       blogService.setToken(userOnResponse.access_token)
       window.localStorage.setItem(
-        "loggedAppUser",
+        'loggedAppUser',
         JSON.stringify(userOnResponse),
       )
 
       setUser(userOnResponse)
 
       setTemporaryFeedback({
-        text: "You are now logged in!",
-        class: "success",
+        text: 'You are now logged in!',
+        class: 'success',
       })
 
       return Promise.resolve(true)
     } catch (error) {
       // failed authentication feedback
       setTemporaryFeedback({
-        text: "Wrong password or username",
-        class: "error",
+        text: 'Wrong password or username',
+        class: 'error',
       })
 
       return Promise.resolve(false)
@@ -236,14 +236,14 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    if (window.confirm("Are you sure you want to log out?")) {
-      window.localStorage.removeItem("loggedAppUser")
+    if (window.confirm('Are you sure you want to log out?')) {
+      window.localStorage.removeItem('loggedAppUser')
       setUser(null)
 
       // logout feedback
       setTemporaryFeedback({
-        text: "That is it! You are now logged out.",
-        class: "info",
+        text: 'That is it! You are now logged out.',
+        class: 'info',
       })
     }
   }
