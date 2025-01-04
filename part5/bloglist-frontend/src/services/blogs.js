@@ -13,7 +13,7 @@ const getAll = () => {
 }
 
 const create = async (
-  /** @type {{title: string, author: string, url: string}} */ newPost,
+  /** @type {{title: string, author: import("App").Author["name"], url: string}} */ newPost,
 ) => {
   const config = {
     headers: { Authorization: authHeader },

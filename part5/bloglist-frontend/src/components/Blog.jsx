@@ -5,6 +5,11 @@ import { useState } from "react"
  * @typedef {Partial<import("App").BlogPost> & Pick<import("App").BlogPost, "id">} BlogPostUpdateDto
  */
 
+/**
+ * The Blog DTO used to delete a post.
+ * @typedef {import("App").BlogPost} BlogPostDeleteDto
+ */
+
 const Blog = (
   /** @type {{ blog: any, updatePost: (blog: BlogPostUpdateDto) => any }} **/
   { blog, updatePost }

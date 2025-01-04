@@ -2,14 +2,14 @@ import { useState } from "react"
 
 const defaultBlogpostInput = {
   title: "",
-  author: "",
+  authorName: "",
   url: "",
 }
 
 export const BlogForm = (
   /** @type {{addPost: (arg0: {
     title: string;
-    author: string;
+    authorName: string;
     url: string;
 }) => Promise<boolean> }} */ { addPost },
 ) => {
@@ -50,8 +50,8 @@ export const BlogForm = (
         <label htmlFor="new-blog-author">author: </label>
         <input
           id="new-blog-author"
-          name="author"
-          value={newBlogPost.author}
+          name="authorName"
+          value={newBlogPost.authorName}
           onChange={handlePostChange}
         />
         <label htmlFor="new-blog-url">url: </label>

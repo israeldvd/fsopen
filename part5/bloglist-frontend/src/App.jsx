@@ -17,14 +17,32 @@ import Togglable from "./components/Togglable"
  */
 
 /**
+ * The Author object
+ * @typedef Author
+ * @property {string} id
+ * @property {string} name
+ */
+
+/**
  * The Blog post information.
  * @typedef {Object} BlogPost
  * @property {string} id - Refers to application-context blog's ID.
  * @property {string} title - Refers to the blog title.
- * @property {string} author - Refers to its author.
+ * @property {Author} author - Refers to its author.
  * @property {string} [user] - Refers to user that has changed it (or when has liked it).
  * @property {string} url - Refers to the post URI.
  * @property {number} likes - Indicates the amount of likes it currently has.
+ */
+
+/**
+ * The DTO For Blog post information.
+ * @typedef {Object} CreateBlogPostDto
+ * @property {BlogPost["id"]} id - Refers to application-context blog's ID.
+ * @property {BlogPost["title"]} title - Refers to the blog title.
+ * @property {Author["name"]} authorName - Refers to the name of the author.
+ * @property {BlogPost["user"]} [user] - Refers to user that has changed it (or when has liked it).
+ * @property {BlogPost["url"]} url - Refers to the post URI.
+ * @property {BlogPost["likes"]} likes - Indicates the amount of likes it currently has.
  */
 
 /**
@@ -79,9 +97,9 @@ const App = () => {
   }, [temporaryFeedback])
 
   const addPost = async (
-    /** @type {BlogPost} */ newBlogPost,
+    /** @type {CreateBlogPostDto} */ newBlogPost,
   ) => {
-    const returnedBlog = await blogService.create(newBlogPost)
+    const returnedBlog = await blogService.create({ ...newBlogPost, author: newBlogPost.authorName })
     setBlogs(blogs.concat(returnedBlog))
 
     // new-post feedback
