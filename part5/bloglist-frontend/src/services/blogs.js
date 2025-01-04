@@ -35,4 +35,20 @@ const update = async (
   return response.data
 }
 
-export default { getAll, create, update, setToken }
+const deleteBlog = async (/** @type {string} */ postId) => {
+  const config = {
+    headers: { Authorization: authHeader }
+  }
+
+  const response = await axios.delete(`${baseUrl}/${postId}`, config)
+
+  // if kept as it (blog is considered deleted)
+  if (response.status === 204) {
+    return true
+  }
+
+  // nothing was made
+  return null
+}
+
+export default { getAll, create, update, deleteBlog, setToken }
