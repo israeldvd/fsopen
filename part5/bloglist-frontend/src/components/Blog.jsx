@@ -2,7 +2,7 @@ import { useState } from "react"
 
 /**
  * The Blog post information.
- * @typedef {Partial<import("App").BlogPost> & Pick<import("App").BlogPost, "id">} BlogPostUpdateDto
+ * @typedef {Partial<import("App").CreateBlogPostDto> & Pick<import("App").BlogPost, "id">} BlogPostUpdateDto
  */
 
 /**
