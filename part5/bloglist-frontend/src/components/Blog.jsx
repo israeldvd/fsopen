@@ -11,13 +11,16 @@ import { useState } from "react"
  */
 
 const Blog = (
-  /** @type {{ blog: any, updatePost: (blog: BlogPostUpdateDto) => any }} **/
-  { blog, updatePost }
+  /** @type {{ blog: any, updatePost: (blog: BlogPostUpdateDto) => any, deletePost: (blog: BlogPostDeleteDto) => boolean, userId: string }} **/
+  { blog, updatePost, deletePost, userId }
 ) => {
   // visibility status (state, text and display mode)
   const [visible, setVisible] = useState(false);
   const showWhenVisible = { display: (visible) ? '' : 'none' }
   const visibilityTextButton = (visible) ? 'hide' : 'details'
+
+  // delete button status
+  const showDeleteButtonWhenCreator = { display: (blog?.user?.id === userId) ? '' : 'none' }
 
   // dynamic blog detail
   const [displayLikes, setDisplayLikes] = useState(blog.likes)
@@ -74,6 +77,7 @@ const Blog = (
         <p>
           {blog?.user?.name}
         </p>
+        <button onClick={() => deletePost(blog)} style={showDeleteButtonWhenCreator}>delete</button>
       </section>
     </div>
   )

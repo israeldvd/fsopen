@@ -46,16 +46,18 @@ import Togglable from "./components/Togglable"
  */
 
 /**
+  @function
  * @param {BlogPost[]} blogs
  * @param {{ (updatedBlogPost: import("./components/Blog").BlogPostUpdateDto): Promise<boolean>; (blog: import("./components/Blog").BlogPostUpdateDto): any; }} updatePost
+ * @param {string} userId
  */
-function displayBlogList(blogs, updatePost) {
+function displayBlogList(blogs, updatePost, deletePost, userId) {
   // sort blog posts and display them with respective component
   return blogs.sort((blogA, blogB) => {
     // sort posts by number of likes in descending order
     return blogB.likes - blogA.likes
   }).map((blog) => (
-    <Blog key={blog.id} blog={blog} updatePost={updatePost} />
+    <Blog key={blog.id} blog={blog} updatePost={updatePost} deletePost={deletePost} userId={userId} />
   ))
 }
 
@@ -151,6 +153,49 @@ const App = () => {
     return true;
   }
 
+  const deletePost = async (/** @type {BlogPost} */ { author, id, title }) => {
+    // confirm deletion
+    if (!window.confirm(`Remove blog ${title} by ${author.name}?`)) {
+      return false;
+    }
+
+    try {
+      const deletedResponse = await blogService.deleteBlog(id)
+      if (deletedResponse === true) {
+        setBlogs((prevBlogs) => {
+          return prevBlogs.filter((blog) => blog.id !== id)
+        })
+
+        setTemporaryFeedback(
+          {
+            class: 'success',
+            text: 'blog post deleted succesfully'
+          }
+        )
+
+        return true
+      }
+
+      // if null comes from the delete service
+      setTemporaryFeedback(
+        {
+          class: 'error',
+          text: 'you are not able to delete this blog now'
+        }
+      )
+    } catch (error) {
+      setTemporaryFeedback(
+        {
+          class: 'error',
+          text: (error.response.status === 403) ?
+            'you cannot delete this blog post' : 'something went wrong'
+        }
+      )
+
+      return false
+    }
+  }
+
   /** @type (e: React.FormEvent<HTMLFormElement>, username: string,
   password: string) => Promise<boolean> */
   const handleLogin = async (
@@ -216,7 +261,7 @@ const App = () => {
           <Togglable buttonLabel='new post' ref={blogFormRef} >
             <BlogForm addPost={addPost} />
           </Togglable>
-          {displayBlogList(blogs, updatePost)}
+          {displayBlogList(blogs, updatePost, deletePost, user?._id)}
         </>
       )}
     </div>
