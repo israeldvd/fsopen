@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+
 
 /**
  * The Blog post information.
@@ -81,6 +83,13 @@ const Blog = (
       </section>
     </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired
 }
 
 export default Blog
