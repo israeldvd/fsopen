@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import Blog from './Blog'
 
@@ -32,5 +33,17 @@ describe('<Note />', () => {
 
     // should be hidden using style
     expect(detailsElement).toHaveStyle('display: none')
+  })
+
+  test('details are displayed when button \'show\' is clicked', async () => {
+    const user = userEvent.setup()
+
+    // show-button element (is clicked)
+    const button = screen.getByText('details')
+    await user.click(button)
+
+    // identify details part (should be visible after the event)
+    const detailsElement = dummyContainer.querySelector('.details')
+    expect(detailsElement).not.toHaveStyle('display: none')
   })
 })
