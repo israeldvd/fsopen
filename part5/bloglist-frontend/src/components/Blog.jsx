@@ -63,13 +63,13 @@ const Blog = (
 
   return (
     <div style={blogStyle}>
-      <section style={headerStyle}>
+      <section style={headerStyle} className='blog-header'>
         {blog.title} {blog.author ? blog.author.name : '(unknown author)'}
         <button onClick={toggleVisibility}>
           {visibilityTextButton}
         </button>
       </section>
-      <section style={showWhenVisible}>
+      <section style={showWhenVisible} className='details'>
         <p>
           {blog.url}
         </p>
