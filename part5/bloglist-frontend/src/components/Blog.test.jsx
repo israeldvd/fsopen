@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import Blog from './Blog'
-import { test, expect, describe, vi, beforeEach } from 'vitest'
 
 describe('<Note />', () => {
   /** @type HTMLElement */
