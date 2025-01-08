@@ -74,7 +74,7 @@ const Blog = (
           {blog.url}
         </p>
         <p>
-          {displayLikes} <button onClick={giveLike}>like</button>
+          {displayLikes} <button className='like-action' onClick={giveLike}>like</button>
         </p>
         <p>
           {blog?.user?.name}
