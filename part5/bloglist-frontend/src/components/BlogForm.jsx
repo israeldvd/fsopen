@@ -61,7 +61,7 @@ export const BlogForm = (
           value={newBlogPost.url}
           onChange={handlePostChange}
         />
-        <button type="submit">create</button>
+        <button className='create-action' type="submit">create</button>
       </form>
     </div>
   )
