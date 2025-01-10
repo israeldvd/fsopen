@@ -24,6 +24,7 @@ export const LoginForm = (
         <label htmlFor="login-username">username</label>
         <input
           id="login-username"
+          data-testid="login-username"
           type="text"
           value={username}
           name="Username"
@@ -34,13 +35,14 @@ export const LoginForm = (
         <label htmlFor="login-password">password</label>
         <input
           id="login-password"
+          data-testid="login-password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button type="submit" data-testid='login-button'>login</button>
     </form>
   )
 }
