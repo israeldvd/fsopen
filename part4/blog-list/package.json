@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=test node index.js",
+    "start:test": "cross-env NODE_ENV=test node src/index.js",
     "prepare": "cd ../.. && husky",
     "format": "prettier --write ."
   },
